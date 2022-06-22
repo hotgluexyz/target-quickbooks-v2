@@ -21,7 +21,7 @@ class QuickBooksSink(BatchSink):
         self.refresh_token = self.config.get("refresh_token")
         self.instanciate_client() 
         if self.config.get("is_sandbox"):
-            self.base_url = "https://sanbox-quickbooks.api.intuit.com"
+            self.base_url = "https://sandbox-quickbooks.api.intuit.com"
         else:
             self.base_url = "https://quickbooks.api.intuit.com"
 
@@ -91,11 +91,12 @@ class QuickBooksSink(BatchSink):
             query = f"select * from {entity_type}"
             if check_active:
                 query = query + " where Active=true"
+            realmId = self.config.get("realmId")
             query = query + f" STARTPOSITION {offset} MAXRESULTS {max}"
-            url = f"{self.base_url}/query?query={query}&minorversion=45"
-
+            url = f"{self.base_url}/v3/company/{realmId}/query?query={query}&minorversion=40"
+            
             #logger.info(f"Fetch {entity_type}; url={url}; query {query}")
-
+            
             r = requests.get(url, headers={
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -138,21 +139,23 @@ class QuickBooksSink(BatchSink):
         return entities
 
     def process_record(self, record: dict, context: dict) -> None:
+        accounts = self.get_entities("Account", key="AcctNum")
         if not context.get("records"):
             context["records"] = []
         context["records"].append(record)
 
     def process_batch(self, context: dict) -> None:
-        if not context.get("url"):
-            self.logger.warning(f"Stream {self.stream_name} not supported.")
+        # if not context.get("url"):
+        #     self.logger.warning(f"Stream {self.stream_name} not supported.")
 
-        if len(context.get("records")):
-            self.logger.info(f"Updating {self.stream_name} data")
-            response = requests.put(context["url"], headers=self.authenticator, json=context["records"],params=self.get_url_params)
-            for status in response.json():
-                if status.get("success"):
-                    self.logger.info(f"Reference {status.get('code')} updated succesfuly")
-                elif status.get("success")==False:
-                    self.logger.warning(f"It was not possible to update index {status.get('index')}: {status.get('errors')}")
-        
+        # if len(context.get("records")):
+        #     # not working
+        #     # self.logger.info(f"Updating {self.stream_name} data")
+        #     # response = requests.put(context["url"], headers=self.authenticator, json=context["records"],params=self.get_url_params)
+        #     # for status in response.json():
+        #     #     if status.get("success"):
+        #     #         self.logger.info(f"Reference {status.get('code')} updated succesfuly")
+        #     #     elif status.get("success")==False:
+        #     #         self.logger.warning(f"It was not possible to update index {status.get('index')}: {status.get('errors')}")
+        pass
 
