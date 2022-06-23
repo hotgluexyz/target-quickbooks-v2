@@ -36,4 +36,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 # CLI declaration
-target-quickbooks = 'target_quickbooks.target:TargetQuickBooks.cli'
+target-quickbooks-v2 = 'target_quickbooks.target:TargetQuickBooks.cli'
