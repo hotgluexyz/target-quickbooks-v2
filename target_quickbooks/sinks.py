@@ -195,7 +195,7 @@ class QuickBooksSink(BatchSink):
                 )
 
             # Get the Quickbooks Class Ref
-            class_name = row["className"]
+            class_name = row.get("className")
             class_ref = self.classes.get(class_name, {}).get("Id")
 
             if class_ref is not None:
