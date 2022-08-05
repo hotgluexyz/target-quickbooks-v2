@@ -1,4 +1,5 @@
 from contextlib import redirect_stderr
+from enum import Flag
 from os import environ
 import requests
 import json
@@ -9,6 +10,8 @@ from intuitlib.enums import Scopes
 from singer_sdk.plugin_base import PluginBase
 from typing import Any, Dict, List, Mapping, Optional, Union
 import re
+
+from target_quickbooks.mapper import customer_from_unified, item_from_unified
 
 
 class QuickBooksSink(BatchSink):
@@ -67,6 +70,7 @@ class QuickBooksSink(BatchSink):
     def get_reference_data(self):
         self.accounts = self.get_entities("Account", key="AcctNum")
         self.customers = self.get_entities("Customer", key="DisplayName")
+        self.items = self.get_entities("Item", key="Name")
         self.classes = self.get_entities("Class")
 
     def update_access_token(self):
@@ -174,71 +178,119 @@ class QuickBooksSink(BatchSink):
         self.logger.info(f"Mapping {je_id}...")
         line_items = []
 
-        # Create line items
-        for row in record["lines"]:
-            # Create journal entry line detail
-            je_detail = {"PostingType": row["postingType"]}
+        if self.stream_name == "Customers":
 
-            # Get the Quickbooks Account Ref
-            acct_num = str(row["accountNumber"])
-            acct_name = row["accountName"]
-            acct_ref = self.accounts.get(
-                acct_num, self.accounts.get(acct_name, {})
-            ).get("Id")
+            customer = customer_from_unified(record)
 
-            if acct_ref is not None:
-                je_detail["AccountRef"] = {"value": acct_ref}
+            if customer["DisplayName"] in self.customers:
+                old_customer = self.customers[customer["DisplayName"]]
+                customer["Id"] = old_customer["Id"]
+                customer["SyncToken"] = old_customer["SyncToken"]
+                entry = ["Customer",customer,"update"]
             else:
-                errored = True
-                self.logger.error(
-                    f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num}"
-                )
+                entry = ["Customer",customer,"create"]
 
-            # Get the Quickbooks Class Ref
-            class_name = row.get("className")
-            class_ref = self.classes.get(class_name, {}).get("Id")
+        if self.stream_name == "Items":
 
-            if class_ref is not None:
-                je_detail["ClassRef"] = {"value": class_ref}
-            else:
+            item = item_from_unified(record)
+
+            # Setting IncomeAccountRef.value and ExpenseAccountRef.value
+            # based on account name from self.accounts
+
+            IncomeAccountRef = item.get("IncomeAccountRef").get('value')
+            ExpenseAccountRef = item.get("ExpenseAccountRef").get('value')
+
+            if IncomeAccountRef and IncomeAccountRef in self.accounts: 
+                IncomeAccountRef= self.accounts[IncomeAccountRef]["Id"]
+
+            if ExpenseAccountRef and ExpenseAccountRef in self.accounts: 
+                ExpenseAccountRef = self.accounts[ExpenseAccountRef]["Id"]
+
+            if IncomeAccountRef or ExpenseAccountRef: 
                 self.logger.warning(
-                    f"Class is missing on Journal Entry {je_id}! Name={class_name}"
-                )
+                        f"AccontRef missing on Item {je_id}! Name={item['Name']} \n Skipping Item ..."
+                        )
+                return 
 
-            # Get the Quickbooks Customer Ref
-            customer_name = row["customerName"]
-            customer_ref = self.customers.get(customer_name, {}).get("Id")
-
-            if customer_ref is not None:
-                je_detail["Entity"] = {
-                    "EntityRef": {"value": customer_ref},
-                    "Type": "Customer",
-                }
+            if item["Name"] in self.items:
+                old_item = self.items[item["Name"]]
+                item["Id"] = old_item["Id"]
+                item["SyncToken"] = old_item["SyncToken"]
+                entry = ["Item",item,"update"]
             else:
-                self.logger.warning(
-                    f"Customer is missing on Journal Entry {je_id}! Name={customer_name}"
+                entry = ["Item",item,"create"]
+
+        elif self.stream_name == "JournalEntries":
+
+            # Create line items
+            for row in record["lines"]:
+                # Create journal entry line detail
+                je_detail = {"PostingType": row["postingType"]}
+
+                # Get the Quickbooks Account Ref
+                acct_num = str(row["accountNumber"])
+                acct_name = row["accountName"]
+                acct_ref = self.accounts.get(
+                    acct_num, self.accounts.get(acct_name, {})
+                ).get("Id")
+
+                if acct_ref is not None:
+                    je_detail["AccountRef"] = {"value": acct_ref}
+                else:
+                    errored = True
+                    self.logger.error(
+                        f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num} \n Skipping..."
+                    )
+                    return 
+
+                # Get the Quickbooks Class Ref
+                class_name = row.get("className")
+                class_ref = self.classes.get(class_name, {}).get("Id")
+
+                if class_ref is not None:
+                    je_detail["ClassRef"] = {"value": class_ref}
+                else:
+                    self.logger.warning(
+                        f"Class is missing on Journal Entry {je_id}! Name={class_name}"
+                    )
+
+                # Get the Quickbooks Customer Ref
+                customer_name = row["customerName"]
+                customer_ref = self.customers.get(customer_name, {}).get("Id")
+
+                if customer_ref is not None:
+                    je_detail["Entity"] = {
+                        "EntityRef": {"value": customer_ref},
+                        "Type": "Customer",
+                    }
+                else:
+                    self.logger.warning(
+                        f"Customer is missing on Journal Entry {je_id}! Name={customer_name}"
+                    )
+
+                # Create the line item
+                line_items.append(
+                    {
+                        "Description": row["description"],
+                        "Amount": row["amount"],
+                        "DetailType": "JournalEntryLineDetail",
+                        "JournalEntryLineDetail": je_detail,
+                    }
                 )
 
-            # Create the line item
-            line_items.append(
-                {
-                    "Description": row["description"],
-                    "Amount": row["amount"],
-                    "DetailType": "JournalEntryLineDetail",
-                    "JournalEntryLineDetail": je_detail,
-                }
-            )
+            # Create the [ resourceName , resource ]
+            entry = {
+                "TxnDate": record["transactionDate"],
+                "DocNumber": je_id,
+                "Line": line_items,
+            }
 
-        # Create the entry
-        entry = {
-            "TxnDate": record["transactionDate"],
-            "DocNumber": je_id,
-            "Line": line_items,
-        }
+            # Append the currency if provided
+            if record.get("currency") is not None:
+                entry["CurrencyRef"] = {"value": record["currency"]}
 
-        # Append the currency if provided
-        if record.get("currency") is not None:
-            entry["CurrencyRef"] = {"value": record["currency"]}
+
+            entry = ["JournalEntry",entry,"create"]
 
         context["records"].append(entry)
 
@@ -268,22 +320,28 @@ class QuickBooksSink(BatchSink):
         url = f"{self.base_url}/batch?minorversion=45"
 
         # Get the journals to post
-        journals = context.get("records")
+        records = context.get("records")
 
         # Create the batch requests
         batch_requests = []
 
-        for i, entity in enumerate(journals):
+        for i, entity in enumerate(records):
+            # entity[0] -> "Customer","JournalEntry", ...
+            # entity[1] -> data
+            # entity[2] -> "create" or "update"
             batch_requests.append(
-                {"bId": f"bid{i}", "operation": "create", "JournalEntry": entity}
+                {"bId": f"bid{i}", "operation": entity[2], entity[0] : entity[1]}
             )
 
         # Run the batch
         response_items = self.make_batch_request(url, batch_requests)
 
-        posted_journals = []
-        failed = False
+        if not response_items: 
+            response_items = []
 
+        posted_records = []
+        failed = False
+        
         for ri in response_items:
             if ri.get("Fault") is not None:
                 m = re.search("[0-9]+$", ri.get("bId"))
@@ -295,23 +353,35 @@ class QuickBooksSink(BatchSink):
             elif ri.get("JournalEntry") is not None:
                 je = ri.get("JournalEntry")
                 # Cache posted journal ids to delete them in event of failure
-                posted_journals.append(
+                posted_records.append(
+                    {"Id": je.get("Id"), "SyncToken": je.get("SyncToken")}
+                )
+            elif ri.get("Customer") is not None:
+                je = ri.get("Customer")
+                # Cache posted customer ids to delete them in event of failure
+                posted_records.append(
+                    {"Id": je.get("Id"), "SyncToken": je.get("SyncToken")}
+                )
+            elif ri.get("Item") is not None:
+                je = ri.get("Item")
+                # Cache posted customer ids to delete them in event of failure
+                posted_records.append(
                     {"Id": je.get("Id"), "SyncToken": je.get("SyncToken")}
                 )
 
         if failed:
             batch_requests = []
             # In the event of failure, we need to delete the posted journals
-            for i, je in enumerate(posted_journals):
+            for i, je in enumerate(posted_records):
                 batch_requests.append(
                     {"bId": f"bid{i}", "operation": "delete", "JournalEntry": je}
                 )
 
             # Do delete batch requests
-            self.logger.info("Deleting any posted journal entries...")
+            self.logger.info("Deleting any posted records entries...")
             response = self.make_batch_request(url, batch_requests)
             self.logger.debug(json.dumps(response))
 
-            raise Exception("There was an error posting the journals")
+            raise Exception("There was an error posting the records")
 
         pass

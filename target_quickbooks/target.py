@@ -40,9 +40,6 @@ class TargetQuickBooks(Target):
             "redirect_uri",th.StringType,required=True
         ),
         th.Property(
-            "api_key",th.StringType,required=False
-        ),
-        th.Property(
             "realmId",th.StringType,required=True
         ),
         th.Property(
