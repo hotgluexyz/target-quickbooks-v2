@@ -3,6 +3,7 @@ Functions to mapp from Hotglue's Unified Schema to the quickbooks' Schema
 '''
 import json
 import logging
+import datetime 
 
 def customer_from_unified(record):
 
@@ -123,8 +124,11 @@ def invoice_from_unified(record,customers,products):
 
     invoice = {
         "Line" : invoice_lines,
-        "CustomerRef" : {"value":customer_id}
+        "CustomerRef" : {"value":customer_id},
+        "TotalAmt" : record.get("totalAmount"),
+        "DueDate" : record.get("dueDate").split('T')[0]
         }
+
 
     if not invoice_lines:
         logging.warn(f"No Invoice Lines for Invoice id: {record['id']} \n Skipping Invoice ...")
