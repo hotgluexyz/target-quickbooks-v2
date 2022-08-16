@@ -1,6 +1,8 @@
 '''
 Functions to mapp from Hotglue's Unified Schema to the quickbooks' Schema  
 '''
+import json
+import logging
 
 def customer_from_unified(record):
 
@@ -82,3 +84,50 @@ def item_from_unified(record):
         item["QtyOnHand"] = 0.0
     
     return item
+
+def invoice_line(items,products):
+
+    lines = []
+
+    items = json.loads(items)
+
+    for item in items:
+        product = products[item.get("productName")]
+        product_id = product["Id"]
+        
+        line_item = {
+            "DetailType" : "SalesItemLineDetail",
+            "Amount" : item.get("totalPrice"),
+            "SalesItemLineDetail":  {
+                "ItemRef":{"value" : product_id},
+                "Qty": item["quantity"],
+                "UnitPrice" : item["unitPrice"]
+                }
+        }
+
+        if product["TrackQtyOnHand"]:
+            if product["QtyOnHand"] < 1: 
+                logging.info(f"No quantity available for Product: {item.get('productName')}")
+                line_item = None
+        
+        if line_item: 
+            lines.append(line_item)
+
+    return lines
+
+def invoice_from_unified(record,customers,products):
+
+    customer_id = customers[record.get("customerName")]["Id"]
+
+    invoice_lines = invoice_line(record.get("lineItems"),products)
+
+    invoice = {
+        "Line" : invoice_lines,
+        "CustomerRef" : {"value":customer_id}
+        }
+
+    if not invoice_lines:
+        logging.warn(f"No Invoice Lines for Invoice id: {record['id']} \n Skipping Invoice ...")
+        return []
+
+    return invoice

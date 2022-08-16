@@ -1,5 +1,3 @@
-from contextlib import redirect_stderr
-from enum import Flag
 from os import environ
 import requests
 import json
@@ -11,7 +9,7 @@ from singer_sdk.plugin_base import PluginBase
 from typing import Any, Dict, List, Mapping, Optional, Union
 import re
 
-from target_quickbooks.mapper import customer_from_unified, item_from_unified
+from target_quickbooks.mapper import customer_from_unified, item_from_unified, invoice_from_unified
 
 
 class QuickBooksSink(BatchSink):
@@ -190,6 +188,12 @@ class QuickBooksSink(BatchSink):
             else:
                 entry = ["Customer",customer,"create"]
 
+        if self.stream_name == "Invoices":
+
+            invoice = invoice_from_unified(record,self.customers,self.items)
+
+            entry = ["Invoice",invoice,"create"]
+
         if self.stream_name == "Items":
 
             item = item_from_unified(record)
@@ -329,12 +333,15 @@ class QuickBooksSink(BatchSink):
             # entity[0] -> "Customer","JournalEntry", ...
             # entity[1] -> data
             # entity[2] -> "create" or "update"
-            batch_requests.append(
-                {"bId": f"bid{i}", "operation": entity[2], entity[0] : entity[1]}
-            )
+            if entity[1]:
+                batch_requests.append(
+                    {"bId": f"bid{i}", "operation": entity[2], entity[0] : entity[1]}
+                )
 
-        # Run the batch
-        response_items = self.make_batch_request(url, batch_requests)
+        if batch_requests: 
+            response_items = self.make_batch_request(url, batch_requests)
+        else:
+            response_items = []
 
         if not response_items: 
             response_items = []
@@ -368,10 +375,16 @@ class QuickBooksSink(BatchSink):
                 posted_records.append(
                     {"Id": je.get("Id"), "SyncToken": je.get("SyncToken")}
                 )
+            elif ri.get("Invoice") is not None:
+                je = ri.get("Invoice")
+                # Cache posted customer ids to delete them in event of failure
+                posted_records.append(
+                    {"Id": je.get("Id"), "SyncToken": je.get("SyncToken")}
+                )
 
         if failed:
             batch_requests = []
-            # In the event of failure, we need to delete the posted journals
+            # In the event of failure, we need to delete the posted records
             for i, je in enumerate(posted_records):
                 batch_requests.append(
                     {"bId": f"bid{i}", "operation": "delete", "JournalEntry": je}
