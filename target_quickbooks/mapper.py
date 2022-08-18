@@ -3,7 +3,7 @@ Functions to mapp from Hotglue's Unified Schema to the quickbooks' Schema
 '''
 import json
 import logging
-import datetime 
+import datetime
 
 def customer_from_unified(record):
 
@@ -20,7 +20,9 @@ def customer_from_unified(record):
     addresses = record.get("addresses")
 
     if addresses: 
-        addresses = eval(addresses)
+        if isinstance(addresses,str):
+            addresses = eval(addresses)
+        
         customer["BillAddr"] = {
             "Line1" : addresses[0].get("line1"),
             "Line2" : addresses[0].get("line2"),
@@ -59,7 +61,9 @@ def item_from_unified(record):
     item = dict((mapp[key], value) for (key, value) in record.items() if key in mapp.keys())
 
     if record.get("billItem"):
-        billItem = eval(record["billItem"])
+        billItem = record["billItem"]
+        if isinstance(billItem,str):
+            billItem = eval(billItem)
 
         item["UnitPrice"] = billItem.get("unitPrice")
 
@@ -70,7 +74,9 @@ def item_from_unified(record):
         }
 
     if record.get("invoiceItem"):
-        invoiceItem = eval(record["invoiceItem"])
+        invoiceItem = record["invoiceItem"]
+        if isinstance(invoiceItem,str):
+            invoiceItem = eval(invoiceItem)
 
         item["PurchaseDesc"] = invoiceItem.get("description")
 
@@ -89,8 +95,8 @@ def item_from_unified(record):
 def invoice_line(items,products):
 
     lines = []
-
-    items = json.loads(items)
+    if isinstance(items,str):
+        items = json.loads(items)
 
     for item in items:
         product = products[item.get("productName")]
