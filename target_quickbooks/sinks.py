@@ -171,9 +171,6 @@ class QuickBooksSink(BatchSink):
         if not context.get("records"):
             context["records"] = []
 
-        # Get the journal entry id
-        je_id = record["id"]
-        self.logger.info(f"Mapping {je_id}...")
         line_items = []
 
         if self.stream_name == "Customers":
@@ -212,7 +209,7 @@ class QuickBooksSink(BatchSink):
 
             if IncomeAccountRef or ExpenseAccountRef: 
                 self.logger.warning(
-                        f"AccontRef missing on Item {je_id}! Name={item['Name']} \n Skipping Item ..."
+                        f"AccontRef missing on Item Name={item['Name']} \n Skipping Item ..."
                         )
                 return 
 
@@ -225,6 +222,10 @@ class QuickBooksSink(BatchSink):
                 entry = ["Item",item,"create"]
 
         elif self.stream_name == "JournalEntries":
+
+            # Get the journal entry id
+            je_id = record["id"]
+        
 
             # Create line items
             for row in record["lines"]:
