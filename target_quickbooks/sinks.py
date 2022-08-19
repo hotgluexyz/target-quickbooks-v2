@@ -9,7 +9,11 @@ from singer_sdk.plugin_base import PluginBase
 from typing import Any, Dict, List, Mapping, Optional, Union
 import re
 
-from target_quickbooks.mapper import customer_from_unified, item_from_unified, invoice_from_unified
+from target_quickbooks.mapper import (
+    customer_from_unified,
+    item_from_unified,
+    invoice_from_unified,
+)
 
 
 class QuickBooksSink(BatchSink):
@@ -70,6 +74,7 @@ class QuickBooksSink(BatchSink):
         self.customers = self.get_entities("Customer", key="DisplayName")
         self.items = self.get_entities("Item", key="Name")
         self.classes = self.get_entities("Class")
+        self.tax_codes = self.get_entities("TaxCode")
 
     def update_access_token(self):
         self.auth_client.refresh(self.config.get("refresh_token"))
@@ -181,15 +186,15 @@ class QuickBooksSink(BatchSink):
                 old_customer = self.customers[customer["DisplayName"]]
                 customer["Id"] = old_customer["Id"]
                 customer["SyncToken"] = old_customer["SyncToken"]
-                entry = ["Customer",customer,"update"]
+                entry = ["Customer", customer, "update"]
             else:
-                entry = ["Customer",customer,"create"]
+                entry = ["Customer", customer, "create"]
 
         if self.stream_name == "Invoices":
 
-            invoice = invoice_from_unified(record,self.customers,self.items)
+            invoice = invoice_from_unified(record, self.customers, self.items, self.tax_codes)
 
-            entry = ["Invoice",invoice,"create"]
+            entry = ["Invoice", invoice, "create"]
 
         if self.stream_name == "Items":
 
@@ -198,34 +203,33 @@ class QuickBooksSink(BatchSink):
             # Setting IncomeAccountRef.value and ExpenseAccountRef.value
             # based on account name from self.accounts
 
-            IncomeAccountRef = item.get("IncomeAccountRef").get('value')
-            ExpenseAccountRef = item.get("ExpenseAccountRef").get('value')
+            IncomeAccountRef = item.get("IncomeAccountRef").get("value")
+            ExpenseAccountRef = item.get("ExpenseAccountRef").get("value")
 
-            if IncomeAccountRef and IncomeAccountRef in self.accounts: 
-                IncomeAccountRef= self.accounts[IncomeAccountRef]["Id"]
+            if IncomeAccountRef and IncomeAccountRef in self.accounts:
+                IncomeAccountRef = self.accounts[IncomeAccountRef]["Id"]
 
-            if ExpenseAccountRef and ExpenseAccountRef in self.accounts: 
+            if ExpenseAccountRef and ExpenseAccountRef in self.accounts:
                 ExpenseAccountRef = self.accounts[ExpenseAccountRef]["Id"]
 
-            if IncomeAccountRef or ExpenseAccountRef: 
+            if IncomeAccountRef or ExpenseAccountRef:
                 self.logger.warning(
-                        f"AccontRef missing on Item Name={item['Name']} \n Skipping Item ..."
-                        )
-                return 
+                    f"AccontRef missing on Item Name={item['Name']} \n Skipping Item ..."
+                )
+                return
 
             if item["Name"] in self.items:
                 old_item = self.items[item["Name"]]
                 item["Id"] = old_item["Id"]
                 item["SyncToken"] = old_item["SyncToken"]
-                entry = ["Item",item,"update"]
+                entry = ["Item", item, "update"]
             else:
-                entry = ["Item",item,"create"]
+                entry = ["Item", item, "create"]
 
         elif self.stream_name == "JournalEntries":
 
             # Get the journal entry id
             je_id = record["id"]
-        
 
             # Create line items
             for row in record["lines"]:
@@ -246,7 +250,7 @@ class QuickBooksSink(BatchSink):
                     self.logger.error(
                         f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num} \n Skipping..."
                     )
-                    return 
+                    return
 
                 # Get the Quickbooks Class Ref
                 class_name = row.get("className")
@@ -294,8 +298,7 @@ class QuickBooksSink(BatchSink):
             if record.get("currency") is not None:
                 entry["CurrencyRef"] = {"value": record["currency"]}
 
-
-            entry = ["JournalEntry",entry,"create"]
+            entry = ["JournalEntry", entry, "create"]
 
         context["records"].append(entry)
 
@@ -336,20 +339,20 @@ class QuickBooksSink(BatchSink):
             # entity[2] -> "create" or "update"
             if entity[1]:
                 batch_requests.append(
-                    {"bId": f"bid{i}", "operation": entity[2], entity[0] : entity[1]}
+                    {"bId": f"bid{i}", "operation": entity[2], entity[0]: entity[1]}
                 )
 
-        if batch_requests: 
+        if batch_requests:
             response_items = self.make_batch_request(url, batch_requests)
         else:
             response_items = []
 
-        if not response_items: 
+        if not response_items:
             response_items = []
 
         posted_records = []
         failed = False
-        
+
         for ri in response_items:
             if ri.get("Fault") is not None:
                 m = re.search("[0-9]+$", ri.get("bId"))
