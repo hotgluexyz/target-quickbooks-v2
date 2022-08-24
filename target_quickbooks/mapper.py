@@ -104,17 +104,21 @@ def invoice_line(items, products, tax_codes):
         product = products[item.get("productName")]
         product_id = product["Id"]
 
+        item_line_detail = {
+                "ItemRef": {"value": product_id},
+                "Qty": item.get("quantity"),
+                "UnitPrice": item.get("unitPrice"),
+            }
+
+        if tax_codes and item.get('taxCode') is not None:
+            item_line_detail.update({"TaxCodeRef": {
+                    "value": tax_codes[item['taxCode']]['Id']
+                }})
+
         line_item = {
             "DetailType": "SalesItemLineDetail",
             "Amount": item.get("totalPrice"),
-            "SalesItemLineDetail": {
-                "ItemRef": {"value": product_id},
-                "Qty": item["quantity"],
-                "UnitPrice": item["unitPrice"],
-                "TaxCodeRef": {
-                    "value": tax_codes[item['taxCode']]['Id']
-                }
-            },
+            "SalesItemLineDetail": item_line_detail
         }
 
         if product["TrackQtyOnHand"]:
@@ -140,6 +144,7 @@ def invoice_from_unified(record, customers, products, tax_codes):
         "CustomerRef": {"value": customer_id},
         "TotalAmt": record.get("totalAmount"),
         "DueDate": record.get("dueDate").split("T")[0],
+        "DocNumber": record.get("invoiceNumber")
     }
 
     if not invoice_lines:
