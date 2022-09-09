@@ -200,6 +200,11 @@ class QuickBooksSink(BatchSink):
 
             item = item_from_unified(record)
 
+            # Have to include AssetAccountRef if we're creating an Inventory item
+            if item.get("Type") == "Inventory":
+                # TODO: Below is hardcoded
+                item["AssetAccountRef"] = {'value': self.accounts['Inventory Asset']["Id"]}
+
             # Convert account num -> accountRef
             income_account_num = item.pop("IncomeAccountNum", None)
             expense_account_num = item.pop("ExpenseAccountNum", None)

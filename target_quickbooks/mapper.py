@@ -85,6 +85,8 @@ def item_from_unified(record):
 
     # Hardcoding "QtyOnHand" = 0 if "type" == "Inventory"
     if item["Type"] == "Inventory":
+        # TODO: Below is hardcoded
+        item["InvStartDate"] = "2022-09-09"
         item["TrackQtyOnHand"] = True
         item["QtyOnHand"] = 0.0
 
