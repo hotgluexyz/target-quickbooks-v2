@@ -72,7 +72,7 @@ def item_from_unified(record):
 
         item["PurchaseCost"] = billItem.get("unitPrice")
         item["PurchaseDesc"] = billItem.get("description")
-        item["ExpenseAccountRef"] = {"value": billItem.get("accountId")}
+        item["ExpenseAccountNum"] = billItem.get("accountId")
 
     if record.get("isInvoiceItem", False) and record.get("invoiceItem"):
         invoiceItem = record["invoiceItem"]
@@ -80,7 +80,7 @@ def item_from_unified(record):
             invoiceItem = eval(invoiceItem)
 
         item["Description"] = invoiceItem.get("description")
-        item["IncomeAccountRef"] = {"value": invoiceItem.get("accountId")}
+        item["IncomeAccountNum"] = invoiceItem.get("accountId")
         item["UnitPrice"] = invoiceItem.get("unitPrice")
 
     # Hardcoding "QtyOnHand" = 0 if "type" == "Inventory"

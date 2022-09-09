@@ -200,23 +200,15 @@ class QuickBooksSink(BatchSink):
 
             item = item_from_unified(record)
 
-            # Setting IncomeAccountRef.value and ExpenseAccountRef.value
-            # based on account name from self.accounts
+            # Convert account num -> accountRef
+            income_account_num = item.pop("IncomeAccountNum", None)
+            expense_account_num = item.pop("ExpenseAccountNum", None)
 
-            IncomeAccountRef = item.get("IncomeAccountRef").get("value")
-            ExpenseAccountRef = item.get("ExpenseAccountRef").get("value")
+            if income_account_num and self.accounts.get(income_account_num):
+                item['IncomeAccountRef'] = {'value': self.accounts[income_account_num]["Id"]}
 
-            if IncomeAccountRef and IncomeAccountRef in self.accounts:
-                IncomeAccountRef = self.accounts[IncomeAccountRef]["Id"]
-
-            if ExpenseAccountRef and ExpenseAccountRef in self.accounts:
-                ExpenseAccountRef = self.accounts[ExpenseAccountRef]["Id"]
-
-            if IncomeAccountRef or ExpenseAccountRef:
-                self.logger.warning(
-                    f"AccontRef missing on Item Name={item['Name']} \n Skipping Item ..."
-                )
-                return
+            if expense_account_num and self.accounts.get(expense_account_num):
+                item['ExpenseAccountRef'] = {'value': self.accounts[expense_account_num]["Id"]}
 
             if item["Name"] in self.items:
                 old_item = self.items[item["Name"]]
