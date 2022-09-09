@@ -65,27 +65,23 @@ def item_from_unified(record):
         (mapp[key], value) for (key, value) in record.items() if key in mapp.keys()
     )
 
-    if record.get("billItem"):
+    if record.get("isBillItem", False) and record.get("billItem"):
         billItem = record["billItem"]
         if isinstance(billItem, str):
             billItem = eval(billItem)
 
-        item["UnitPrice"] = billItem.get("unitPrice")
+        item["PurchaseCost"] = billItem.get("unitPrice")
+        item["PurchaseDesc"] = billItem.get("description")
+        item["ExpenseAccountRef"] = {"value": billItem.get("accountId")}
 
-        item["Description"] = billItem.get("description")
-
-        item["IncomeAccountRef"] = {"value": billItem.get("accountId")}
-
-    if record.get("invoiceItem"):
+    if record.get("isInvoiceItem", False) and record.get("invoiceItem"):
         invoiceItem = record["invoiceItem"]
         if isinstance(invoiceItem, str):
             invoiceItem = eval(invoiceItem)
 
-        item["PurchaseDesc"] = invoiceItem.get("description")
-
-        item["ExpenseAccountRef"] = {"value": invoiceItem.get("accountId")}
-
-        item["PurchaseCost"] = invoiceItem.get("unitPrice")
+        item["Description"] = invoiceItem.get("description")
+        item["IncomeAccountRef"] = {"value": invoiceItem.get("accountId")}
+        item["UnitPrice"] = invoiceItem.get("unitPrice")
 
     # Hardcoding "QtyOnHand" = 0 if "type" == "Inventory"
     if item["Type"] == "Inventory":
