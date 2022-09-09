@@ -85,6 +85,7 @@ def item_from_unified(record):
 
     # Hardcoding "QtyOnHand" = 0 if "type" == "Inventory"
     if item["Type"] == "Inventory":
+        item["TrackQtyOnHand"] = True
         item["QtyOnHand"] = 0.0
 
     return item
