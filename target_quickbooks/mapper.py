@@ -147,9 +147,14 @@ def invoice_from_unified(record, customers, products, tax_codes):
     }
 
     if not invoice_lines:
-        logging.warn(
-            f"No Invoice Lines for Invoice id: {record['id']} \n Skipping Invoice ..."
-        )
+        if record.get('id'):
+            logging.warn(
+                f"No Invoice Lines for Invoice id: {record['id']} \n Skipping Invoice ..."
+            )
+        elif record.get('invoiceNumber'):
+            logging.warn(
+                f"No Invoice Lines for Invoice Number: {record['invoiceNumber']} \n Skipping Invoice ..."
+            )
         return []
 
     return invoice
