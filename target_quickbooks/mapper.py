@@ -108,7 +108,7 @@ def invoice_line(items, products, tax_codes):
                 "Qty": item.get("quantity"),
                 "UnitPrice": item.get("unitPrice"),
                 #"TaxInclusiveAmt": item.get('taxAmount'),
-                #"DiscountAmt" : item.get('discountAmount')
+                #"DiscountAmt" : item.get('discountAmount')  #Implemented below
             }
 
         if tax_codes and item.get('taxCode') is not None:
