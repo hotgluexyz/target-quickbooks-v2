@@ -107,6 +107,8 @@ def invoice_line(items, products, tax_codes):
                 "ItemRef": {"value": product_id},
                 "Qty": item.get("quantity"),
                 "UnitPrice": item.get("unitPrice"),
+                #"TaxInclusiveAmt": item.get('taxAmount'),
+                #"DiscountAmt" : item.get('discountAmount')
             }
 
         if tax_codes and item.get('taxCode') is not None:
@@ -129,6 +131,17 @@ def invoice_line(items, products, tax_codes):
 
         if line_item:
             lines.append(line_item)
+        
+        if item.get('discountAmount'):
+            lines.append({
+            "DetailType": "DiscountLineDetail", 
+            "Amount": item.get("totalPrice"), 
+            "Description": "Less discount", 
+            "DiscountLineDetail": {
+                "PercentBased": True, 
+                "DiscountPercent": str(100*(item.get('discountAmount')/item.get("totalPrice")))
+            }
+        })
 
     return lines
 
@@ -148,12 +161,12 @@ def invoice_from_unified(record, customers, products, tax_codes):
 
     if not invoice_lines:
         if record.get('id'):
-            logging.warn(
-                f"No Invoice Lines for Invoice id: {record['id']} \n Skipping Invoice ..."
+            raise Exception(
+                f"No Invoice Lines for Invoice id: {record['id']}"
             )
         elif record.get('invoiceNumber'):
-            logging.warn(
-                f"No Invoice Lines for Invoice Number: {record['invoiceNumber']} \n Skipping Invoice ..."
+            raise Exception(
+                f"No Invoice Lines for Invoice Number: {record['invoiceNumber']}"
             )
         return []
 

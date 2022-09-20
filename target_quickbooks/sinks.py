@@ -322,7 +322,7 @@ class QuickBooksSink(BatchSink):
 
     def process_batch(self, context: dict) -> None:
         # Build endpoint url
-        url = f"{self.base_url}/batch?minorversion=45"
+        url = f"{self.base_url}/batch?minorversion=4"
 
         # Get the journals to post
         records = context.get("records")
