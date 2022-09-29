@@ -13,6 +13,7 @@ from target_quickbooks.mapper import (
     customer_from_unified,
     item_from_unified,
     invoice_from_unified,
+    creditnote_from_unified
 )
 
 
@@ -190,13 +191,13 @@ class QuickBooksSink(BatchSink):
             else:
                 entry = ["Customer", customer, "create"]
 
-        if self.stream_name == "Invoices":
+        elif self.stream_name == "Invoices":
 
             invoice = invoice_from_unified(record, self.customers, self.items, self.tax_codes)
 
             entry = ["Invoice", invoice, "create"]
 
-        if self.stream_name == "Items":
+        elif self.stream_name == "Items":
 
             item = item_from_unified(record)
 
@@ -222,6 +223,12 @@ class QuickBooksSink(BatchSink):
                 entry = ["Item", item, "update"]
             else:
                 entry = ["Item", item, "create"]
+
+        elif self.stream_name == "CreditNotes":
+
+            creditnotes = creditnote_from_unified(record, self.customers, self.items, self.tax_codes)
+
+            entry = ["CreditMemo", creditnotes, "create"]
 
         elif self.stream_name == "JournalEntries":
 
@@ -378,6 +385,12 @@ class QuickBooksSink(BatchSink):
                 )
             elif ri.get("Invoice") is not None:
                 je = ri.get("Invoice")
+                # Cache posted customer ids to delete them in event of failure
+                posted_records.append(
+                    {"Id": je.get("Id"), "SyncToken": je.get("SyncToken")}
+                )
+            elif ri.get("CreditMemo") is not None:
+                je = ri.get("CreditMemo")
                 # Cache posted customer ids to delete them in event of failure
                 posted_records.append(
                     {"Id": je.get("Id"), "SyncToken": je.get("SyncToken")}

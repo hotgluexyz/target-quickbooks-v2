@@ -93,7 +93,7 @@ def item_from_unified(record):
     return item
 
 
-def invoice_line(items, products, tax_codes):
+def invoice_line(items, products, tax_codes=None):
 
     lines = []
     if isinstance(items, str):
@@ -171,3 +171,49 @@ def invoice_from_unified(record, customers, products, tax_codes):
         return []
 
     return invoice
+
+
+def credit_line(items, products, tax_codes=None):
+
+    lines = []
+    if isinstance(items, str):
+        items = json.loads(items)
+
+    for item in items:
+        product = products[item.get("productName")]
+        product_id = product["Id"]
+
+        item_line_detail = {
+                "ItemRef": {"value": product_id},
+            }
+        
+        if product.get('QtyOnHand'):
+            item_line_detail.update({"Qty":item.get('quantity')})
+
+        line_item = {
+            "DetailType": "SalesItemLineDetail",
+            "Amount": item.get("totalAmount"),
+            "SalesItemLineDetail": item_line_detail
+        }
+
+        if line_item:
+            lines.append(line_item)
+
+    return lines
+
+
+def creditnote_from_unified(record, customers, products,tax_codes):
+    
+    customer_id = customers[record.get("customerRef").get("customerName")]["Id"]
+
+    invoice_lines = credit_line(record.get("lineItems"), products)
+    # invoice_lines = invoice_line(record.get("lineItems"), products)
+
+    creditnote = {
+                    "Line": invoice_lines, 
+                    "CustomerRef": {
+                        "value": customer_id
+                    }
+                }
+    return creditnote
+
