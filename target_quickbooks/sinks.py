@@ -13,7 +13,7 @@ from target_quickbooks.mapper import (
     customer_from_unified,
     item_from_unified,
     invoice_from_unified,
-    creditnote_from_unified
+    creditnote_from_unified,
 )
 
 
@@ -174,14 +174,14 @@ class QuickBooksSink(BatchSink):
 
         return entities
 
-    def search_reference_data(self,reference_data,key,value):
+    def search_reference_data(self, reference_data, key, value):
         return_data = {}
         for data in reference_data:
             if key in data:
-                if data[key]==value:
+                if data[key] == value:
                     return data
         return return_data
-    
+
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
             context["records"] = []
@@ -202,7 +202,9 @@ class QuickBooksSink(BatchSink):
 
         elif self.stream_name == "Invoices":
 
-            invoice = invoice_from_unified(record, self.customers, self.items, self.tax_codes)
+            invoice = invoice_from_unified(
+                record, self.customers, self.items, self.tax_codes
+            )
 
             entry = ["Invoice", invoice, "create"]
 
@@ -213,17 +215,23 @@ class QuickBooksSink(BatchSink):
             # Have to include AssetAccountRef if we're creating an Inventory item
             if item.get("Type") == "Inventory":
                 # TODO: Below is hardcoded
-                item["AssetAccountRef"] = {'value': self.accounts['Inventory Asset']["Id"]}
+                item["AssetAccountRef"] = {
+                    "value": self.accounts["Inventory Asset"]["Id"]
+                }
 
             # Convert account num -> accountRef
             income_account_num = item.pop("IncomeAccountNum", None)
             expense_account_num = item.pop("ExpenseAccountNum", None)
 
             if income_account_num and self.accounts.get(income_account_num):
-                item['IncomeAccountRef'] = {'value': self.accounts[income_account_num]["Id"]}
+                item["IncomeAccountRef"] = {
+                    "value": self.accounts[income_account_num]["Id"]
+                }
 
             if expense_account_num and self.accounts.get(expense_account_num):
-                item['ExpenseAccountRef'] = {'value': self.accounts[expense_account_num]["Id"]}
+                item["ExpenseAccountRef"] = {
+                    "value": self.accounts[expense_account_num]["Id"]
+                }
 
             if item["Name"] in self.items:
                 old_item = self.items[item["Name"]]
@@ -235,7 +243,9 @@ class QuickBooksSink(BatchSink):
 
         elif self.stream_name == "CreditNotes":
 
-            creditnotes = creditnote_from_unified(record, self.customers, self.items, self.tax_codes)
+            creditnotes = creditnote_from_unified(
+                record, self.customers, self.items, self.tax_codes
+            )
 
             entry = ["CreditMemo", creditnotes, "create"]
 
@@ -314,55 +324,55 @@ class QuickBooksSink(BatchSink):
             entry = ["JournalEntry", entry, "create"]
 
         elif self.stream_name == "Bills":
-            #Bill id
+            # Bill id
             bill_id = record.get("id")
             entry = {}
             vendor = None
             skip_vendor = True
             if "vendorName" in record:
-                if record['vendorName'] in self.vendors:
-                    vendor = self.vendors[record['vendorName']]
+                if record["vendorName"] in self.vendors:
+                    vendor = self.vendors[record["vendorName"]]
                     skip_vendor = False
                 else:
                     skip_vendor = True
 
-            if skip_vendor==True:
-                print("A valid vendor is required for creating bill. Skipping...")        
-                return 
-            
+            if skip_vendor == True:
+                print("A valid vendor is required for creating bill. Skipping...")
+                return
+
             if vendor is not None:
-                entry['VendorRef'] = {
-                    "value":vendor["Id"]
-                }
+                entry["VendorRef"] = {"value": vendor["Id"]}
 
             # Create line items
             for row in record["lineItems"]:
                 # Create journal entry line detail
                 line_detail = {}
                 detail_type = "ItemBasedExpenseLineDetail"
-                
-                if row.get('taxCode'):
-                    tax_code = self.search_reference_data(self.tax_codes,'Name',row.get('taxCode')).get('Id')
-                    line_detail['TaxCodeRef'] = {"value": tax_code}
-                # Get the Quickbooks Account Ref
-                # acct_num = str(row["accountName"])
-                if row["accountName"] is not None:
-                    acct_name = row["accountName"]
-                    acct_ref = self.accounts.get(
-                        acct_name, self.accounts.get(acct_name, {})
+
+                if row.get("taxCode"):
+                    tax_code = self.search_reference_data(
+                        self.tax_codes, "Name", row.get("taxCode")
                     ).get("Id")
-                if row.get('productName'):
-                   if row.get('productName') in self.items:   
-                        product_ref = self.items[row.get('productName')].get("Id")
-                        line_detail["ItemRef"] = {"value": product_ref} 
-                        line_detail["UnitPrice"] = row.get('unitPrice')
-                        line_detail["Qty"] = row.get('quantity')
-                
-                elif acct_ref is not None:
+                    line_detail["TaxCodeRef"] = {"value": tax_code}
+                #Check if product name is provided
+                if row.get("productName"):
+                    if row.get("productName") in self.items:
+                        product_ref = self.items[row.get("productName")].get("Id")
+                        line_detail["ItemRef"] = {"value": product_ref}
+                        line_detail["UnitPrice"] = row.get("unitPrice")
+                        line_detail["Qty"] = row.get("quantity")
+
+                elif row.get("accountName"):
+                    # Get the Quickbooks Account Ref
+                    # acct_num = str(row["accountName"])
+                    if row["accountName"] is not None:
+                        acct_name = row["accountName"]
+                        acct_ref = self.accounts.get(
+                            acct_name, self.accounts.get(acct_name, {})
+                        ).get("Id")
                     detail_type = "AccountBasedExpenseLineDetail"
                     line_detail["AccountRef"] = {"value": acct_ref}
-                    line_detail["TaxAmount"] = row.get('taxAmount')
-                    
+                    line_detail["TaxAmount"] = row.get("taxAmount")
 
                     # missing in unified schema
                     # if class_ref is not None:
@@ -376,27 +386,25 @@ class QuickBooksSink(BatchSink):
                     self.logger.error(
                         f"Account and product is missing on Journal Entry {bill_id}! Name={acct_name} \n Skipping..."
                     )
-                    return 
-                
+                    return
+
                 # Create the line item
                 line_items.append(
                     {
                         "Amount": row["totalPrice"],
                         "DetailType": detail_type,
                         detail_type: line_detail,
-                        "Description":record.get("description"),
-                        "Amount":record.get("totalAmount")
+                        "Description": record.get("description"),
+                        "Amount": record.get("totalAmount"),
                     }
-                )   
-            entry.update({
-                "Id": bill_id,
-                "Line": line_items,
-                "DueDate":record.get("dueDate")
-            })
-             # Append the currency if provided
+                )
+            entry.update(
+                {"Id": bill_id, "Line": line_items, "DueDate": record.get("dueDate")}
+            )
+            # Append the currency if provided
             if record.get("currency") is not None:
                 entry["CurrencyRef"] = {"value": record["currency"]}
-            entry = ["Bill", entry, "create"]   
+            entry = ["Bill", entry, "create"]
 
         context["records"].append(entry)
 
