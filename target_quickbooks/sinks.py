@@ -338,22 +338,32 @@ class QuickBooksSink(BatchSink):
             # Create line items
             for row in record["lineItems"]:
                 # Create journal entry line detail
-                account_detail = {}
-
+                line_detail = {}
+                detail_type = "ItemBasedExpenseLineDetail"
+                
+                if row.get('taxCode'):
+                    tax_code = self.search_reference_data(self.tax_codes,'Name',row.get('taxCode')).get('Id')
+                    line_detail['TaxCodeRef'] = {"value": tax_code}
                 # Get the Quickbooks Account Ref
                 # acct_num = str(row["accountName"])
-                acct_name = row["accountName"]
-                acct_ref = self.accounts.get(
-                    acct_name, self.accounts.get(acct_name, {})
-                ).get("Id")
+                if row["accountName"] is not None:
+                    acct_name = row["accountName"]
+                    acct_ref = self.accounts.get(
+                        acct_name, self.accounts.get(acct_name, {})
+                    ).get("Id")
+                if row.get('productName'):
+                   if row.get('productName') in self.items:   
+                        product_ref = self.items[row.get('productName')].get("Id")
+                        line_detail["ItemRef"] = {"value": product_ref} 
+                        line_detail["UnitPrice"] = row.get('unitPrice')
+                        line_detail["Qty"] = row.get('quantity')
+                
+                elif acct_ref is not None:
+                    detail_type = "AccountBasedExpenseLineDetail"
+                    line_detail["AccountRef"] = {"value": acct_ref}
+                    line_detail["TaxAmount"] = row.get('taxAmount')
+                    
 
-                if acct_ref is not None:
-                    account_detail["AccountRef"] = {"value": acct_ref}
-                    account_detail["TaxAmount"] = row.get('taxAmount')
-                     # Get the Quickbooks Class Ref
-                    if row.get('taxCode'):
-                        tax_code = self.search_reference_data(self.tax_codes,'Name',row.get('taxCode')).get('Id')
-                        account_detail['TaxCodeRef'] = {"value": tax_code}
                     # missing in unified schema
                     # if class_ref is not None:
                     #     je_detail["ClassRef"] = {"value": class_ref}
@@ -364,7 +374,7 @@ class QuickBooksSink(BatchSink):
                 else:
                     errored = True
                     self.logger.error(
-                        f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num} \n Skipping..."
+                        f"Account and product is missing on Journal Entry {bill_id}! Name={acct_name} \n Skipping..."
                     )
                     return 
                 
@@ -372,13 +382,16 @@ class QuickBooksSink(BatchSink):
                 line_items.append(
                     {
                         "Amount": row["totalPrice"],
-                        "DetailType": "AccountBasedExpenseLineDetail",
-                        "AccountBasedExpenseLineDetail": account_detail,
+                        "DetailType": detail_type,
+                        detail_type: line_detail,
+                        "Description":record.get("description"),
+                        "Amount":record.get("totalAmount")
                     }
                 )   
             entry.update({
                 "Id": bill_id,
                 "Line": line_items,
+                "DueDate":record.get("dueDate")
             })
              # Append the currency if provided
             if record.get("currency") is not None:
