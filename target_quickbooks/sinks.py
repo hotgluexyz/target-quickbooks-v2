@@ -76,6 +76,7 @@ class QuickBooksSink(BatchSink):
         self.items = self.get_entities("Item", key="Name")
         self.classes = self.get_entities("Class")
         self.tax_codes = self.get_entities("TaxCode")
+        self.vendors = self.get_entities("Vendor", key="DisplayName")
 
     def update_access_token(self):
         self.auth_client.refresh(self.config.get("refresh_token"))
@@ -173,6 +174,14 @@ class QuickBooksSink(BatchSink):
 
         return entities
 
+    def search_reference_data(self,reference_data,key,value):
+        return_data = {}
+        for data in reference_data:
+            if key in data:
+                if data[key]==value:
+                    return data
+        return return_data
+    
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
             context["records"] = []
@@ -304,6 +313,78 @@ class QuickBooksSink(BatchSink):
 
             entry = ["JournalEntry", entry, "create"]
 
+        elif self.stream_name == "Bills":
+            #Bill id
+            bill_id = record.get("id")
+            entry = {}
+            vendor = None
+            skip_vendor = True
+            if "vendorName" in record:
+                if record['vendorName'] in self.vendors:
+                    vendor = self.vendors[record['vendorName']]
+                    skip_vendor = False
+                else:
+                    skip_vendor = True
+
+            if skip_vendor==True:
+                print("A valid vendor is required for creating bill. Skipping...")        
+                return 
+            
+            if vendor is not None:
+                entry['VendorRef'] = {
+                    "value":vendor["Id"]
+                }
+
+            # Create line items
+            for row in record["lineItems"]:
+                # Create journal entry line detail
+                account_detail = {}
+
+                # Get the Quickbooks Account Ref
+                # acct_num = str(row["accountName"])
+                acct_name = row["accountName"]
+                acct_ref = self.accounts.get(
+                    acct_name, self.accounts.get(acct_name, {})
+                ).get("Id")
+
+                if acct_ref is not None:
+                    account_detail["AccountRef"] = {"value": acct_ref}
+                    account_detail["TaxAmount"] = row.get('taxAmount')
+                     # Get the Quickbooks Class Ref
+                    if row.get('taxCode'):
+                        tax_code = self.search_reference_data(self.tax_codes,'Name',row.get('taxCode')).get('Id')
+                        account_detail['TaxCodeRef'] = {"value": tax_code}
+                    # missing in unified schema
+                    # if class_ref is not None:
+                    #     je_detail["ClassRef"] = {"value": class_ref}
+                    # else:
+                    #     self.logger.warning(
+                    #         f"Class is missing on Journal Entry {je_id}! Name={class_name}"
+                    #     )
+                else:
+                    errored = True
+                    self.logger.error(
+                        f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num} \n Skipping..."
+                    )
+                    return 
+                
+                # Create the line item
+                line_items.append(
+                    {
+                        "Amount": row["totalPrice"],
+                        "DetailType": "AccountBasedExpenseLineDetail",
+                        "AccountBasedExpenseLineDetail": account_detail,
+                    }
+                )   
+            entry.update({
+                "Id": bill_id,
+                "Line": line_items,
+            })
+             # Append the currency if provided
+            if record.get("currency") is not None:
+                entry["CurrencyRef"] = {"value": record["currency"]}
+            entry = ["Bill", entry, "create"]   
+
         context["records"].append(entry)
 
     def make_batch_request(self, url, batch_requests):
@@ -392,6 +473,12 @@ class QuickBooksSink(BatchSink):
             elif ri.get("CreditMemo") is not None:
                 je = ri.get("CreditMemo")
                 # Cache posted customer ids to delete them in event of failure
+                posted_records.append(
+                    {"Id": je.get("Id"), "SyncToken": je.get("SyncToken")}
+                )
+            elif ri.get("Bill") is not None:
+                je = ri.get("Bill")
+                # Cache posted Bill ids to delete them in event of failure
                 posted_records.append(
                     {"Id": je.get("Id"), "SyncToken": je.get("SyncToken")}
                 )
