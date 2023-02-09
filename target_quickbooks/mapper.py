@@ -104,22 +104,22 @@ def invoice_line(items, products, tax_codes=None):
         product_id = product["Id"]
 
         item_line_detail = {
-                "ItemRef": {"value": product_id},
-                "Qty": item.get("quantity"),
-                "UnitPrice": item.get("unitPrice"),
-                #"TaxInclusiveAmt": item.get('taxAmount'),
-                #"DiscountAmt" : item.get('discountAmount')  #Implemented below
-            }
+            "ItemRef": {"value": product_id},
+            "Qty": item.get("quantity"),
+            "UnitPrice": item.get("unitPrice"),
+            # "TaxInclusiveAmt": item.get('taxAmount'),
+            # "DiscountAmt" : item.get('discountAmount')  #Implemented below
+        }
 
-        if tax_codes and item.get('taxCode') is not None:
-            item_line_detail.update({"TaxCodeRef": {
-                    "value": tax_codes[item['taxCode']]['Id']
-                }})
+        if tax_codes and item.get("taxCode") is not None:
+            item_line_detail.update(
+                {"TaxCodeRef": {"value": tax_codes[item["taxCode"]]["Id"]}}
+            )
 
         line_item = {
             "DetailType": "SalesItemLineDetail",
             "Amount": item.get("totalPrice"),
-            "SalesItemLineDetail": item_line_detail
+            "SalesItemLineDetail": item_line_detail,
         }
 
         if product["TrackQtyOnHand"]:
@@ -131,17 +131,21 @@ def invoice_line(items, products, tax_codes=None):
 
         if line_item:
             lines.append(line_item)
-        
-        if item.get('discountAmount'):
-            lines.append({
-            "DetailType": "DiscountLineDetail", 
-            "Amount": item.get("totalPrice"), 
-            "Description": "Less discount", 
-            "DiscountLineDetail": {
-                "PercentBased": True, 
-                "DiscountPercent": str(100*(item.get('discountAmount')/item.get("totalPrice")))
-            }
-        })
+
+        if item.get("discountAmount"):
+            lines.append(
+                {
+                    "DetailType": "DiscountLineDetail",
+                    "Amount": item.get("totalPrice"),
+                    "Description": "Less discount",
+                    "DiscountLineDetail": {
+                        "PercentBased": True,
+                        "DiscountPercent": str(
+                            100 * (item.get("discountAmount") / item.get("totalPrice"))
+                        ),
+                    },
+                }
+            )
 
     return lines
 
@@ -156,15 +160,13 @@ def invoice_from_unified(record, customers, products, tax_codes):
         "CustomerRef": {"value": customer_id},
         "TotalAmt": record.get("totalAmount"),
         "DueDate": record.get("dueDate").split("T")[0],
-        "DocNumber": record.get("invoiceNumber")
+        "DocNumber": record.get("invoiceNumber"),
     }
 
     if not invoice_lines:
-        if record.get('id'):
-            raise Exception(
-                f"No Invoice Lines for Invoice id: {record['id']}"
-            )
-        elif record.get('invoiceNumber'):
+        if record.get("id"):
+            raise Exception(f"No Invoice Lines for Invoice id: {record['id']}")
+        elif record.get("invoiceNumber"):
             raise Exception(
                 f"No Invoice Lines for Invoice Number: {record['invoiceNumber']}"
             )
@@ -184,16 +186,16 @@ def credit_line(items, products, tax_codes=None):
         product_id = product["Id"]
 
         item_line_detail = {
-                "ItemRef": {"value": product_id},
-            }
-        
-        if product.get('QtyOnHand'):
-            item_line_detail.update({"Qty":item.get('quantity')})
+            "ItemRef": {"value": product_id},
+        }
+
+        if product.get("QtyOnHand"):
+            item_line_detail.update({"Qty": item.get("quantity")})
 
         line_item = {
             "DetailType": "SalesItemLineDetail",
             "Amount": item.get("totalAmount"),
-            "SalesItemLineDetail": item_line_detail
+            "SalesItemLineDetail": item_line_detail,
         }
 
         if line_item:
@@ -202,18 +204,12 @@ def credit_line(items, products, tax_codes=None):
     return lines
 
 
-def creditnote_from_unified(record, customers, products,tax_codes):
-    
+def creditnote_from_unified(record, customers, products, tax_codes):
+
     customer_id = customers[record.get("customerRef").get("customerName")]["Id"]
 
     invoice_lines = credit_line(record.get("lineItems"), products)
     # invoice_lines = invoice_line(record.get("lineItems"), products)
 
-    creditnote = {
-                    "Line": invoice_lines, 
-                    "CustomerRef": {
-                        "value": customer_id
-                    }
-                }
+    creditnote = {"Line": invoice_lines, "CustomerRef": {"value": customer_id}}
     return creditnote
-
