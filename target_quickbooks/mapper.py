@@ -11,7 +11,13 @@ def customer_from_unified(record):
     mapp = {
         "customerName": "CompanyName",
         "contactName": "DisplayName",
+        "firstName": "GivenName",
+        "middleName": "MiddleName",
+        "lastName": "FamilyName",
+        "suffix": "Suffix",
+        "title": "Title",
         "active": "Active",
+        "website": "WebAddr"
     }
 
     customer = dict(
@@ -20,11 +26,31 @@ def customer_from_unified(record):
 
     customer["PrimaryEmailAddr"] = {"Address": record.get("emailAddress", "")}
 
+    phone_numbers = record.get("phoneNumbers")
+
+    if phone_numbers:
+        if isinstance(phone_numbers, str):
+            phone_numbers = eval(phone_numbers)
+
+        fax_number = next((x for x in phone_numbers if x.get('type') == "fax"), None)
+        if fax_number:
+            customer["Fax"] = fax_number
+
+        mobile_number = next((x for x in phone_numbers if x.get('type') == "mobile"), None)
+        if mobile_number:
+            customer["Mobile"] = mobile_number
+
+        primary_number = next((x for x in phone_numbers if x.get('type') == "primary"), None)
+        if primary_number:
+            customer["PrimaryPhone"] = primary_number
+
     addresses = record.get("addresses")
 
     if addresses:
         if isinstance(addresses, str):
             addresses = eval(addresses)
+
+        # TODO: Addresses should use type mapping for shipping/billing like we do for phone numbers above
 
         customer["BillAddr"] = {
             "Line1": addresses[0].get("line1"),
@@ -37,7 +63,6 @@ def customer_from_unified(record):
         }
 
         if len(addresses) > 1:
-
             customer["ShipAddr"] = {
                 "Id": addresses[1].get("id"),
                 "Line1": addresses[1].get("line1"),
