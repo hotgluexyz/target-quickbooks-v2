@@ -143,7 +143,7 @@ def invoice_line(items, products, tax_codes=None):
             "Qty": item.get("quantity"),
             "UnitPrice": item.get("unitPrice"),
             # "TaxInclusiveAmt": item.get('taxAmount'),
-            # "DiscountAmt" : item.get('discountAmount')  #Implemented below
+            "DiscountAmt" : item.get('discountAmount')
         }
 
         if tax_codes and item.get("taxCode") is not None:
@@ -155,6 +155,7 @@ def invoice_line(items, products, tax_codes=None):
             "DetailType": "SalesItemLineDetail",
             "Amount": item.get("totalPrice"),
             "SalesItemLineDetail": item_line_detail,
+            "Description": item.get("description")
         }
 
         if product["TrackQtyOnHand"]:
@@ -167,20 +168,20 @@ def invoice_line(items, products, tax_codes=None):
         if line_item:
             lines.append(line_item)
 
-        if item.get("discountAmount"):
-            lines.append(
-                {
-                    "DetailType": "DiscountLineDetail",
-                    "Amount": item.get("totalPrice"),
-                    "Description": "Less discount",
-                    "DiscountLineDetail": {
-                        "PercentBased": True,
-                        "DiscountPercent": str(
-                            100 * (item.get("discountAmount") / item.get("totalPrice"))
-                        ),
-                    },
-                }
-            )
+        # if item.get("discountAmount"):
+        #     lines.append(
+        #         {
+        #             "DetailType": "DiscountLineDetail",
+        #             "Amount": item.get("totalPrice"),
+        #             "Description": "Less discount",
+        #             "DiscountLineDetail": {
+        #                 "PercentBased": True,
+        #                 "DiscountPercent": str(
+        #                     100 * (item.get("discountAmount") / item.get("totalPrice"))
+        #                 ),
+        #             },
+        #         }
+        #     )
 
     return lines
 
@@ -196,7 +197,33 @@ def invoice_from_unified(record, customers, products, tax_codes):
         "TotalAmt": record.get("totalAmount"),
         "DueDate": record.get("dueDate").split("T")[0],
         "DocNumber": record.get("invoiceNumber"),
+        "PrivateNote": record.get("invoiceMemo")
     }
+
+    if record.get("customerMemo"):
+        invoice["CustomerMemo"] = {
+            "value": record.get("customerMemo")
+        }
+
+    if record.get("billEmail"):
+        invoice["BillEmail"] = {
+            "Address": record.get("billEmail")
+        }
+
+    if record.get("billEmailCc"):
+        invoice["BillEmailCc"] = {
+            "Address": record.get("billEmailCc")
+        }
+
+    if record.get("billEmailBcc"):
+        invoice["BillEmailBcc"] = {
+            "Address": record.get("billEmailBcc")
+        }
+
+    if record.get("shipDate"):
+        invoice["ShipDate"] = {
+            "date": record.get("shipDate")
+        }
 
     if not invoice_lines:
         if record.get("id"):
