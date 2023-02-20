@@ -220,10 +220,10 @@ def invoice_from_unified(record, customers, products, tax_codes):
             "Address": record.get("billEmailBcc")
         }
 
-    if record.get("shipDate"):
-        invoice["ShipDate"] = {
-            "date": record.get("shipDate")
-        }
+    # if record.get("shipDate"):
+    #     invoice["ShipDate"] = {
+    #         "date": record.get("shipDate")
+    #     }
 
     if not invoice_lines:
         if record.get("id"):

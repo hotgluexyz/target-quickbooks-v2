@@ -209,6 +209,8 @@ class QuickBooksSink(BatchSink):
 
             entry = ["Invoice", invoice, "create"]
 
+            self.logger.info(json.dumps(entry))
+
         elif self.stream_name == "Items":
 
             item = item_from_unified(record)
