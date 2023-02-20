@@ -38,15 +38,21 @@ def customer_from_unified(record):
 
         fax_number = next((x for x in phone_numbers if x.get('type') == "fax"), None)
         if fax_number:
-            customer["Fax"] = fax_number
+            customer["Fax"] = {
+                "FreeFormNumber": fax_number['number']
+            }
 
         mobile_number = next((x for x in phone_numbers if x.get('type') == "mobile"), None)
         if mobile_number:
-            customer["Mobile"] = mobile_number
+            customer["Mobile"] = {
+                "FreeFormNumber": mobile_number['number']
+            }
 
         primary_number = next((x for x in phone_numbers if x.get('type') == "primary"), None)
         if primary_number:
-            customer["PrimaryPhone"] = primary_number
+            customer["PrimaryPhone"] = {
+                "FreeFormNumber": primary_number['number']
+            }
 
     addresses = record.get("addresses")
 
