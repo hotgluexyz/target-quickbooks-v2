@@ -72,6 +72,7 @@ class QuickBooksSink(BatchSink):
 
     def get_reference_data(self):
         self.accounts = self.get_entities("Account", key="AcctNum")
+        self.accounts_name = self.get_entities("Account", key="Name")
         self.customers = self.get_entities("Customer", key="DisplayName")
         self.items = self.get_entities("Item", key="Name")
         self.classes = self.get_entities("Class")
@@ -221,16 +222,19 @@ class QuickBooksSink(BatchSink):
 
             # Convert account num -> accountRef
             income_account_num = item.pop("IncomeAccountNum", None)
-            expense_account_num = item.pop("ExpenseAccountNum", None)
+            income_account = self.accounts.get(income_account_num) if self.accounts.get(income_account_num) else self.accounts_name.get(income_account_num)
 
-            if income_account_num and self.accounts.get(income_account_num):
+            if income_account:
                 item["IncomeAccountRef"] = {
-                    "value": self.accounts[income_account_num]["Id"]
+                    "value": income_account["Id"]
                 }
 
-            if expense_account_num and self.accounts.get(expense_account_num):
+            expense_account_num = item.pop("ExpenseAccountNum", None)
+            expense_account = self.accounts.get(expense_account_num) if self.accounts.get(expense_account_num) else self.accounts_name.get(expense_account_num)
+
+            if expense_account:
                 item["ExpenseAccountRef"] = {
-                    "value": self.accounts[expense_account_num]["Id"]
+                    "value": expense_account["Id"]
                 }
 
             if item["Name"] in self.items:
