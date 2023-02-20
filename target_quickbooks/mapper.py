@@ -16,8 +16,7 @@ def customer_from_unified(record):
         "lastName": "FamilyName",
         "suffix": "Suffix",
         "title": "Title",
-        "active": "Active",
-        "website": "WebAddr"
+        "active": "Active"
     }
 
     customer = dict(
@@ -25,6 +24,11 @@ def customer_from_unified(record):
     )
 
     customer["PrimaryEmailAddr"] = {"Address": record.get("emailAddress", "")}
+
+    if record.get("website"):
+        customer["WebAddr"] = {
+            "URI": record["website"]
+        }
 
     phone_numbers = record.get("phoneNumbers")
 
