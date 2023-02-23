@@ -16,7 +16,11 @@ def customer_from_unified(record):
         "lastName": "FamilyName",
         "suffix": "Suffix",
         "title": "Title",
-        "active": "Active"
+        "active": "Active",
+        "notes" : "Notes",
+        "checkName" : "PrintOnCheckName",
+        "balance" : "Balance",
+        "balanceDate" : "OpenBalanceDate",
     }
 
     customer = dict(
@@ -28,6 +32,38 @@ def customer_from_unified(record):
     if record.get("website"):
         customer["WebAddr"] = {
             "URI": record["website"]
+        }
+    if record.get("balanceDate"):
+        customer["OpenBalanceDate"] = {
+            "date": record["balanceDate"].strftime("%Y-%m-%d")
+        }
+    #Get Parent
+    if record.get("parentReference") :
+        parent = record["parentReference"]
+        customer["ParentRef"] = {
+            "value": parent["id"],
+            "name": parent["name"]
+        }
+    #Get Payment Method
+    if record.get("paymentMethod") :
+        parent = record["paymentMethod"]
+        customer["PaymentMethodRef"] = {
+            "value": parent["id"],
+            "name": parent["name"]
+        }
+    #Get Tax Code
+    if record.get("taxCode") :
+        parent = record["taxCode"]
+        customer["DefaultTaxCodeRef"] = {
+            "value": parent["id"],
+            "name": parent["name"]
+        }
+    #Get Customer Type
+    if record.get("customerType") :
+        parent = record["customerType"]
+        customer["CustomerTypeRef"] = {
+            "value": parent["id"],
+            
         }
 
     phone_numbers = record.get("phoneNumbers")
@@ -142,7 +178,7 @@ def invoice_line(items, products, tax_codes=None):
             "ItemRef": {"value": product_id},
             "Qty": item.get("quantity"),
             "UnitPrice": item.get("unitPrice"),
-            # "TaxInclusiveAmt": item.get('taxAmount'),
+           "TaxInclusiveAmt": item.get('taxAmount'),
             "DiscountAmt" : item.get('discountAmount')
         }
 
