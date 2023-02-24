@@ -206,6 +206,8 @@ def invoice_from_unified(record, customers, products, tax_codes):
         }
 
     if record.get("billEmail"):
+        #Set needs to status here because BillEmail is required if this parameter is set.
+        invoice["EmailStatus"] = "NeedToSend"
         invoice["BillEmail"] = {
             "Address": record.get("billEmail")
         }
