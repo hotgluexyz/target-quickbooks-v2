@@ -51,13 +51,7 @@ def customer_from_unified(record):
             "value": parent["id"],
             "name": parent["name"]
         }
-    #Get Tax Code
-    if record.get("taxCode") :
-        parent = record["taxCode"]
-        customer["DefaultTaxCodeRef"] = {
-            "value": parent["id"],
-            "name": parent["name"]
-        }
+  
     #Get Customer Type
     if record.get("customerType") :
         parent = record["customerType"]
@@ -178,13 +172,13 @@ def invoice_line(items, products, tax_codes=None):
             "ItemRef": {"value": product_id},
             "Qty": item.get("quantity"),
             "UnitPrice": item.get("unitPrice"),
-           "TaxInclusiveAmt": item.get('taxAmount'),
-            "DiscountAmt" : item.get('discountAmount')
+            "TaxInclusiveAmt": item.get('taxAmount'),
+            "DiscountAmt" : item.get('discountAmount'),
         }
 
         if tax_codes and item.get("taxCode") is not None:
             item_line_detail.update(
-                {"TaxCodeRef": {"value": tax_codes[item["taxCode"]]["Id"]}}
+                {"TaxCodeRef": {"value": item.get("taxCode")}}
             )
 
         line_item = {
@@ -234,8 +228,17 @@ def invoice_from_unified(record, customers, products, tax_codes):
         "DueDate": record.get("dueDate").split("T")[0],
         "DocNumber": record.get("invoiceNumber"),
         "PrivateNote": record.get("invoiceMemo"),
-        "Deposit": record.get("deposit"),
-        "GlobalTaxCalculation": "TaxInclusive",
+        "Deposit": record.get("deposit"),   
+        "TxnTaxDetail": {
+            "TotalTax": record.get("taxAmount"),
+        },
+    }
+
+    if record.get("taxCode"):     
+        invoice["TxnTaxDetail"] = {
+            "TxnTaxCodeRef": {
+                "value": tax_codes[record.get("taxCode")]['Id']
+            },
     }
 
     if record.get("customerMemo"):
