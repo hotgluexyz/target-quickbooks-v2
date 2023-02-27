@@ -59,7 +59,15 @@ def customer_from_unified(record):
             "value": parent["id"],
             
         }
-
+    # Set customer taxable
+    if record.get("taxable") :
+        customer["Taxable"] = record["taxable"]
+    
+    if record.get("taxCode") :
+        customer["TaxCodeRef"] = {
+            "value": record["taxCode"]["id"],
+            "name": record["taxCode"]["name"]
+    }
     phone_numbers = record.get("phoneNumbers")
 
     if phone_numbers:
