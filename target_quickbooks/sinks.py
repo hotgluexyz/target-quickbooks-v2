@@ -115,7 +115,7 @@ class QuickBooksSink(BatchSink):
             self.update_access_token()
 
     def get_entities(
-        self, entity_type, key="Name", fallback_key="Name", check_active=True
+        self, entity_type, key="Name", fallback_key="Name", check_active=True , where_filter=None
     ):
         access_token = self.access_token
         offset = 0
@@ -126,11 +126,16 @@ class QuickBooksSink(BatchSink):
             query = f"select * from {entity_type}"
             if check_active:
                 query = query + " where Active=true"
+
+            if where_filter and check_active==False:
+               query = query + f" where {where_filter}" 
+                
+
             query = query + f" STARTPOSITION {offset} MAXRESULTS {max}"
             url = f"{self.base_url}/query?query={query}&minorversion=40"
 
             self.logger.info(f"Fetch {entity_type}; url={url}; query {query}")
-
+            
             r = requests.get(
                 url,
                 headers={
@@ -139,6 +144,7 @@ class QuickBooksSink(BatchSink):
                     "Authorization": f"Bearer {access_token}",
                 },
             )
+
 
             response = r.json()
 
@@ -206,8 +212,15 @@ class QuickBooksSink(BatchSink):
             invoice = invoice_from_unified(
                 record, self.customers, self.items, self.tax_codes
             )
-
-            entry = ["Invoice", invoice, "create"]
+            if record.get("id"):
+                invoice_details = self.get_entities("Invoice", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
+                if record.get("id") in invoice_details:
+                    invoice.update({"Id":record.get("id"),"sparse":True,"SyncToken": invoice_details[record.get("id")]["SyncToken"]})
+                    entry = ["Invoice", invoice, "update"]
+                else:
+                    print(f"Invoice {record.get('id')} not found. Skipping...")    
+            else:
+                entry = ["Invoice", invoice, "create"]    
 
             self.logger.info(json.dumps(entry))
 
