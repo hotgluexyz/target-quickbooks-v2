@@ -233,7 +233,9 @@ def invoice_from_unified(record, customers, products, tax_codes):
         "TotalAmt": record.get("totalAmount"),
         "DueDate": record.get("dueDate").split("T")[0],
         "DocNumber": record.get("invoiceNumber"),
-        "PrivateNote": record.get("invoiceMemo")
+        "PrivateNote": record.get("invoiceMemo"),
+        "Deposit": record.get("deposit"),
+        "GlobalTaxCalculation": "TaxInclusive",
     }
 
     if record.get("customerMemo"):
