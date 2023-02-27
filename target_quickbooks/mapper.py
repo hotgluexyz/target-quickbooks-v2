@@ -3,7 +3,7 @@ Functions to mapp from Hotglue's Unified Schema to the quickbooks' Schema
 """
 import json
 import logging
-import datetime
+from datetime import datetime
 
 
 def customer_from_unified(record):
@@ -34,12 +34,14 @@ def customer_from_unified(record):
             "URI": record["website"]
         }
     if record.get("balanceDate"):
-        customer["OpenBalanceDate"] = {
-            "date": record["balanceDate"].strftime("%Y-%m-%d")
-        }
+        balance_date = datetime.strptime(record['balanceDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        customer["OpenBalanceDate"] = balance_date.strftime("%Y-%m-%d")
+        
     #Get Parent
     if record.get("parentReference") :
         parent = record["parentReference"]
+        #Set subcustomer
+        customer["Job"] = True
         customer["ParentRef"] = {
             "value": parent["id"],
             "name": parent["name"]
@@ -64,7 +66,7 @@ def customer_from_unified(record):
         customer["Taxable"] = record["taxable"]
     
     if record.get("taxCode") :
-        customer["TaxCodeRef"] = {
+        customer["DefaultTaxCodeRef"] = {
             "value": record["taxCode"]["id"],
             "name": record["taxCode"]["name"]
     }
