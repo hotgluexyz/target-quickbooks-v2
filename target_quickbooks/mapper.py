@@ -182,7 +182,7 @@ def invoice_line(items, products, tax_codes=None):
             "ItemRef": {"value": product_id},
             "Qty": item.get("quantity"),
             "UnitPrice": item.get("unitPrice"),
-            "TaxInclusiveAmt": item.get('taxAmount'),
+            # "TaxInclusiveAmt": item.get('taxAmount'),
             "DiscountAmt" : item.get('discountAmount'),
         }
 
