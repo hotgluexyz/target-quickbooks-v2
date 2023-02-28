@@ -3,7 +3,7 @@ Functions to mapp from Hotglue's Unified Schema to the quickbooks' Schema
 """
 import json
 import logging
-import datetime
+from datetime import datetime
 
 
 def customer_from_unified(record):
@@ -16,7 +16,11 @@ def customer_from_unified(record):
         "lastName": "FamilyName",
         "suffix": "Suffix",
         "title": "Title",
-        "active": "Active"
+        "active": "Active",
+        "notes" : "Notes",
+        "checkName" : "PrintOnCheckName",
+        "balance" : "Balance",
+        "balanceDate" : "OpenBalanceDate",
     }
 
     customer = dict(
@@ -29,7 +33,43 @@ def customer_from_unified(record):
         customer["WebAddr"] = {
             "URI": record["website"]
         }
-
+    if record.get("balanceDate"):
+        balance_date = datetime.strptime(record['balanceDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        customer["OpenBalanceDate"] = balance_date.strftime("%Y-%m-%d")
+        
+    #Get Parent
+    if record.get("parentReference") :
+        parent = record["parentReference"]
+        #Set subcustomer
+        customer["Job"] = True
+        customer["ParentRef"] = {
+            "value": parent["id"],
+            "name": parent["name"]
+        }
+    #Get Payment Method
+    if record.get("paymentMethod") :
+        parent = record["paymentMethod"]
+        customer["PaymentMethodRef"] = {
+            "value": parent["id"],
+            "name": parent["name"]
+        }
+  
+    #Get Customer Type
+    if record.get("customerType") :
+        parent = record["customerType"]
+        customer["CustomerTypeRef"] = {
+            "value": parent["id"],
+            
+        }
+    # Set customer taxable
+    if record.get("taxable") :
+        customer["Taxable"] = record["taxable"]
+    
+    if record.get("taxCode") :
+        customer["DefaultTaxCodeRef"] = {
+            "value": record["taxCode"]["id"],
+            "name": record["taxCode"]["name"]
+    }
     phone_numbers = record.get("phoneNumbers")
 
     if phone_numbers:
@@ -142,13 +182,13 @@ def invoice_line(items, products, tax_codes=None):
             "ItemRef": {"value": product_id},
             "Qty": item.get("quantity"),
             "UnitPrice": item.get("unitPrice"),
-            # "TaxInclusiveAmt": item.get('taxAmount'),
-            "DiscountAmt" : item.get('discountAmount')
+            "TaxInclusiveAmt": item.get('taxAmount'),
+            "DiscountAmt" : item.get('discountAmount'),
         }
 
         if tax_codes and item.get("taxCode") is not None:
             item_line_detail.update(
-                {"TaxCodeRef": {"value": tax_codes[item["taxCode"]]["Id"]}}
+                {"TaxCodeRef": {"value": item.get("taxCode")}}
             )
 
         line_item = {
@@ -197,7 +237,18 @@ def invoice_from_unified(record, customers, products, tax_codes):
         "TotalAmt": record.get("totalAmount"),
         "DueDate": record.get("dueDate").split("T")[0],
         "DocNumber": record.get("invoiceNumber"),
-        "PrivateNote": record.get("invoiceMemo")
+        "PrivateNote": record.get("invoiceMemo"),
+        "Deposit": record.get("deposit"),   
+        "TxnTaxDetail": {
+            "TotalTax": record.get("taxAmount"),
+        },
+    }
+
+    if record.get("taxCode"):     
+        invoice["TxnTaxDetail"] = {
+            "TxnTaxCodeRef": {
+                "value": tax_codes[record.get("taxCode")]['Id']
+            },
     }
 
     if record.get("customerMemo"):
