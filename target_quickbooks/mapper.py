@@ -160,7 +160,7 @@ def item_from_unified(record):
 
     # Hardcoding "QtyOnHand" = 0 if "type" == "Inventory"
     if item["Type"] == "Inventory":
-        today = datetime.datetime.now()
+        today = datetime.now()
         item["InvStartDate"] = today.strftime("%Y-%m-%d")
         item["TrackQtyOnHand"] = True
         item["QtyOnHand"] = 0.0
