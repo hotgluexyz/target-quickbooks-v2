@@ -46,30 +46,11 @@ def customer_from_unified(record):
             "value": parent["id"],
             "name": parent["name"]
         }
-    #Get Payment Method
-    if record.get("paymentMethod") :
-        parent = record["paymentMethod"]
-        customer["PaymentMethodRef"] = {
-            "value": parent["id"],
-            "name": parent["name"]
-        }
-  
-    #Get Customer Type
-    if record.get("customerType") :
-        parent = record["customerType"]
-        customer["CustomerTypeRef"] = {
-            "value": parent["id"],
-            
-        }
+        
     # Set customer taxable
     if record.get("taxable") :
         customer["Taxable"] = record["taxable"]
     
-    if record.get("taxCode") :
-        customer["DefaultTaxCodeRef"] = {
-            "value": record["taxCode"]["id"],
-            "name": record["taxCode"]["name"]
-    }
     phone_numbers = record.get("phoneNumbers")
 
     if phone_numbers:
@@ -92,6 +73,12 @@ def customer_from_unified(record):
         if primary_number:
             customer["PrimaryPhone"] = {
                 "FreeFormNumber": primary_number['number']
+            }
+
+        alternate_number = next((x for x in phone_numbers if x.get('type') == "alternate"), None)
+        if alternate_number:
+            customer["AlternatePhone"] = {
+                "FreeFormNumber": alternate_number['number']
             }
 
     addresses = record.get("addresses")
