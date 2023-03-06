@@ -21,6 +21,7 @@ def customer_from_unified(record):
         "checkName" : "PrintOnCheckName",
         "balance" : "Balance",
         "balanceDate" : "OpenBalanceDate",
+        "taxable" : "Taxable"
     }
 
     customer = dict(
@@ -47,10 +48,6 @@ def customer_from_unified(record):
             "name": parent["name"]
         }
         
-    # Set customer taxable
-    if record.get("taxable") :
-        customer["Taxable"] = record["taxable"]
-    
     phone_numbers = record.get("phoneNumbers")
 
     if phone_numbers:
