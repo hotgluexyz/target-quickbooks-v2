@@ -134,6 +134,9 @@ def item_from_unified(record):
         "active": "Active",
         "type": "Type",
         "category": "FullyQualifiedName",
+        "sku": "Sku",
+        "reorderPoint": "ReorderPoint",
+
     }
 
     item = dict(
@@ -163,7 +166,7 @@ def item_from_unified(record):
         today = datetime.now()
         item["InvStartDate"] = today.strftime("%Y-%m-%d")
         item["TrackQtyOnHand"] = True
-        item["QtyOnHand"] = 0.0
+        item["QtyOnHand"] = record.get("quantityOnHand", 0)
 
     return item
 
