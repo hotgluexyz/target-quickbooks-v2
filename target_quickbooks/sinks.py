@@ -78,6 +78,9 @@ class QuickBooksSink(BatchSink):
         self.classes = self.get_entities("Class")
         self.tax_codes = self.get_entities("TaxCode")
         self.vendors = self.get_entities("Vendor", key="DisplayName")
+        self.terms = self.get_entities("Term", key="Name")
+        self.customer_type = self.get_entities("CustomerType", key="Name")
+        self.payment_methods = self.get_entities("PaymentMethod", key="Name")
 
     def update_access_token(self):
         self.auth_client.refresh(self.config.get("refresh_token"))
@@ -198,11 +201,42 @@ class QuickBooksSink(BatchSink):
         if self.stream_name == "Customers":
 
             customer = customer_from_unified(record)
-
+            if "term" in record:
+                if record['term'] in self.terms:
+                    term = self.terms[record['term']]
+                    customer["SalesTermRef"] = {
+                        "value": term['Id']
+                    }
+            #Get Customer Type
+            if record.get("customerType") :
+                if record.get("customerType") in self.customer_type:
+                    customer_type = self.customer_type[record["customerType"]]
+                    customer["CustomerTypeRef"] = {
+                        "value": customer_type["Id"],
+                        
+                    }    
+            #Get Tax Code        
+            if record.get("taxCode") :
+                if record.get("taxCode") in self.tax_codes:
+                    tax_code = self.tax_codes[record['taxCode']]
+                    customer["DefaultTaxCodeRef"] = {
+                        "value": tax_code['Id'],
+                        "name": tax_code['Name']
+                }    
+                    
+            #Get Payment Method        
+            if record.get("paymentMethod") :
+                if record.get("paymentMethod") in self.payment_methods:
+                    pm = self.payment_methods[record['paymentMethod']]
+                    customer["PaymentMethodRef"] = {
+                        "value": pm['Id'],
+                        "name": pm['Name']
+                }    
             if customer["DisplayName"] in self.customers:
                 old_customer = self.customers[customer["DisplayName"]]
                 customer["Id"] = old_customer["Id"]
                 customer["SyncToken"] = old_customer["SyncToken"]
+                customer["sparse"] = True
                 entry = ["Customer", customer, "update"]
             else:
                 entry = ["Customer", customer, "create"]
