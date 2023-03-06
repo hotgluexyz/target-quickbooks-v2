@@ -476,7 +476,7 @@ class QuickBooksSink(BatchSink):
         )
 
         response = r.json()
-
+        self.logger.info(f"DEBUG RESPONSE: {response}")
         if response.get("Fault") is not None:
             self.logger.error(response)
 
