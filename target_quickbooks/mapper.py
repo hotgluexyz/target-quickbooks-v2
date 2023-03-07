@@ -120,7 +120,6 @@ def item_from_unified(record):
         "category": "FullyQualifiedName",
         "sku": "Sku",
         "reorderPoint": "ReorderPoint",
-
     }
 
     item = dict(
@@ -287,8 +286,6 @@ def invoice_from_unified(record, customers, products, tax_codes):
             "id" : record.get("id"),
             "name" : record.get("name")
         }
-
-
 
     addresses = record.get("addresses")
 

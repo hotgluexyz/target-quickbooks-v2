@@ -406,7 +406,8 @@ class QuickBooksSink(BatchSink):
                     tax_code = self.search_reference_data(
                         self.tax_codes, "Name", row.get("taxCode")
                     ).get("Id")
-                    line_detail["TaxCodeRef"] = {"value": tax_code}
+                    if tax_code:
+                        line_detail["TaxCodeRef"] = {"value": tax_code}
                 #Check if product name is provided
                 if row.get("productName"):
                     if row.get("productName") in self.items:
@@ -452,10 +453,12 @@ class QuickBooksSink(BatchSink):
                     }
                 )
             entry.update(
-                {"Id": bill_id, "Line": line_items, "DueDate": record.get("dueDate")}
+                {"Id": bill_id, "Line": line_items}
             )
+            if record.get("dueDate"):
+                entry["DueDate"]: record["dueDate"]
             # Append the currency if provided
-            if record.get("currency") is not None:
+            if record.get("currency"):
                 entry["CurrencyRef"] = {"value": record["currency"]}
             entry = ["Bill", entry, "create"]
 
