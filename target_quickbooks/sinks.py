@@ -449,7 +449,6 @@ class QuickBooksSink(BatchSink):
                         "DetailType": detail_type,
                         detail_type: line_detail,
                         "Description": record.get("description"),
-                        "Amount": record.get("totalAmount"),
                     }
                 )
             entry.update(
