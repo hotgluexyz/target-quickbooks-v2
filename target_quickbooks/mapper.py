@@ -169,10 +169,14 @@ def invoice_line(items, products, tax_codes=None):
             "ItemRef": {"value": product_id},
             "Qty": item.get("quantity"),
             "UnitPrice": item.get("unitPrice"),
-            # "TaxInclusiveAmt": item.get('taxAmount'),
-            "DiscountAmt" : item.get('discountAmount'),
+            "DiscountAmt" : item.get('discountAmount'),      
         }
-
+        
+        if item.get("shippingAmount"):
+            item_line_detail['ItemRef'] = {
+                "value" : "SHIPPING_ITEM_ID",
+                "name" : item.get("shippingAmount")
+            }
         if tax_codes and item.get("taxCode") is not None:
             item_line_detail.update(
                 {"TaxCodeRef": {"value": item.get("taxCode")}}
@@ -182,8 +186,11 @@ def invoice_line(items, products, tax_codes=None):
             "DetailType": "SalesItemLineDetail",
             "Amount": item.get("totalPrice"),
             "SalesItemLineDetail": item_line_detail,
-            "Description": item.get("description")
+            "Description": item.get("description"),
         }
+
+        if item.get("serviceDate"):
+            line_item["ServiceDate"] = item.get("serviceDate")
 
         if product["TrackQtyOnHand"]:
             if product["QtyOnHand"] < 1:
@@ -223,6 +230,9 @@ def invoice_from_unified(record, customers, products, tax_codes):
         "CustomerRef": {"value": customer_id},
         "TotalAmt": record.get("totalAmount"),
         "DueDate": record.get("dueDate").split("T")[0],
+        "TxnDate" : record.get("issueDate"),
+        "TrackingNum": record.get("trackingNumber"),
+        "EmailStatus" : record.get("emailStatus"),
         "DocNumber": record.get("invoiceNumber"),
         "PrivateNote": record.get("invoiceMemo"),
         "Deposit": record.get("deposit"),   
@@ -230,7 +240,13 @@ def invoice_from_unified(record, customers, products, tax_codes):
             "TotalTax": record.get("taxAmount"),
         },
     }
+    
+    if record.get("shipDate"):
+        invoice["shipDate"] = record.get("shipDate")
 
+    if record.get("taxAmount"):
+        invoice["TotalTax"] = record.get("taxAmount")
+        
     if record.get("taxCode"):     
         invoice["TxnTaxDetail"] = {
             "TxnTaxCodeRef": {
@@ -260,10 +276,48 @@ def invoice_from_unified(record, customers, products, tax_codes):
             "Address": record.get("billEmailBcc")
         }
 
-    # if record.get("shipDate"):
-    #     invoice["ShipDate"] = {
-    #         "date": record.get("shipDate")
-    #     }
+    if record.get("shipMethod"):
+        invoice["ShipMethodRef"] = {
+            "id" : record.get("id"),
+            "name" : record.get("name")
+        }
+    
+    if record.get("salesTerm"):
+        invoice["SalesTermRef"] = {
+            "id" : record.get("id"),
+            "name" : record.get("name")
+        }
+
+
+
+    addresses = record.get("addresses")
+
+    if addresses:
+        if isinstance(addresses, str):
+            addresses = eval(addresses)
+
+
+        invoice["BillAddr"] = {
+            "Line1": addresses[0].get("line1"),
+            "Line2": addresses[0].get("line2"),
+            "Line3": addresses[0].get("line3"),
+            "City": addresses[0].get("city"),
+            "CountrySubDivisionCode": addresses[0].get("state"),
+            "PostalCode": addresses[0].get("postalCode"),
+            "Country": addresses[0].get("country"),
+        }
+
+        if len(addresses) > 1:
+            invoice["ShipAddr"] = {
+                "Id": addresses[1].get("id"),
+                "Line1": addresses[1].get("line1"),
+                "Line2": addresses[1].get("line2"),
+                "Line3": addresses[1].get("line3"),
+                "City": addresses[1].get("city"),
+                "CountrySubDivisionCode": addresses[1].get("state"),
+                "PostalCode": addresses[1].get("postalCode"),
+                "Country": addresses[1].get("country"),
+            }
 
     if not invoice_lines:
         if record.get("id"):
