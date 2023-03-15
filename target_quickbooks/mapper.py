@@ -366,3 +366,27 @@ def creditnote_from_unified(record, customers, products, tax_codes):
 
     creditnote = {"Line": invoice_lines, "CustomerRef": {"value": customer_id}}
     return creditnote
+
+def payment_method_from_unified(record):
+
+    payment_method = record
+    
+    return payment_method
+
+def payment_term_from_unified(record):
+
+    payment_term = record
+    
+    return payment_term
+
+def tax_rate_from_unified(record):
+
+    tax_rate= record
+    
+    return tax_rate
+
+def department_from_unified(record):
+    
+    department = record
+    
+    return department

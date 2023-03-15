@@ -4,25 +4,21 @@ from singer_sdk import typing as th
 from target_hotglue.target import TargetHotglue
 
 from target_quickbooks.sinks import (
-    QuickBooksSink,
+    BillSink,
+    ItemSink,
+    InvoiceSink,
+    TaxRateSink,
+    CustomerSink,
+    CreditNoteSink,
+    DepartmentSink,
+    PaymentTermSink,
+    JournalEntrySink,
+    PaymentMethodSink
 )
 
 
 class TargetQuickBooks(TargetHotglue):
     """Sample target for QuickBooks."""
-
-    # def __init__(
-    #     self,
-    #     config=None,
-    #     parse_env_config: bool = False,
-    #     validate_config: bool = True,
-    # ) -> None:
-    #     self.config_file = config[0]
-    #     super().__init__(
-    #         config=config,
-    #         parse_env_config=parse_env_config,
-    #         validate_config=validate_config,
-    #     )
 
     name = "target-quickbooks"
     config_jsonschema = th.PropertiesList(
@@ -34,8 +30,18 @@ class TargetQuickBooks(TargetHotglue):
         th.Property("realmId", th.StringType, required=True),
         th.Property("is_sanbox", th.BooleanType, required=False),
     ).to_dict()
-    default_sink_class = QuickBooksSink
-    SINK_TYPES = [QuickBooksSink]
+    SINK_TYPES = [
+        BillSink,
+        ItemSink,
+        InvoiceSink,
+        TaxRateSink,
+        CustomerSink,
+        CreditNoteSink,
+        DepartmentSink,
+        PaymentTermSink,
+        JournalEntrySink,
+        PaymentMethodSink
+    ]
 
 
 if __name__ == "__main__":
