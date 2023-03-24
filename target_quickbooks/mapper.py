@@ -173,25 +173,30 @@ def invoice_line(items, products, tax_codes=None):
             "DiscountAmt" : item.get('discountAmount'),      
         }
         
-        if item.get("shippingAmount"):
-            item_line_detail['ItemRef'] = {
-                "value" : "SHIPPING_ITEM_ID",
-                "name" : item.get("shippingAmount")
-            }
+        # if item.get("shippingAmount"):
+        #     item_line_detail['ItemRef'] = {
+        #         "value" : "SHIPPING_ITEM_ID",
+        #         "name" : item.get("shippingAmount")
+        #     }
+
+        if item.get("serviceDate"):
+            item_line_detail["ServiceDate"] = item.get("serviceDate")
+
         if tax_codes and item.get("taxCode") is not None:
             item_line_detail.update(
                 {"TaxCodeRef": {"value": item.get("taxCode")}}
             )
 
+        #Check if this line item is the shipping amount. 
+        if item.get("shipping"):
+            item_line_detail["ItemRef"] = {"value":"SHIPPING_ITEM_ID"}
+            
         line_item = {
             "DetailType": "SalesItemLineDetail",
             "Amount": item.get("totalPrice"),
             "SalesItemLineDetail": item_line_detail,
             "Description": item.get("description"),
         }
-
-        if item.get("serviceDate"):
-            item_line_detail["ServiceDate"] = item.get("serviceDate")
 
         if product["TrackQtyOnHand"]:
             if product["QtyOnHand"] < 1:
