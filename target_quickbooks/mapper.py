@@ -160,6 +160,8 @@ def invoice_line(items, products, tax_codes=None):
     if isinstance(items, str):
         items = json.loads(items)
 
+    total_discount = 0
+
     for item in items:
         product = products[item.get("productName")]
         product_id = product["Id"]
