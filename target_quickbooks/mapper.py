@@ -241,7 +241,7 @@ def invoice_from_unified(record, customers, products, tax_codes):
     }
     
     if record.get("shipDate"):
-        invoice["shipDate"] = record.get("shipDate")
+        invoice["ShipDate"] = record.get("shipDate")
 
     if record.get("taxAmount"):
         invoice["TotalTax"] = record.get("taxAmount")
