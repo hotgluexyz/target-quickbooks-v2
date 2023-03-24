@@ -201,20 +201,19 @@ def invoice_line(items, products, tax_codes=None):
         if line_item:
             lines.append(line_item)
 
-        # if item.get("discountAmount"):
-        #     lines.append(
-        #         {
-        #             "DetailType": "DiscountLineDetail",
-        #             "Amount": item.get("totalPrice"),
-        #             "Description": "Less discount",
-        #             "DiscountLineDetail": {
-        #                 "PercentBased": True,
-        #                 "DiscountPercent": str(
-        #                     100 * (item.get("discountAmount") / item.get("totalPrice"))
-        #                 ),
-        #             },
-        #         }
-        #     )
+        if item.get("discountAmount") and item.get("totalPrice"):
+            total_discount += item.get("discountAmount")
+            lines.append(
+                {
+                    "DetailType": "DiscountLineDetail",
+                    "Amount": total_discount,
+                    "Description": "Less discount",
+                    "DiscountLineDetail": {
+                        "PercentBased": False,
+                       
+                    },
+                }
+            )
 
     return lines
 
@@ -225,7 +224,7 @@ def invoice_from_unified(record, customers, products, tax_codes):
     invoice_lines = invoice_line(record.get("lineItems"), products, tax_codes)
 
     invoice = {
-        "Line": invoice_lines,
+        "Lines": invoice_lines,
         "CustomerRef": {"value": customer_id},
         "TotalAmt": record.get("totalAmount"),
         "DueDate": record.get("dueDate").split("T")[0],
