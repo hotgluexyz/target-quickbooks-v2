@@ -189,7 +189,7 @@ def invoice_line(items, products, tax_codes=None):
         }
 
         if item.get("serviceDate"):
-            line_item["ServiceDate"] = item.get("serviceDate")
+            item_line_detail["ServiceDate"] = item.get("serviceDate")
 
         if product["TrackQtyOnHand"]:
             if product["QtyOnHand"] < 1:
