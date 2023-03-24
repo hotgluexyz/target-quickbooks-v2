@@ -275,15 +275,15 @@ def invoice_from_unified(record, customers, products, tax_codes):
             "Address": record.get("billEmailBcc")
         }
 
-    if record.get("shipMethod"):
-        invoice["ShipMethodRef"] = {
-            "id" : record.get("id"),
-            "name" : record.get("name")
-        }
+    # if record.get("shipMethod"):
+    #     invoice["ShipMethodRef"] = {
+    #         "id" : record.get("id"),
+    #         "name" : record.get("name")
+    #     }
     
     if record.get("salesTerm"):
         invoice["SalesTermRef"] = {
-            "id" : record.get("id"),
+            "value" : record.get("id"),
             "name" : record.get("name")
         }
 
