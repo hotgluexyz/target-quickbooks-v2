@@ -226,7 +226,7 @@ def invoice_from_unified(record, customers, products, tax_codes):
     invoice_lines = invoice_line(record.get("lineItems"), products, tax_codes)
 
     invoice = {
-        "Lines": invoice_lines,
+        "Line": invoice_lines,
         "CustomerRef": {"value": customer_id},
         "TotalAmt": record.get("totalAmount"),
         "DueDate": record.get("dueDate").split("T")[0],
