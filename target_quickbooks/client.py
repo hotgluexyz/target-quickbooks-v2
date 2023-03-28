@@ -229,7 +229,10 @@ class QuickbooksSink(HotglueBatchSink):
             if ri.get("Fault") is not None:
                 self.logger.error(f"Failure creating entity error=[{json.dumps(ri)}]")
                 failed = True
-                posted_records.append({"success": False})
+                posted_records.append({
+                    "success": False,
+                    "error": ri.get("Fault").get("Error")
+                })
             else:
                 for entity in entities:
                     if not ri.get(entity):
