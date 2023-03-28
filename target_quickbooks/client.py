@@ -229,6 +229,7 @@ class QuickbooksSink(HotglueBatchSink):
             if ri.get("Fault") is not None:
                 self.logger.error(f"Failure creating entity error=[{json.dumps(ri)}]")
                 failed = True
+                posted_records.append({"success": False})
             else:
                 for entity in entities:
                     if not ri.get(entity):
@@ -240,23 +241,28 @@ class QuickbooksSink(HotglueBatchSink):
                         "Id": record.get("Id"),
                         "SyncToken": record.get("SyncToken"),
                         "Entity": entity,
-                        "success": True
+                        "entityData": record,
+                        "success": True,
                     })
 
         if failed:
             batch_requests = []
             # In the event of failure, we need to delete the posted records
             for i, raw_record in enumerate(posted_records):
+                if not raw_record.get("entityData"):
+                    continue
+
                 raw_record["success"] = False
 
                 record = raw_record.copy()
 
-                entity = record.pop("Entity")
+                entity = record["Entity"]
+                entity_data = record["entityData"]
 
                 batch_requests.append({
                     "bId": f"bid{i}",
                     "operation": "delete",
-                    "success": False,
+                    entity: entity_data,
                 })
 
             # Do delete batch requests
