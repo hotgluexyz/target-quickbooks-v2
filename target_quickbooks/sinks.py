@@ -23,7 +23,11 @@ class InvoiceSink(QuickbooksSink):
             context["records"] = []
 
         invoice = invoice_from_unified(
-            record, self.customers, self.items, self.tax_codes
+            record,
+            self.customers,
+            self.items,
+            self.tax_codes,
+            self.sales_terms
         )
         if record.get("id"):
             invoice_details = self.get_entities("Invoice", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
@@ -235,13 +239,22 @@ class JournalEntrySink(QuickbooksSink):
                 self.logger.warning(f"Class is missing on Journal Entry {je_id}! Name={class_name}")
 
             # Get the Quickbooks Customer Ref
-            customer_name = row["customerName"]
+            customer_name = row.get("customerName")
             customer_ref = self.customers.get(customer_name, {}).get("Id")
 
             if customer_ref is not None:
                 je_detail["Entity"] = {"EntityRef": {"value": customer_ref}, "Type": "Customer"}
             else:
                 self.logger.warning(f"Customer is missing on Journal Entry {je_id}! Name={customer_name}")
+
+            # Get the Quickbooks Vendor Ref
+            vendor_name = row.get("vendorName")
+            vendor_ref = self.vendors.get(vendor_name, {}).get("Id")
+
+            if vendor_ref is not None:
+                je_detail["Entity"] = {"EntityRef": {"value": vendor_ref},"Type": "Vendor"}
+            else:
+                self.logger.warning(f"Vendor is missing on Journal Entry {je_id}! Name={vendor_name}")
 
             # Create the line item
             line_items.append({

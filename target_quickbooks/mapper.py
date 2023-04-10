@@ -111,7 +111,7 @@ def customer_from_unified(record):
     return customer
 
 
-def item_from_unified(record):
+def item_from_unified(record, tax_codes):
 
     mapp = {
         "name": "Name",
@@ -120,6 +120,8 @@ def item_from_unified(record):
         "category": "FullyQualifiedName",
         "sku": "Sku",
         "reorderPoint": "ReorderPoint",
+        "taxable" : "Taxable",
+        "invStartDate": "InvStartDate"
     }
 
     item = dict(
@@ -133,6 +135,7 @@ def item_from_unified(record):
 
         item["PurchaseCost"] = billItem.get("unitPrice")
         item["PurchaseDesc"] = billItem.get("description")
+        item["Description"] = billItem.get("description")
         item["ExpenseAccountNum"] = billItem.get("accountId")
 
     if record.get("isInvoiceItem", False) and record.get("invoiceItem"):
@@ -147,9 +150,15 @@ def item_from_unified(record):
     # Hardcoding "QtyOnHand" = 0 if "type" == "Inventory"
     if item["Type"] == "Inventory":
         today = datetime.now()
-        item["InvStartDate"] = today.strftime("%Y-%m-%d")
+        item["InvStartDate"] = invoiceItem.get("startDate") or today.strftime("%Y-%m-%d")
         item["TrackQtyOnHand"] = True
         item["QtyOnHand"] = record.get("quantityOnHand", 0)
+
+    if record.get("taxCode"):
+        item["SalesTaxCodeRef"] = {
+            "value": tax_codes[record.get("taxCode")]["Id"],
+            "name": record.get("taxCode")
+        }
 
     return item
 
@@ -187,7 +196,7 @@ def invoice_line(items, products, tax_codes=None):
                 {"TaxCodeRef": {"value": item.get("taxCode")}}
             )
 
-        #Check if this line item is the shipping amount. 
+        # Check if this line item is the shipping amount.
         if item.get("shipping"):
             item_line_detail["ItemRef"] = {"value":"SHIPPING_ITEM_ID"}
             
@@ -215,17 +224,14 @@ def invoice_line(items, products, tax_codes=None):
                     "DetailType": "DiscountLineDetail",
                     "Amount": total_discount,
                     "Description": "Less discount",
-                    "DiscountLineDetail": {
-                        "PercentBased": False,
-                       
-                    },
+                    "DiscountLineDetail": {"PercentBased": False},
                 }
             )
 
     return lines
 
 
-def invoice_from_unified(record, customers, products, tax_codes):
+def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     customer_id = customers[record.get("customerName")]["Id"]
 
     invoice_lines = invoice_line(record.get("lineItems"), products, tax_codes)
@@ -283,14 +289,14 @@ def invoice_from_unified(record, customers, products, tax_codes):
 
     # if record.get("shipMethod"):
     #     invoice["ShipMethodRef"] = {
-    #         "id" : record.get("id"),
+    #         "value" : record.get("id"),
     #         "name" : record.get("name")
     #     }
     
     if record.get("salesTerm"):
         invoice["SalesTermRef"] = {
-            "value" : record.get("id"),
-            "name" : record.get("name")
+            "value" : sales_terms[record.get("salesTerm")]["Id"],
+            "name" : record.get("salesTerm")
         }
 
     addresses = record.get("addresses")

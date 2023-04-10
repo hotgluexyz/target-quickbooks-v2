@@ -78,6 +78,7 @@ class QuickbooksSink(HotglueBatchSink):
         self.terms = self.get_entities("Term", key="Name")
         self.customer_type = self.get_entities("CustomerType", key="Name")
         self.payment_methods = self.get_entities("PaymentMethod", key="Name")
+        self.sales_terms = self.get_entities("Term")
 
     def update_access_token(self):
         self.auth_client.refresh(self.config.get("refresh_token"))
