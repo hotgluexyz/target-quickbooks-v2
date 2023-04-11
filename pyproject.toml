@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "target-quickbooks"
-version = "0.0.1"
+version = "0.2.0"
 description = "`target-quickbooks` is a Singer target for QuickBooks, built with the Meltano SDK for Singer Targets."
-authors = ["arthur pasqualoto"]
+authors = ["hotglue"]
 keywords = [
     "ELT",
     "QuickBooks",
