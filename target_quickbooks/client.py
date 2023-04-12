@@ -234,35 +234,6 @@ class QuickbooksSink(HotglueBatchSink):
         self.logger.info(f"DEBUG RESPONSE: {response}")
         return response
 
-
-    def make_batch_request(self, batch_requests, params={}):
-        access_token = self.access_token
-
-        headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {access_token}",
-        }
-
-        if not params.get("minorversion"):
-            params["minorversion"] = "4"
-
-        r = self.request_api(
-            "POST",
-            headers=headers,
-            params=params,
-            request_data={"BatchItemRequest": batch_requests},
-        )
-
-        response = r.json()
-
-        self.logger.info(f"DEBUG RESPONSE: {response}")
-
-        if response.get("Fault") is not None:
-            self.logger.error(response)
-
-        return response.get("BatchItemResponse")
-
     def handle_response(self, response):
         # If the response has a "Fault" key, it means there was an error
         if response.get("Fault") is not None:
