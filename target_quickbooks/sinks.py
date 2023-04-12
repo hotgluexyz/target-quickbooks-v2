@@ -31,11 +31,12 @@ class InvoiceSink(QuickbooksSink):
         )
         if record.get("id"):
             invoice_details = self.get_entities("Invoice", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
-            if record.get("id") in invoice_details:
+            if str(record.get("id")) in invoice_details:
                 invoice.update({"Id":record.get("id"),"sparse":True,"SyncToken": invoice_details[record.get("id")]["SyncToken"]})
                 entry = ["Invoice", invoice, "update"]
             else:
-                print(f"Invoice {record.get('id')} not found. Skipping...")    
+                print(f"Invoice {record.get('id')} not found. Skipping...")  
+                return
         else:
             entry = ["Invoice", invoice, "create"]    
 
