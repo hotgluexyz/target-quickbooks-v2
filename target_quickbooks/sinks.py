@@ -72,8 +72,16 @@ class CustomerSink(QuickbooksSink):
         if record.get("paymentMethod") and record.get("paymentMethod") in self.payment_methods:
             pm = self.payment_methods[record['paymentMethod']]
             customer["PaymentMethodRef"] = {"value": pm['Id'], "name": pm['Name']}
-
-        if customer["DisplayName"] in self.customers:
+        
+        if record.get("id"):
+            customer_details = self.get_entities("Customer", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
+            if str(record.get("id")) in customer_details:
+                customer.update({"Id":record.get("id"),"sparse":True,"SyncToken": customer_details[str(record.get("id"))]["SyncToken"]})
+                entry = ["Customer", customer, "update"]
+            else:
+                print(f"Customer {record.get('id')} not found. Skipping...")  
+                return
+        elif customer["DisplayName"] in self.customers:
             old_customer = self.customers[customer["DisplayName"]]
             customer["Id"] = old_customer["Id"]
             customer["SyncToken"] = old_customer["SyncToken"]
@@ -121,8 +129,17 @@ class ItemSink(QuickbooksSink):
 
         if expense_account:
             item["ExpenseAccountRef"] = {"value": expense_account["Id"]}
+        
+        if record.get("id"):
+            item_details = self.get_entities("Item", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
+            if str(record.get("id")) == item_details["IceCream"]["Id"]:
+                item.update({"Id":record.get("id"),"sparse":True,"SyncToken": item_details["IceCream"]["SyncToken"]})
+                entry = ["Item", item, "update"]
+            else:
+                print(f"Item {record.get('id')} not found. Skipping...")  
+                return
 
-        if item["Name"] in self.items:
+        elif item["Name"] in self.items:
             old_item = self.items[item["Name"]]
             item["Id"] = old_item["Id"]
             item["SyncToken"] = old_item["SyncToken"]
