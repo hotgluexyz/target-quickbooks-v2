@@ -183,6 +183,76 @@ class QuickbooksSink(HotglueBatchSink):
     def process_batch_record(self, record: dict, index: int) -> dict:
         return {"bId": f"bid{index}", "operation": record[2], record[0]: record[1]}
 
+    def process_batch(self, context: dict) -> None:
+        # If the latest state is not set, initialize it
+        if not self.latest_state:
+            self.init_state()
+        
+        # Extract the raw records from the context
+        raw_records = context["records"]
+
+        records = list(map(lambda e: self.process_batch_record(e[1], e[0]), enumerate(raw_records)))
+
+        # If the stream is "TaxRate", send a separate request for each record
+        if self.stream_name == "TaxRate":
+            # Build the URL to send the requests to
+            url = f"{self.base_url}/taxservice/taxcode"
+            # Extract the "TaxService" data from each record
+            list_data = [data["TaxService"] for data in records]
+            # Send a separate request for each "TaxService" data using map
+            response = map(lambda data: self.make_request(url,data), list_data)
+            # Handle the response for each request using the handle_response function
+            result = map(self.handle_response, response)
+            # Update the latest state for each successful request
+            for state in result:
+                self.update_state(state)
+        else:
+            # If the stream is not "TaxRate", send a single batch request for all records
+            response = self.make_batch_request(records)
+            # Handle the batch response 
+            result = self.handle_batch_response(response)
+            # Update the latest state for each state update in the response
+            for state in result.get("state_updates", list()):
+                self.update_state(state)
+
+    
+    def make_request(self,url,data):
+        access_token = self.access_token
+
+        # Send the request
+        r = requests.post(
+            url,
+            data=json.dumps(data),
+            headers={
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {access_token}",
+            },
+        )
+
+        response = r.json()
+        self.logger.info(f"DEBUG RESPONSE: {response}")
+        return response
+
+    def handle_response(self, response):
+        # If the response has a "Fault" key, it means there was an error
+        if response.get("Fault") is not None:
+            # Log the error message
+            self.logger.error(response)
+            # Return a dictionary indicating that the request was not successful,
+            # and include the error message in the response
+            return {
+                "success": False,
+                "error": response.get("Fault").get("Error")
+            }
+        else:
+            # If there was no error, return a dictionary indicating that the request
+            # was successful, and include the response data
+            return {
+                "success": True,
+                "data": response
+            }
+
     def make_batch_request(self, batch_requests, params={}):
         access_token = self.access_token
 
