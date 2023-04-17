@@ -132,9 +132,12 @@ class ItemSink(QuickbooksSink):
         
         if record.get("id"):
             item_details = self.get_entities("Item", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
-            if str(record.get("id")) == item_details[record.get("name")]["Id"]:
-                item.update({"Id":record.get("id"),"sparse":True,"SyncToken": item_details[record.get("name")]["SyncToken"]})
-                entry = ["Item", item, "update"]
+            if item_details:
+                item = [x for x in item_details.values()]
+                item = item[0]
+                if str(record.get("id")) == item["Id"]:
+                    item.update({"Id":record.get("id"),"sparse":True,"SyncToken": item["SyncToken"]})
+                    entry = ["Item", item, "update"]
             else:
                 print(f"Item {record.get('id')} not found. Skipping...")  
                 return

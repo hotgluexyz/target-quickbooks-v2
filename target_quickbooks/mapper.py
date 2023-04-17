@@ -146,6 +146,8 @@ def item_from_unified(record, tax_codes):
         item["Description"] = invoiceItem.get("description")
         item["IncomeAccountNum"] = invoiceItem.get("accountId")
         item["UnitPrice"] = invoiceItem.get("unitPrice")
+    else:
+        invoiceItem = {}
 
     # Hardcoding "QtyOnHand" = 0 if "type" == "Inventory"
     if item["Type"] == "Inventory":
