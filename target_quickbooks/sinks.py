@@ -307,6 +307,8 @@ class BillSink(QuickbooksSink):
     def process_record(self, record: dict, context: dict) -> None:
         # Bill id
         bill_id = record.get("id")
+        if not context.get("records"):
+            context["records"] = []
         entry = {}
         vendor = None
         skip_vendor = True
