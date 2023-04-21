@@ -347,6 +347,24 @@ class BillSink(QuickbooksSink):
                 ).get("Id")
                 if tax_code:
                     line_detail["TaxCodeRef"] = {"value": tax_code}
+
+            if row.get("class"):
+                if row["class"].get("id"):
+                    class_id = self.search_reference_data(
+                        self.classes.values(), "Id", row.get("class").get("id")
+                    ).get("Id")
+                elif row["class"].get("name"):
+                    class_id = self.search_reference_data(
+                        self.classes.values(), "Name", row.get("class").get("name")
+                    ).get("Id")
+                    
+                if class_id:
+                    line_detail['ClassRef'] = {
+                        "value":class_id,
+                    }
+                else:
+                    print("Class not found. Skipping...")
+                    
             #Check if product name is provided
             if row.get("productName"):
                 if row.get("productName") in self.items:
