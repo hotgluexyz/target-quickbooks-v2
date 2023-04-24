@@ -252,6 +252,7 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
         "TxnTaxDetail": {
             "TotalTax": record.get("taxAmount"),
         },
+        "ApplyTaxAfterDiscount": record.get("applyTaxAfterDiscount", True),
     }
     
     if record.get("shipDate"):
