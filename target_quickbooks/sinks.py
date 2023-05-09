@@ -73,6 +73,8 @@ class CustomerSink(QuickbooksSink):
             pm = self.payment_methods[record['paymentMethod']]
             customer["PaymentMethodRef"] = {"value": pm['Id'], "name": pm['Name']}
         
+        
+        
         if record.get("id"):
             customer_details = self.get_entities("Customer", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
             if str(record.get("id")) in customer_details:
