@@ -193,8 +193,42 @@ class QuickbooksSink(HotglueBatchSink):
 
         records = list(map(lambda e: self.process_batch_record(e[1], e[0]), enumerate(raw_records)))
 
+        if self.stream_name == "Customers":
+            # Build the URL to send the requests to
+            url = f"{self.base_url}/customer"
+            # Extract the "Customer" data from each record
+            list_data = [data["Customer"] for data in records]
+            # Send a separate request for each "Customer" data using map
+            response = map(lambda data: self.make_request(url,data), list_data)
+            # Handle the response for each request using the handle_response function
+            result = map(self.handle_response, response)
+            # In case the response is successful and the record was marked as "InActive", update the record 
+            update_records = []
+            for data in records:
+                for res in response:
+                    if res["Customer"]["DisplayName"] == data["Customer"]["DisplayName"]:
+                        if data["operation"] == "create" and data["Customer"]["Active"] == False:
+                            data["operation"] = "update"
+                            data["Customer"]["Id"] = res["Customer"]["Id"]
+                            update_records.append(data)
+            if len(update_records) > 0:
+                # Send a separate request for each "Customer" data using map
+                update_records = [data["Customer"] for data in update_records]
+                response = map(lambda data: self.make_request(url,data), update_records)
+                # Handle the response for each request using the handle_response function
+                result_update = map(self.handle_response, response)
+                # Update the latest state for each successful request
+                for state in result_update:
+                    self.update_state(state)
+               
+                
+            # Update the latest state for each successful request
+            for state in result:
+                self.update_state(state)
+
+
         # If the stream is "TaxRate", send a separate request for each record
-        if self.stream_name == "TaxRate":
+        elif self.stream_name == "TaxRate":
             # Build the URL to send the requests to
             url = f"{self.base_url}/taxservice/taxcode"
             # Extract the "TaxService" data from each record
