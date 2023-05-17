@@ -154,7 +154,9 @@ def item_from_unified(record, tax_codes):
         today = datetime.now()
         item["InvStartDate"] = invoiceItem.get("startDate") or today.strftime("%Y-%m-%d")
         item["TrackQtyOnHand"] = True
-        item["QtyOnHand"] = record.get("quantityOnHand", 0)
+        if record.get("quantityOnHand"):
+            item["QtyOnHand"] = record.get("quantityOnHand")
+        
 
     if record.get("taxCode"):
         item["SalesTaxCodeRef"] = {
