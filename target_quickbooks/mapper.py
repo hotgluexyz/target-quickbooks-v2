@@ -167,7 +167,7 @@ def item_from_unified(record, tax_codes):
     return item
 
 
-def invoice_line(items, products, tax_codes=None):
+def invoice_line(record,items, products, tax_codes=None):
 
     lines = []
     if isinstance(items, str):
@@ -221,16 +221,22 @@ def invoice_line(items, products, tax_codes=None):
         if line_item:
             lines.append(line_item)
 
-        if item.get("discountAmount") and item.get("totalPrice"):
+       
+        if item.get("discountAmount"):
             total_discount += item.get("discountAmount")
-            lines.append(
-                {
+    
+    discount_line = {
                     "DetailType": "DiscountLineDetail",
-                    "Amount": total_discount,
+                    "Amount": None,
                     "Description": "Less discount",
                     "DiscountLineDetail": {"PercentBased": False},
-                }
-            )
+    }
+    
+    if record.get("totalDiscount"):
+        discount_line["Amount"] = record.get("totalDiscount")
+    elif total_discount:
+        discount_line["Amount"] = total_discount
+    lines.append(discount_line)
 
     return lines
 
@@ -238,7 +244,7 @@ def invoice_line(items, products, tax_codes=None):
 def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     customer_id = customers[record.get("customerName")]["Id"]
 
-    invoice_lines = invoice_line(record.get("lineItems"), products, tax_codes)
+    invoice_lines = invoice_line(record,record.get("lineItems"), products, tax_codes)
 
     invoice = {
         "Line": invoice_lines,
