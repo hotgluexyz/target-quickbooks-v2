@@ -201,7 +201,7 @@ class QuickbooksSink(HotglueBatchSink):
             # Send a separate request for each "Customer" data using map
             response = map(lambda data: self.make_request(url,data), list_data)
             # Handle the response for each request using the handle_response function
-            result = map(self.handle_response, response)
+            result = map(lambda response: self.handle_response(response), list(response))
             # In case the response is successful and the record was marked as "InActive", update the record 
             update_records = []
             for data in records:
@@ -216,14 +216,14 @@ class QuickbooksSink(HotglueBatchSink):
                 update_records = [data["Customer"] for data in update_records]
                 response = map(lambda data: self.make_request(url,data), update_records)
                 # Handle the response for each request using the handle_response function
-                result_update = map(self.handle_response, response)
+                result_update = map(lambda response: self.handle_response(response), list(response))
                 # Update the latest state for each successful request
-                for state in result_update:
+                for state in list(result_update):
                     self.update_state(state)
                
                 
             # Update the latest state for each successful request
-            for state in result:
+            for state in list(result):
                 self.update_state(state)
 
 
@@ -236,9 +236,9 @@ class QuickbooksSink(HotglueBatchSink):
             # Send a separate request for each "TaxService" data using map
             response = map(lambda data: self.make_request(url,data), list_data)
             # Handle the response for each request using the handle_response function
-            result = map(self.handle_response, response)
+            result = map(lambda response: self.handle_response(response), list(response))
             # Update the latest state for each successful request
-            for state in result:
+            for state in list(result):
                 self.update_state(state)
         else:
             # If the stream is not "TaxRate", send a single batch request for all records
@@ -269,6 +269,14 @@ class QuickbooksSink(HotglueBatchSink):
         return response
 
     def handle_response(self, response):
+        entities = [
+            "JournalEntry",
+            "Customer",
+            "Item",
+            "Invoice",
+            "CreditMemo",
+            "Bill"
+        ]
         # If the response has a "Fault" key, it means there was an error
         if response.get("Fault") is not None:
             # Log the error message
@@ -282,10 +290,15 @@ class QuickbooksSink(HotglueBatchSink):
         else:
             # If there was no error, return a dictionary indicating that the request
             # was successful, and include the response data
-            return {
-                "success": True,
-                "data": response
-            }
+            for entity in entities:
+                if not response.get(entity):
+                    continue
+                record = response.get(entity)
+                return {
+                    "success": True,
+                    "entityData": record,
+                    "Id": record.get("Id"),
+                }
 
     def make_batch_request(self, batch_requests, params={}):
         access_token = self.access_token

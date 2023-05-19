@@ -134,9 +134,15 @@ class ItemSink(QuickbooksSink):
         
         if record.get("id"):
             item_details = self.get_entities("Item", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
-            if item_details:
-                item_previous = [x for x in item_details.values()]
-                item_previous = item_previous[0]
+            item_details_deleted = self.get_entities("Item", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}' and Active=false")
+            
+            if item_details or item_details_deleted:
+                if item_details:
+                    item_previous = [x for x in item_details.values()]
+                    item_previous = item_previous[0]
+                else:
+                    item_previous = [x for x in item_details_deleted.values()]
+                    item_previous = item_previous[0]
                 if str(record.get("id")) == item_previous["Id"]:
                     item.update({"Id":record.get("id"), "sparse":True, "SyncToken": item_previous["SyncToken"]})
                     entry = ["Item", item, "update"]
