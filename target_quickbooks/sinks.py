@@ -102,7 +102,7 @@ class ItemSink(QuickbooksSink):
         if not context.get("records"):
             context["records"] = []
 
-        item = item_from_unified(record, self.tax_codes)
+        item = item_from_unified(record, self.tax_codes, self.categories)
 
         # Have to include AssetAccountRef if we're creating an Inventory item
         if item.get("Type") == "Inventory":

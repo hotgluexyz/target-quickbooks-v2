@@ -111,18 +111,20 @@ def customer_from_unified(record):
     return customer
 
 
-def item_from_unified(record, tax_codes):
+def item_from_unified(record, tax_codes, categories):
 
     mapp = {
         "name": "Name",
         "active": "Active",
         "type": "Type",
-        "category": "FullyQualifiedName",
+        "fullyQualifiedName": "FullyQualifiedName",
         "sku": "Sku",
         "reorderPoint": "ReorderPoint",
         "taxable" : "Taxable",
         "invStartDate": "InvStartDate"
     }
+
+    categories = {v["Name"]: v["Id"] for v in categories.values() if v["Type"] == "Category"}
 
     item = dict(
         (mapp[key], value) for (key, value) in record.items() if key in mapp.keys()
@@ -161,6 +163,14 @@ def item_from_unified(record, tax_codes):
             "value": tax_codes[record.get("taxCode")]["Id"],
             "name": record.get("taxCode")
         }
+
+    if record.get("category"):
+        if record.get("category") in categories:
+            item["SubItem"] = True
+            item["ParentRef"] = {
+                "value": categories[record.get("category")],
+                "name": record.get("category")
+            }
 
     return item
 
