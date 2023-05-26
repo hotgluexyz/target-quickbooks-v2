@@ -246,6 +246,8 @@ def invoice_line(record,items, products, tax_codes=None):
         discount_line["Amount"] = record.get("totalDiscount")
     elif total_discount:
         discount_line["Amount"] = total_discount
+    else:
+        discount_line["Amount"] = 0
     lines.append(discount_line)
 
     return lines
