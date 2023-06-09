@@ -11,7 +11,8 @@ from target_quickbooks.mapper import (
     payment_method_from_unified,
     payment_term_from_unified,
     tax_rate_from_unified,
-    department_from_unified
+    department_from_unified,
+    sales_receipt_from_unified
 )
 
 
@@ -39,6 +40,36 @@ class InvoiceSink(QuickbooksSink):
                 return
         else:
             entry = ["Invoice", invoice, "create"]    
+
+            self.logger.info(json.dumps(entry))
+
+        context["records"].append(entry)
+
+
+class SalesReceiptSink(QuickbooksSink):
+    name = "SalesReceipts"
+
+    def process_record(self, record: dict, context: dict) -> None:
+        if not context.get("records"):
+            context["records"] = []
+
+        sales_receipt = sales_receipt_from_unified(
+            record,
+            self.customers,
+            self.items,
+            self.tax_codes,
+          
+        )
+        if record.get("id"):
+            receipt_details = self.get_entities("SalesReceipt", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
+            if str(record.get("id")) in receipt_details:
+                sales_receipt.update({"Id":record.get("id"),"sparse":True,"SyncToken": receipt_details[str(record.get("id"))]["SyncToken"]})
+                entry = ["Sales Receipt", sales_receipt, "update"]
+            else:
+                print(f"Sales Receipt {record.get('id')} not found. Skipping...")  
+                return
+        else:
+            entry = ["SalesReceipt", sales_receipt, "create"]    
 
             self.logger.info(json.dumps(entry))
 

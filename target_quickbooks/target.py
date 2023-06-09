@@ -13,7 +13,8 @@ from target_quickbooks.sinks import (
     DepartmentSink,
     PaymentTermSink,
     JournalEntrySink,
-    PaymentMethodSink
+    PaymentMethodSink,
+    SalesReceiptSink,
 )
 
 
@@ -40,7 +41,8 @@ class TargetQuickBooks(TargetHotglue):
         DepartmentSink,
         PaymentTermSink,
         JournalEntrySink,
-        PaymentMethodSink
+        PaymentMethodSink,
+        SalesReceiptSink,
     ]
 
 
