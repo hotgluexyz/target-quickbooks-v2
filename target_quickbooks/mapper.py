@@ -363,6 +363,130 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     return invoice
 
 
+def sales_receipt_line(record,items, products, tax_codes=None):
+
+    lines = []
+    if isinstance(items, str):
+        items = json.loads(items)
+
+    total_discount = 0
+
+    for item in items:
+        product = products[item.get("productName")]
+        product_id = product["Id"]
+
+        item_line_detail = {
+            "ItemRef": {"value": product_id},
+            "Qty": item.get("quantity"),
+            "UnitPrice": item.get("unitPrice"),
+            "DiscountAmt" : item.get('discountAmount'),      
+        }
+        
+
+        if item.get("serviceDate"):
+            item_line_detail["ServiceDate"] = item.get("serviceDate")
+
+        if tax_codes and item.get("taxCode") is not None:
+            item_line_detail.update(
+                {"TaxCodeRef": {"value": item.get("taxCode")}}
+            )
+
+            
+        line_item = {
+            "DetailType": "SalesItemLineDetail",
+            "Amount": item.get("totalPrice"),
+            "SalesItemLineDetail": item_line_detail,
+            "Description": item.get("description"),
+        }
+
+        if product["TrackQtyOnHand"]:
+            if product["QtyOnHand"] < 1:
+                logging.info(
+                    f"No quantity available for Product: {item.get('productName')}"
+                )
+                line_item = None
+
+        if line_item:
+            lines.append(line_item)
+
+       
+        if item.get("discountAmount"):
+            total_discount += item.get("discountAmount")
+    
+    discount_line = {
+                    "DetailType": "DiscountLineDetail",
+                    "Amount": None,
+                    "Description": "Less discount",
+                    "DiscountLineDetail": {"PercentBased": False},
+    }
+    
+    if record.get("totalDiscount"):
+        discount_line["Amount"] = record.get("totalDiscount")
+    elif total_discount:
+        discount_line["Amount"] = total_discount
+    else:
+        discount_line["Amount"] = 0
+    lines.append(discount_line)
+
+    return lines
+
+
+def sales_receipt_from_unified(record, customers, products, tax_codes):
+
+    customer_id = customers[record.get("customerName")]["Id"]
+
+    sales_lines = sales_receipt_line(record,record.get("lineItems"), products, tax_codes)
+
+    sales_receipt = {
+        "Line": sales_lines,
+        "CustomerRef": {"value": customer_id},
+        "TotalAmt": record.get("totalAmount"),
+        "TxnDate" : record.get("issueDate"),
+        "DocNumber": record.get("salesNumber"),
+        "TxnTaxDetail": {
+            "TotalTax": record.get("taxAmount"),
+        },
+        "ApplyTaxAfterDiscount": record.get("applyTaxAfterDiscount", True),
+    }
+     
+    if record.get("taxCode"):     
+        sales_receipt["TxnTaxDetail"] = {
+            "TxnTaxCodeRef": {
+                "value": tax_codes[record.get("taxCode")]['Id']
+            },
+    }
+
+    if record.get("billEmail"):
+        #Set needs to status here because BillEmail is required if this parameter is set.
+        sales_receipt["EmailStatus"] = "NeedToSend"
+        sales_receipt["BillEmail"] = {
+            "Address": record.get("billEmail")
+        }
+
+    if record.get("billAddress"):
+        billAddr = record.get("billAddress")
+        sales_receipt["BillAddr"] = {
+            "Line1": billAddr.get("line1"),
+            "Line2": billAddr.get("line2"),
+            "Line3": billAddr.get("line3"),
+            "City": billAddr.get("city"),
+            "CountrySubDivisionCode": billAddr.get("state"),
+            "PostalCode": billAddr.get("postalCode"),
+            "Country": billAddr.get("country"),
+        }
+
+    if not sales_lines:
+        if record.get("id"):
+            raise Exception(f"No Invoice Lines for Invoice id: {record['id']}")
+        elif record.get("invoiceNumber"):
+            raise Exception(
+                f"No Invoice Lines for Invoice Number: {record['invoiceNumber']}"
+            )
+        return []
+
+    return sales_receipt
+
+
 def credit_line(items, products, tax_codes=None):
 
     lines = []
