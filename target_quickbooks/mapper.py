@@ -350,7 +350,12 @@ def sales_receipt_line(record, items, products, tax_codes=None):
     total_discount = 0
 
     for item in items:
-        product = products[item.get("productName")]
+        product = products.get(item.get("productName"))
+
+        if not product:
+            logging.warn(f"Could not find matching product for {item.get('productName')}")
+            continue
+
         product_id = product["Id"]
 
         item_line_detail = {
@@ -408,11 +413,13 @@ def sales_receipt_from_unified(record, customers, products, tax_codes):
     customer_name = record.get("customerName")
     customer_id = None
 
-    if customer_name and customers[customer_name]:
+    if customer_name and customers.get(customer_name):
         customer_id = customers[customer_name]["Id"]
+    else:
+        logging.warn(f"Could not find matching customer for {customer_name}")
 
     sales_lines = sales_receipt_line(
-        record, record.get("lineItems"), products, tax_codes
+        record, record.get("line_items"), products, tax_codes
     )
 
     sales_receipt = {
