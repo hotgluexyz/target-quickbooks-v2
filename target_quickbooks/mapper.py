@@ -7,7 +7,6 @@ from datetime import datetime
 
 
 def customer_from_unified(record):
-
     mapp = {
         "customerName": "CompanyName",
         "contactName": "DisplayName",
@@ -17,11 +16,11 @@ def customer_from_unified(record):
         "suffix": "Suffix",
         "title": "Title",
         "active": "Active",
-        "notes" : "Notes",
-        "checkName" : "PrintOnCheckName",
-        "balance" : "Balance",
-        "balanceDate" : "OpenBalanceDate",
-        "taxable" : "Taxable"
+        "notes": "Notes",
+        "checkName": "PrintOnCheckName",
+        "balance": "Balance",
+        "balanceDate": "OpenBalanceDate",
+        "taxable": "Taxable",
     }
 
     customer = dict(
@@ -31,52 +30,45 @@ def customer_from_unified(record):
     customer["PrimaryEmailAddr"] = {"Address": record.get("emailAddress", "")}
 
     if record.get("website"):
-        customer["WebAddr"] = {
-            "URI": record["website"]
-        }
+        customer["WebAddr"] = {"URI": record["website"]}
     if record.get("balanceDate"):
-        balance_date = datetime.strptime(record['balanceDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        balance_date = datetime.strptime(record["balanceDate"], "%Y-%m-%dT%H:%M:%S.%fZ")
         customer["OpenBalanceDate"] = balance_date.strftime("%Y-%m-%d")
-        
-    #Get Parent
-    if record.get("parentReference") :
+
+    # Get Parent
+    if record.get("parentReference"):
         parent = record["parentReference"]
-        #Set subcustomer
+        # Set subcustomer
         customer["Job"] = True
-        customer["ParentRef"] = {
-            "value": parent["id"],
-            "name": parent["name"]
-        }
-        
+        customer["ParentRef"] = {"value": parent["id"], "name": parent["name"]}
+
     phone_numbers = record.get("phoneNumbers")
 
     if phone_numbers:
         if isinstance(phone_numbers, str):
             phone_numbers = eval(phone_numbers)
 
-        fax_number = next((x for x in phone_numbers if x.get('type') == "fax"), None)
+        fax_number = next((x for x in phone_numbers if x.get("type") == "fax"), None)
         if fax_number:
-            customer["Fax"] = {
-                "FreeFormNumber": fax_number['number']
-            }
+            customer["Fax"] = {"FreeFormNumber": fax_number["number"]}
 
-        mobile_number = next((x for x in phone_numbers if x.get('type') == "mobile"), None)
+        mobile_number = next(
+            (x for x in phone_numbers if x.get("type") == "mobile"), None
+        )
         if mobile_number:
-            customer["Mobile"] = {
-                "FreeFormNumber": mobile_number['number']
-            }
+            customer["Mobile"] = {"FreeFormNumber": mobile_number["number"]}
 
-        primary_number = next((x for x in phone_numbers if x.get('type') == "primary"), None)
+        primary_number = next(
+            (x for x in phone_numbers if x.get("type") == "primary"), None
+        )
         if primary_number:
-            customer["PrimaryPhone"] = {
-                "FreeFormNumber": primary_number['number']
-            }
+            customer["PrimaryPhone"] = {"FreeFormNumber": primary_number["number"]}
 
-        alternate_number = next((x for x in phone_numbers if x.get('type') == "alternate"), None)
+        alternate_number = next(
+            (x for x in phone_numbers if x.get("type") == "alternate"), None
+        )
         if alternate_number:
-            customer["AlternatePhone"] = {
-                "FreeFormNumber": alternate_number['number']
-            }
+            customer["AlternatePhone"] = {"FreeFormNumber": alternate_number["number"]}
 
     addresses = record.get("addresses")
 
@@ -112,7 +104,6 @@ def customer_from_unified(record):
 
 
 def item_from_unified(record, tax_codes, categories):
-
     mapp = {
         "name": "Name",
         "active": "Active",
@@ -120,11 +111,13 @@ def item_from_unified(record, tax_codes, categories):
         "fullyQualifiedName": "FullyQualifiedName",
         "sku": "Sku",
         "reorderPoint": "ReorderPoint",
-        "taxable" : "Taxable",
-        "invStartDate": "InvStartDate"
+        "taxable": "Taxable",
+        "invStartDate": "InvStartDate",
     }
 
-    categories = {v["Name"]: v["Id"] for v in categories.values() if v["Type"] == "Category"}
+    categories = {
+        v["Name"]: v["Id"] for v in categories.values() if v["Type"] == "Category"
+    }
 
     item = dict(
         (mapp[key], value) for (key, value) in record.items() if key in mapp.keys()
@@ -154,16 +147,17 @@ def item_from_unified(record, tax_codes, categories):
     # Hardcoding "QtyOnHand" = 0 if "type" == "Inventory"
     if item["Type"] == "Inventory":
         today = datetime.now()
-        item["InvStartDate"] = invoiceItem.get("startDate") or today.strftime("%Y-%m-%d")
+        item["InvStartDate"] = invoiceItem.get("startDate") or today.strftime(
+            "%Y-%m-%d"
+        )
         item["TrackQtyOnHand"] = True
         if record.get("quantityOnHand"):
             item["QtyOnHand"] = record.get("quantityOnHand")
-        
 
     if record.get("taxCode"):
         item["SalesTaxCodeRef"] = {
             "value": tax_codes[record.get("taxCode")]["Id"],
-            "name": record.get("taxCode")
+            "name": record.get("taxCode"),
         }
 
     if record.get("category"):
@@ -171,14 +165,13 @@ def item_from_unified(record, tax_codes, categories):
             item["SubItem"] = True
             item["ParentRef"] = {
                 "value": categories[record.get("category")],
-                "name": record.get("category")
+                "name": record.get("category"),
             }
 
     return item
 
 
-def invoice_line(record,items, products, tax_codes=None):
-
+def invoice_line(record, items, products, tax_codes=None):
     lines = []
     if isinstance(items, str):
         items = json.loads(items)
@@ -193,9 +186,9 @@ def invoice_line(record,items, products, tax_codes=None):
             "ItemRef": {"value": product_id},
             "Qty": item.get("quantity"),
             "UnitPrice": item.get("unitPrice"),
-            "DiscountAmt" : item.get('discountAmount'),      
+            "DiscountAmt": item.get("discountAmount"),
         }
-        
+
         # if item.get("shippingAmount"):
         #     item_line_detail['ItemRef'] = {
         #         "value" : "SHIPPING_ITEM_ID",
@@ -206,14 +199,12 @@ def invoice_line(record,items, products, tax_codes=None):
             item_line_detail["ServiceDate"] = item.get("serviceDate")
 
         if tax_codes and item.get("taxCode") is not None:
-            item_line_detail.update(
-                {"TaxCodeRef": {"value": item.get("taxCode")}}
-            )
+            item_line_detail.update({"TaxCodeRef": {"value": item.get("taxCode")}})
 
         # Check if this line item is the shipping amount.
         if item.get("shipping"):
-            item_line_detail["ItemRef"] = {"value":"SHIPPING_ITEM_ID"}
-            
+            item_line_detail["ItemRef"] = {"value": "SHIPPING_ITEM_ID"}
+
         line_item = {
             "DetailType": "SalesItemLineDetail",
             "Amount": item.get("totalPrice"),
@@ -231,17 +222,16 @@ def invoice_line(record,items, products, tax_codes=None):
         if line_item:
             lines.append(line_item)
 
-       
         if item.get("discountAmount"):
             total_discount += item.get("discountAmount")
-    
+
     discount_line = {
-                    "DetailType": "DiscountLineDetail",
-                    "Amount": None,
-                    "Description": "Less discount",
-                    "DiscountLineDetail": {"PercentBased": False},
+        "DetailType": "DiscountLineDetail",
+        "Amount": None,
+        "Description": "Less discount",
+        "DiscountLineDetail": {"PercentBased": False},
     }
-    
+
     if record.get("totalDiscount"):
         discount_line["Amount"] = record.get("totalDiscount")
     elif total_discount:
@@ -256,70 +246,60 @@ def invoice_line(record,items, products, tax_codes=None):
 def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     customer_id = customers[record.get("customerName")]["Id"]
 
-    invoice_lines = invoice_line(record,record.get("lineItems"), products, tax_codes)
+    invoice_lines = invoice_line(record, record.get("lineItems"), products, tax_codes)
 
     invoice = {
         "Line": invoice_lines,
         "CustomerRef": {"value": customer_id},
         "TotalAmt": record.get("totalAmount"),
         "DueDate": record.get("dueDate").split("T")[0],
-        "TxnDate" : record.get("issueDate"),
+        "TxnDate": record.get("issueDate"),
         "TrackingNum": record.get("trackingNumber"),
-        "EmailStatus" : record.get("emailStatus"),
+        "EmailStatus": record.get("emailStatus"),
         "DocNumber": record.get("invoiceNumber"),
         "PrivateNote": record.get("invoiceMemo"),
-        "Deposit": record.get("deposit"),   
+        "Deposit": record.get("deposit"),
         "TxnTaxDetail": {
             "TotalTax": record.get("taxAmount"),
         },
         "ApplyTaxAfterDiscount": record.get("applyTaxAfterDiscount", True),
     }
-    
+
     if record.get("shipDate"):
         invoice["ShipDate"] = record.get("shipDate")
 
     if record.get("taxAmount"):
         invoice["TotalTax"] = record.get("taxAmount")
-        
-    if record.get("taxCode"):     
+
+    if record.get("taxCode"):
         invoice["TxnTaxDetail"] = {
-            "TxnTaxCodeRef": {
-                "value": tax_codes[record.get("taxCode")]['Id']
-            },
-    }
+            "TxnTaxCodeRef": {"value": tax_codes[record.get("taxCode")]["Id"]},
+        }
 
     if record.get("customerMemo"):
-        invoice["CustomerMemo"] = {
-            "value": record.get("customerMemo")
-        }
+        invoice["CustomerMemo"] = {"value": record.get("customerMemo")}
 
     if record.get("billEmail"):
-        #Set needs to status here because BillEmail is required if this parameter is set.
+        # Set needs to status here because BillEmail is required if this parameter is set.
         invoice["EmailStatus"] = "NeedToSend"
-        invoice["BillEmail"] = {
-            "Address": record.get("billEmail")
-        }
+        invoice["BillEmail"] = {"Address": record.get("billEmail")}
 
     if record.get("billEmailCc"):
-        invoice["BillEmailCc"] = {
-            "Address": record.get("billEmailCc")
-        }
+        invoice["BillEmailCc"] = {"Address": record.get("billEmailCc")}
 
     if record.get("billEmailBcc"):
-        invoice["BillEmailBcc"] = {
-            "Address": record.get("billEmailBcc")
-        }
+        invoice["BillEmailBcc"] = {"Address": record.get("billEmailBcc")}
 
     # if record.get("shipMethod"):
     #     invoice["ShipMethodRef"] = {
     #         "value" : record.get("id"),
     #         "name" : record.get("name")
     #     }
-    
+
     if record.get("salesTerm"):
         invoice["SalesTermRef"] = {
-            "value" : sales_terms[record.get("salesTerm")]["Id"],
-            "name" : record.get("salesTerm")
+            "value": sales_terms[record.get("salesTerm")]["Id"],
+            "name": record.get("salesTerm"),
         }
 
     addresses = record.get("addresses")
@@ -327,7 +307,6 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     if addresses:
         if isinstance(addresses, str):
             addresses = eval(addresses)
-
 
         invoice["BillAddr"] = {
             "Line1": addresses[0].get("line1"),
@@ -363,8 +342,7 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     return invoice
 
 
-def sales_receipt_line(record,items, products, tax_codes=None):
-
+def sales_receipt_line(record, items, products, tax_codes=None):
     lines = []
     if isinstance(items, str):
         items = json.loads(items)
@@ -379,19 +357,15 @@ def sales_receipt_line(record,items, products, tax_codes=None):
             "ItemRef": {"value": product_id},
             "Qty": item.get("quantity"),
             "UnitPrice": item.get("unitPrice"),
-            "DiscountAmt" : item.get('discountAmount'),      
+            "DiscountAmt": item.get("discountAmount"),
         }
-        
 
         if item.get("serviceDate"):
             item_line_detail["ServiceDate"] = item.get("serviceDate")
 
         if tax_codes and item.get("taxCode") is not None:
-            item_line_detail.update(
-                {"TaxCodeRef": {"value": item.get("taxCode")}}
-            )
+            item_line_detail.update({"TaxCodeRef": {"value": item.get("taxCode")}})
 
-            
         line_item = {
             "DetailType": "SalesItemLineDetail",
             "Amount": item.get("totalPrice"),
@@ -409,17 +383,16 @@ def sales_receipt_line(record,items, products, tax_codes=None):
         if line_item:
             lines.append(line_item)
 
-       
         if item.get("discountAmount"):
             total_discount += item.get("discountAmount")
-    
+
     discount_line = {
-                    "DetailType": "DiscountLineDetail",
-                    "Amount": None,
-                    "Description": "Less discount",
-                    "DiscountLineDetail": {"PercentBased": False},
+        "DetailType": "DiscountLineDetail",
+        "Amount": None,
+        "Description": "Less discount",
+        "DiscountLineDetail": {"PercentBased": False},
     }
-    
+
     if record.get("totalDiscount"):
         discount_line["Amount"] = record.get("totalDiscount")
     elif total_discount:
@@ -432,36 +405,39 @@ def sales_receipt_line(record,items, products, tax_codes=None):
 
 
 def sales_receipt_from_unified(record, customers, products, tax_codes):
+    customer_name = record.get("customerName")
+    customer_id = None
 
-    customer_id = customers[record.get("customerName")]["Id"]
+    if customer_name and customers[customer_name]:
+        customer_id = customers[customer_name]["Id"]
 
-    sales_lines = sales_receipt_line(record,record.get("lineItems"), products, tax_codes)
+    sales_lines = sales_receipt_line(
+        record, record.get("lineItems"), products, tax_codes
+    )
 
     sales_receipt = {
         "Line": sales_lines,
-        "CustomerRef": {"value": customer_id},
         "TotalAmt": record.get("totalAmount"),
-        "TxnDate" : record.get("issueDate"),
+        "TxnDate": record.get("issueDate"),
         "DocNumber": record.get("salesNumber"),
         "TxnTaxDetail": {
             "TotalTax": record.get("taxAmount"),
         },
         "ApplyTaxAfterDiscount": record.get("applyTaxAfterDiscount", True),
     }
-     
-    if record.get("taxCode"):     
+
+    if customer_id:
+        sales_receipt["CustomerRef"] = {"value": customer_id}
+
+    if record.get("taxCode"):
         sales_receipt["TxnTaxDetail"] = {
-            "TxnTaxCodeRef": {
-                "value": tax_codes[record.get("taxCode")]['Id']
-            },
-    }
+            "TxnTaxCodeRef": {"value": tax_codes[record.get("taxCode")]["Id"]},
+        }
 
     if record.get("billEmail"):
-        #Set needs to status here because BillEmail is required if this parameter is set.
+        # Set needs to status here because BillEmail is required if this parameter is set.
         sales_receipt["EmailStatus"] = "NeedToSend"
-        sales_receipt["BillEmail"] = {
-            "Address": record.get("billEmail")
-        }
+        sales_receipt["BillEmail"] = {"Address": record.get("billEmail")}
 
     if record.get("billAddress"):
         billAddr = record.get("billAddress")
@@ -488,7 +464,6 @@ def sales_receipt_from_unified(record, customers, products, tax_codes):
 
 
 def credit_line(items, products, tax_codes=None):
-
     lines = []
     if isinstance(items, str):
         items = json.loads(items)
@@ -517,7 +492,6 @@ def credit_line(items, products, tax_codes=None):
 
 
 def creditnote_from_unified(record, customers, products, tax_codes):
-
     customer_id = customers[record.get("customerRef").get("customerName")]["Id"]
 
     invoice_lines = credit_line(record.get("lineItems"), products)
@@ -526,26 +500,26 @@ def creditnote_from_unified(record, customers, products, tax_codes):
     creditnote = {"Line": invoice_lines, "CustomerRef": {"value": customer_id}}
     return creditnote
 
-def payment_method_from_unified(record):
 
+def payment_method_from_unified(record):
     payment_method = record
-    
+
     return payment_method
 
-def payment_term_from_unified(record):
 
+def payment_term_from_unified(record):
     payment_term = record
-    
+
     return payment_term
 
-def tax_rate_from_unified(record):
 
-    tax_rate= record
-    
+def tax_rate_from_unified(record):
+    tax_rate = record
+
     return tax_rate
 
+
 def department_from_unified(record):
-    
     department = record
-    
+
     return department
