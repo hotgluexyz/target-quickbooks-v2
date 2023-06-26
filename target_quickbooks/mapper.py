@@ -364,6 +364,7 @@ def sales_receipt_line(record, items, products, tax_codes=None):
             "UnitPrice": item.get("unitPrice"),
             "DiscountAmt": item.get("discountAmount"),
         }
+      
 
         if item.get("serviceDate"):
             item_line_detail["ServiceDate"] = item.get("serviceDate")
@@ -390,6 +391,19 @@ def sales_receipt_line(record, items, products, tax_codes=None):
 
         if item.get("discountAmount"):
             total_discount += item.get("discountAmount")
+    
+    if record.get("shippingAmount"):
+        shipping_line = {
+            "DetailType": "SalesItemLineDetail",
+            "Amount": record.get("shippingAmount"),
+            "SalesItemLineDetail": {
+                "ItemRef": {
+                    "value" : "SHIPPING_ITEM_ID",
+                    "name" : record.get("shippingAmount")
+                }
+            },
+        }
+        lines.append(shipping_line)
 
     discount_line = {
         "DetailType": "DiscountLineDetail",
@@ -456,6 +470,17 @@ def sales_receipt_from_unified(record, customers, products, tax_codes):
             "CountrySubDivisionCode": billAddr.get("state"),
             "PostalCode": billAddr.get("postalCode"),
             "Country": billAddr.get("country"),
+        }
+    if record.get("shipAddress"):
+        shipAddr = record.get("shipAddress")
+        sales_receipt["ShipAddr"] = {
+            "Line1": shipAddr.get("line1"),
+            "Line2": shipAddr.get("line2"),
+            "Line3": shipAddr.get("line3"),
+            "City": shipAddr.get("city"),
+            "CountrySubDivisionCode": shipAddr.get("state"),
+            "PostalCode": shipAddr.get("postalCode"),
+            "Country": shipAddr.get("country"),
         }
 
     if not sales_lines:
