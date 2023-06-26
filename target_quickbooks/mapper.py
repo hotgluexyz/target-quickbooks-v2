@@ -419,7 +419,7 @@ def sales_receipt_from_unified(record, customers, products, tax_codes):
         logging.warn(f"Could not find matching customer for {customer_name}")
 
     sales_lines = sales_receipt_line(
-        record, record.get("line_items"), products, tax_codes
+        record, record.get("lineItems"), products, tax_codes
     )
 
     sales_receipt = {
