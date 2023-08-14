@@ -123,7 +123,7 @@ class CustomerSink(QuickbooksSink):
         else:
             entry = ["Customer", customer, "create"]
 
-        context["records"].append(entry)
+        context["records"].append(entry)   
 
 
 class ItemSink(QuickbooksSink):
@@ -162,6 +162,16 @@ class ItemSink(QuickbooksSink):
 
         if expense_account:
             item["ExpenseAccountRef"] = {"value": expense_account["Id"]}
+
+        #Pick up account information from invoiceItem
+        if not income_account and not expense_account and record.get("invoiceItem"):
+            invoice_item = json.loads(record.get("invoiceItem"))
+            account_detail =  self.accounts_name.get(invoice_item.get("accountName"))
+            if account_detail.get("AccountType")=="Income":
+                item["IncomeAccountRef"] = {"value": account_detail["Id"]}
+            elif account_detail.get("AccountType")=="Expense":
+                item["ExpenseAccountRef"] = {"value": account_detail["Id"]}
+            
         
         if record.get("id"):
             item_details = self.get_entities("Item", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
