@@ -424,7 +424,7 @@ def sales_receipt_line(record, items, products, tax_codes=None):
 
 
 def sales_receipt_from_unified(record, customers, products, tax_codes):
-    customer_name = record.get("customerName")
+    customer_name = record.get("customerName",record.get("customer_name"))
     customer_id = None
 
     if customer_name and customers.get(customer_name):
