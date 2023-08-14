@@ -12,7 +12,7 @@ from target_quickbooks.mapper import (
     payment_term_from_unified,
     tax_rate_from_unified,
     department_from_unified,
-    sales_receipt_from_unified
+    sales_receipt_from_unified,
 )
 
 
@@ -24,22 +24,31 @@ class InvoiceSink(QuickbooksSink):
             context["records"] = []
 
         invoice = invoice_from_unified(
-            record,
-            self.customers,
-            self.items,
-            self.tax_codes,
-            self.sales_terms
+            record, self.customers, self.items, self.tax_codes, self.sales_terms
         )
         if record.get("id"):
-            invoice_details = self.get_entities("Invoice", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
+            invoice_details = self.get_entities(
+                "Invoice",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" id ='{record.get('id')}'",
+            )
             if str(record.get("id")) in invoice_details:
-                invoice.update({"Id":record.get("id"),"sparse":True,"SyncToken": invoice_details[str(record.get("id"))]["SyncToken"]})
+                invoice.update(
+                    {
+                        "Id": record.get("id"),
+                        "sparse": True,
+                        "SyncToken": invoice_details[str(record.get("id"))][
+                            "SyncToken"
+                        ],
+                    }
+                )
                 entry = ["Invoice", invoice, "update"]
             else:
-                print(f"Invoice {record.get('id')} not found. Skipping...")  
+                print(f"Invoice {record.get('id')} not found. Skipping...")
                 return
         else:
-            entry = ["Invoice", invoice, "create"]    
+            entry = ["Invoice", invoice, "create"]
 
             self.logger.info(json.dumps(entry))
 
@@ -58,18 +67,30 @@ class SalesReceiptSink(QuickbooksSink):
             self.customers,
             self.items,
             self.tax_codes,
-          
         )
         if record.get("id"):
-            receipt_details = self.get_entities("SalesReceipt", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
+            receipt_details = self.get_entities(
+                "SalesReceipt",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" id ='{record.get('id')}'",
+            )
             if str(record.get("id")) in receipt_details:
-                sales_receipt.update({"Id":record.get("id"),"sparse":True,"SyncToken": receipt_details[str(record.get("id"))]["SyncToken"]})
+                sales_receipt.update(
+                    {
+                        "Id": record.get("id"),
+                        "sparse": True,
+                        "SyncToken": receipt_details[str(record.get("id"))][
+                            "SyncToken"
+                        ],
+                    }
+                )
                 entry = ["Sales Receipt", sales_receipt, "update"]
             else:
-                print(f"Sales Receipt {record.get('id')} not found. Skipping...")  
+                print(f"Sales Receipt {record.get('id')} not found. Skipping...")
                 return
         else:
-            entry = ["SalesReceipt", sales_receipt, "create"]    
+            entry = ["SalesReceipt", sales_receipt, "create"]
 
             self.logger.info(json.dumps(entry))
 
@@ -86,33 +107,53 @@ class CustomerSink(QuickbooksSink):
         customer = customer_from_unified(record)
 
         if record.get("salesTerm") and record.get("salesTerm") in self.terms:
-            term = self.terms[record['salesTerm']]
-            customer["SalesTermRef"] = {"value": term['Id']}
+            term = self.terms[record["salesTerm"]]
+            customer["SalesTermRef"] = {"value": term["Id"]}
 
-        #Get Customer Type
-        if record.get("customerType") and record.get("customerType") in self.customer_type:
+        # Get Customer Type
+        if (
+            record.get("customerType")
+            and record.get("customerType") in self.customer_type
+        ):
             customer_type = self.customer_type[record["customerType"]]
             customer["CustomerTypeRef"] = {"value": customer_type["Id"]}
 
-        #Get Tax Code
+        # Get Tax Code
         if record.get("taxCode") and record.get("taxCode") in self.tax_codes:
-            tax_code = self.tax_codes[record['taxCode']]
-            customer["DefaultTaxCodeRef"] = {"value": tax_code['Id'], "name": tax_code['Name']}
+            tax_code = self.tax_codes[record["taxCode"]]
+            customer["DefaultTaxCodeRef"] = {
+                "value": tax_code["Id"],
+                "name": tax_code["Name"],
+            }
 
-        #Get Payment Method
-        if record.get("paymentMethod") and record.get("paymentMethod") in self.payment_methods:
-            pm = self.payment_methods[record['paymentMethod']]
-            customer["PaymentMethodRef"] = {"value": pm['Id'], "name": pm['Name']}
-        
-        
-        
+        # Get Payment Method
+        if (
+            record.get("paymentMethod")
+            and record.get("paymentMethod") in self.payment_methods
+        ):
+            pm = self.payment_methods[record["paymentMethod"]]
+            customer["PaymentMethodRef"] = {"value": pm["Id"], "name": pm["Name"]}
+
         if record.get("id"):
-            customer_details = self.get_entities("Customer", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
+            customer_details = self.get_entities(
+                "Customer",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" id ='{record.get('id')}'",
+            )
             if str(record.get("id")) in customer_details:
-                customer.update({"Id":record.get("id"),"sparse":True,"SyncToken": customer_details[str(record.get("id"))]["SyncToken"]})
+                customer.update(
+                    {
+                        "Id": record.get("id"),
+                        "sparse": True,
+                        "SyncToken": customer_details[str(record.get("id"))][
+                            "SyncToken"
+                        ],
+                    }
+                )
                 entry = ["Customer", customer, "update"]
             else:
-                print(f"Customer {record.get('id')} not found. Skipping...")  
+                print(f"Customer {record.get('id')} not found. Skipping...")
                 return
         elif customer["DisplayName"] in self.customers:
             old_customer = self.customers[customer["DisplayName"]]
@@ -123,7 +164,7 @@ class CustomerSink(QuickbooksSink):
         else:
             entry = ["Customer", customer, "create"]
 
-        context["records"].append(entry)   
+        context["records"].append(entry)
 
 
 class ItemSink(QuickbooksSink):
@@ -163,20 +204,35 @@ class ItemSink(QuickbooksSink):
         if expense_account:
             item["ExpenseAccountRef"] = {"value": expense_account["Id"]}
 
-        #Pick up account information from invoiceItem
+        # Pick up account information from invoiceItem
         if not income_account and not expense_account and record.get("invoiceItem"):
             invoice_item = json.loads(record.get("invoiceItem"))
-            account_detail =  self.accounts_name.get(invoice_item.get("accountName"))
-            if account_detail.get("AccountType")=="Income":
+            account_detail = self.accounts_name.get(invoice_item.get("accountName"))
+
+            if account_detail is None:
+                raise Exception(
+                    f"Failed to find matching account with name: {invoice_item.get('accountName')}"
+                )
+
+            if account_detail.get("AccountType") == "Income":
                 item["IncomeAccountRef"] = {"value": account_detail["Id"]}
-            elif account_detail.get("AccountType")=="Expense":
+            elif account_detail.get("AccountType") == "Expense":
                 item["ExpenseAccountRef"] = {"value": account_detail["Id"]}
-            
-        
+
         if record.get("id"):
-            item_details = self.get_entities("Item", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}'")
-            item_details_deleted = self.get_entities("Item", check_active=False, fallback_key="Id" ,where_filter=f" id ='{record.get('id')}' and Active=false")
-            
+            item_details = self.get_entities(
+                "Item",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" id ='{record.get('id')}'",
+            )
+            item_details_deleted = self.get_entities(
+                "Item",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" id ='{record.get('id')}' and Active=false",
+            )
+
             if item_details or item_details_deleted:
                 if item_details:
                     item_previous = [x for x in item_details.values()]
@@ -185,10 +241,16 @@ class ItemSink(QuickbooksSink):
                     item_previous = [x for x in item_details_deleted.values()]
                     item_previous = item_previous[0]
                 if str(record.get("id")) == item_previous["Id"]:
-                    item.update({"Id":record.get("id"), "sparse":True, "SyncToken": item_previous["SyncToken"]})
+                    item.update(
+                        {
+                            "Id": record.get("id"),
+                            "sparse": True,
+                            "SyncToken": item_previous["SyncToken"],
+                        }
+                    )
                     entry = ["Item", item, "update"]
             else:
-                print(f"Item {record.get('id')} not found. Skipping...")  
+                print(f"Item {record.get('id')} not found. Skipping...")
                 return
 
         elif item["Name"] in self.items:
@@ -238,7 +300,7 @@ class PaymentTermSink(QuickbooksSink):
         if not context.get("records"):
             context["records"] = []
 
-        payment_terms =  payment_term_from_unified(record)
+        payment_terms = payment_term_from_unified(record)
         entry = ["Term", payment_terms, "create"]
 
         context["records"].append(entry)
@@ -251,7 +313,7 @@ class TaxRateSink(QuickbooksSink):
         if not context.get("records"):
             context["records"] = []
 
-        tax_rates =  tax_rate_from_unified(record)
+        tax_rates = tax_rate_from_unified(record)
         entry = ["TaxService", tax_rates, "create"]
 
         context["records"].append(entry)
@@ -290,13 +352,17 @@ class JournalEntrySink(QuickbooksSink):
             # Get the Quickbooks Account Ref
             acct_num = str(row["accountNumber"])
             acct_name = row["accountName"]
-            acct_ref = self.accounts.get(acct_num, self.accounts.get(acct_name, {})).get("Id")
+            acct_ref = self.accounts.get(
+                acct_num, self.accounts.get(acct_name, {})
+            ).get("Id")
 
             if acct_ref is not None:
                 je_detail["AccountRef"] = {"value": acct_ref}
             else:
                 errored = True
-                self.logger.error(f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num} \n Skipping...")
+                self.logger.error(
+                    f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num} \n Skipping..."
+                )
                 return
 
             # Get the Quickbooks Class Ref
@@ -306,33 +372,47 @@ class JournalEntrySink(QuickbooksSink):
             if class_ref is not None:
                 je_detail["ClassRef"] = {"value": class_ref}
             else:
-                self.logger.warning(f"Class is missing on Journal Entry {je_id}! Name={class_name}")
+                self.logger.warning(
+                    f"Class is missing on Journal Entry {je_id}! Name={class_name}"
+                )
 
             # Get the Quickbooks Customer Ref
             customer_name = row.get("customerName")
             customer_ref = self.customers.get(customer_name, {}).get("Id")
 
             if customer_ref is not None:
-                je_detail["Entity"] = {"EntityRef": {"value": customer_ref}, "Type": "Customer"}
+                je_detail["Entity"] = {
+                    "EntityRef": {"value": customer_ref},
+                    "Type": "Customer",
+                }
             else:
-                self.logger.warning(f"Customer is missing on Journal Entry {je_id}! Name={customer_name}")
+                self.logger.warning(
+                    f"Customer is missing on Journal Entry {je_id}! Name={customer_name}"
+                )
 
             # Get the Quickbooks Vendor Ref
             vendor_name = row.get("vendorName")
             vendor_ref = self.vendors.get(vendor_name, {}).get("Id")
 
             if vendor_ref is not None:
-                je_detail["Entity"] = {"EntityRef": {"value": vendor_ref},"Type": "Vendor"}
+                je_detail["Entity"] = {
+                    "EntityRef": {"value": vendor_ref},
+                    "Type": "Vendor",
+                }
             else:
-                self.logger.warning(f"Vendor is missing on Journal Entry {je_id}! Name={vendor_name}")
+                self.logger.warning(
+                    f"Vendor is missing on Journal Entry {je_id}! Name={vendor_name}"
+                )
 
             # Create the line item
-            line_items.append({
-                "Description": row["description"],
-                "Amount": row["amount"],
-                "DetailType": "JournalEntryLineDetail",
-                "JournalEntryLineDetail": je_detail
-            })
+            line_items.append(
+                {
+                    "Description": row["description"],
+                    "Amount": row["amount"],
+                    "DetailType": "JournalEntryLineDetail",
+                    "JournalEntryLineDetail": je_detail,
+                }
+            )
 
         # Create the [ resourceName , resource ]
         entry = {
@@ -362,13 +442,13 @@ class BillSink(QuickbooksSink):
         vendor = None
         skip_vendor = True
         line_items = []
-        if record.get('department'):
+        if record.get("department"):
             departments = self.get_departments()
-            if record['department'] in departments:
-                department = departments[record['department']]
-                entry['DepartmentRef'] = {
-                    "value":department['Id'],
-                    "name":department['Name'],
+            if record["department"] in departments:
+                department = departments[record["department"]]
+                entry["DepartmentRef"] = {
+                    "value": department["Id"],
+                    "name": department["Name"],
                 }
         if "vendorName" in record:
             if record["vendorName"] in self.vendors:
@@ -396,24 +476,24 @@ class BillSink(QuickbooksSink):
                 ).get("Id")
                 if tax_code:
                     line_detail["TaxCodeRef"] = {"value": tax_code}
-                    
+
             class_id = None
             if row.get("classId"):
                 class_id = self.search_reference_data(
                     self.classes.values(), "Id", row.get("classId")
                 ).get("Id")
-        
+
             elif row.get("className"):
                 class_id = self.search_reference_data(
                     self.classes.values(), "Name", row.get("className")
                 ).get("Id")
 
             if class_id:
-                line_detail['ClassRef'] = {
-                    "value":class_id,
+                line_detail["ClassRef"] = {
+                    "value": class_id,
                 }
-                        
-            #Check if product name is provided
+
+            # Check if product name is provided
             if row.get("productName"):
                 if row.get("productName") in self.items:
                     product_ref = self.items[row.get("productName")].get("Id")
