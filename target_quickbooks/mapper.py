@@ -350,12 +350,33 @@ def sales_receipt_line(record, items, products, tax_codes=None):
     total_discount = 0
 
     for item in items:
-        product = products.get(item.get("productName"))
-
+        product = None
+        # lookup product by Name
+        if item.get("productName"):
+            product = products.get(item.get("productName"))
+        # lookup product by productId
+        if product is None and item.get("productId"):
+            #check if productId is a valid id
+            for qb_product in products.values():
+                if qb_product["Id"] == item["productId"]:
+                    product = qb_product
+                    break
+            #check if productId is a valid sku
+            if product is None:
+                for qb_product in products.values():
+                    if qb_product.get("Sku") == item["productId"]:
+                        product = qb_product
+                        break
+        #check if sku is a valid sku
+        if product is None and item.get("sku"):
+            for qb_product in products.values():
+                if qb_product.get("Sku") == item["sku"]:
+                    product = qb_product
+                    break
         if not product:
             logging.warn(f"Could not find matching product for {item.get('productName')}")
             continue
-
+        
         product_id = product["Id"]
 
         item_line_detail = {
