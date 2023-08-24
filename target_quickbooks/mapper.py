@@ -385,7 +385,9 @@ def sales_receipt_line(record, items, products, tax_codes=None):
             "UnitPrice": item.get("unitPrice"),
             "DiscountAmt": item.get("discountAmount"),
         }
-      
+
+        if tax_codes and item.get("taxCode") is not None:
+            item_line_detail.update({"TaxCodeRef": {"value": item.get("taxCode")}})
 
         if item.get("serviceDate"):
             item_line_detail["ServiceDate"] = item.get("serviceDate")
@@ -420,8 +422,9 @@ def sales_receipt_line(record, items, products, tax_codes=None):
             "SalesItemLineDetail": {
                 "ItemRef": {
                     "value" : "SHIPPING_ITEM_ID",
-                    "name" : record.get("shippingAmount")
-                }
+                    "name" : record.get("shippingAmount"),
+                },
+                "TaxCodeRef": {"value": "TAX"}
             },
         }
         lines.append(shipping_line)
