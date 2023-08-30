@@ -515,6 +515,9 @@ def sales_receipt_from_unified(record, customers, products, tax_codes):
                 f"No Invoice Lines for Invoice Number: {record['invoiceNumber']}"
             )
         return []
+    
+    if "payment_id" in record:
+        sales_receipt["PaymentRefNum"] = record.get("payment_id")
 
     return sales_receipt
 
