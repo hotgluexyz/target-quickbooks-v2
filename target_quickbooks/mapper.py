@@ -582,3 +582,47 @@ def department_from_unified(record):
     department = record
 
     return department
+
+
+def deposit_from_unified(record, entity):
+    ref_accounts = entity.accounts
+    ref_classes = entity.classes
+    ref_customers = entity.customers
+
+    qb_deposit = {
+        "Line": [], 
+        "DepositToAccountRef": {
+            "name": record.get("accountName"), 
+            "value": ref_accounts.get(record["accountName"], {}).get("Id") if not record.get("accountId") else record.get("accountId"),
+        },
+        "TxnDate": record.get("issueDate"),
+    }
+
+    qb_deposit["CurrencyRef"] = {
+        "value": record.get("currency"),
+    }
+
+    for line_item in record.get("lineItems", []):
+        content = {
+            "DetailType": "DepositLineDetail",
+            "Amount": line_item.get("amount"),
+            "DepositLineDetail": {
+                "AccountRef": {
+                    "name": line_item.get("accountName"),
+                    "value": ref_accounts.get(line_item["accountName"], {}).get("Id") if not line_item.get("accountId") else line_item.get("accountId")
+                },
+                "Entity": {
+                    "name": line_item.get("customerName"),
+                    "value": ref_customers.get(line_item["customerName"], {}).get("Id")
+                }
+            }
+        }
+        if ref_classes.get(line_item["className"], {}).get("Id", False):
+            content["DepositLineDetail"]["ClassRef"] = {
+                "name": line_item.get("className"),
+                "value": ref_classes.get(line_item["className"], {}).get("Id") if not line_item.get("classId") else line_item.get("classId")
+            }
+            
+        qb_deposit["Line"].append(content)
+
+    return qb_deposit

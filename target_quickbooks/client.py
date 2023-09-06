@@ -74,6 +74,7 @@ class QuickbooksSink(HotglueBatchSink):
         self.items = self.get_entities("Item", key="Name")
         self.classes = self.get_entities("Class")
         self.tax_codes = self.get_entities("TaxCode")
+        self.currency = self.get_entities("Currency")
         self.vendors = self.get_entities("Vendor", key="DisplayName")
         self.terms = self.get_entities("Term", key="Name")
         self.customer_type = self.get_entities("CustomerType", key="Name")
@@ -156,7 +157,10 @@ class QuickbooksSink(HotglueBatchSink):
                 break
 
             # Parse the results
-            records = response["QueryResponse"][entity_type]
+            try:
+                records = response["QueryResponse"][entity_type]
+            except KeyError:
+                records = response["QueryResponse"][f"Company{entity_type}"]
 
             if not records:
                 records = []

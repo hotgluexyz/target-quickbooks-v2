@@ -13,6 +13,7 @@ from target_quickbooks.mapper import (
     tax_rate_from_unified,
     department_from_unified,
     sales_receipt_from_unified,
+    deposit_from_unified,
 )
 
 
@@ -549,3 +550,16 @@ class BillSink(QuickbooksSink):
         entry = ["Bill", entry, "create"]
 
         context["records"].append(entry)
+
+
+class DepositsSink(QuickbooksSink):
+    name = "Deposits"
+
+    def process_record(self, record: dict, context: dict) -> None:
+        if not context.get("records"):
+            context["records"] = []
+
+        for deposit in record.get("Deposits", []):
+            deposit = deposit_from_unified(deposit, self)
+            entry = ["Deposit", deposit, "create"]
+            context["records"].append(entry)
