@@ -451,9 +451,7 @@ class BillSink(QuickbooksSink):
                     "value": department["Id"],
                     "name": department["Name"],
                 }
-        #override the vendor_name from the config. 
-        if self.config.get("vendor_name"):
-            record['vendorName'] = self.config.get("vendor_name")
+
         if "vendorName" in record:
             if record["vendorName"] in self.vendors:
                 vendor = self.vendors[record["vendorName"]]
