@@ -462,7 +462,7 @@ class BillSink(QuickbooksSink):
                 skip_vendor = True
 
         if skip_vendor == True:
-            print("A valid vendor is required for creating bill. Skipping...")
+            self.logger.error(f"A valid vendor is required for creating bill. No match found for {record.get('vendorName')}. Skipping...")
             return
 
         if vendor is not None:
