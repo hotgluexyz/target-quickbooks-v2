@@ -255,7 +255,7 @@ class QuickbooksSink(HotglueBatchSink):
                 self.update_state(state)
 
     
-    def make_request(self,url,data):
+    def make_request(self, url, data):
         access_token = self.access_token
 
         # Send the request
@@ -346,7 +346,8 @@ class QuickbooksSink(HotglueBatchSink):
             "Invoice",
             "CreditMemo",
             "Bill",
-            "SalesReceipt"
+            "SalesReceipt",
+            "Deposits"
         ]
 
         for ri in response_items:
