@@ -110,8 +110,12 @@ class QuickbooksSink(HotglueBatchSink):
         return_data = {}
         for data in reference_data:
             if key in data:
-                if data[key] == value:
-                    return data
+                if isinstance(data,dict):
+                    if data[key] == value:
+                        return data
+                elif isinstance(data,str):
+                    if data==value:
+                        return data    
         return return_data
 
     def get_entities(
