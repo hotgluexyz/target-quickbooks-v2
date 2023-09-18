@@ -556,11 +556,15 @@ class BillSink(QuickbooksSink):
 class DepositsSink(QuickbooksSink):
     name = "Deposits"
 
+    def _process_deposit(self, deposit):
+        deposit = deposit_from_unified(deposit, self)
+        entry = ["Deposit", deposit, "create"]
+        return entry
+
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
             context["records"] = []
 
-        for deposit in record.get("Deposits", []):
-            deposit = deposit_from_unified(deposit, self)
-            entry = ["Deposit", deposit, "create"]
-            context["records"].append(entry)
+        generated_record = self._process_deposit(record)
+        context["records"].append(generated_record)
+        self.logger.info(f"Generated record: {generated_record}")
