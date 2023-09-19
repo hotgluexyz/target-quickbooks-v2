@@ -583,7 +583,6 @@ def department_from_unified(record):
 
     return department
 
-
 def deposit_from_unified(record, entity):
     ref_accounts = entity.accounts
     ref_classes = entity.classes
@@ -609,7 +608,7 @@ def deposit_from_unified(record, entity):
             "DepositLineDetail": {
                 "AccountRef": {
                     "name": line_item.get("accountName"),
-                    "value": ref_accounts.get(line_item["accountName"], {}).get("Id") if not line_item.get("accountId") else line_item.get("accountId")
+                    "value": entity.accounts_name.get(line_item["accountName"], entity.accounts.get(line_item["accountName"], {})).get("Id"),
                 },
                 "Entity": {
                     "name": line_item.get("customerName"),
