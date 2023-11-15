@@ -87,6 +87,7 @@ class QuickbooksSink(HotglueBatchSink):
         self.access_token = self.auth_client.access_token
         self.refresh_token = self.auth_client.refresh_token
         self._config["refresh_token"] = self.refresh_token
+        self.logger.info("Updated refresh token: {}".format(self.refresh_token))
         self._config["access_token"] = self.access_token
         self._config["last_update"] = round(datetime.now().timestamp())
 
