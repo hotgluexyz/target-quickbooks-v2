@@ -360,9 +360,13 @@ class JournalEntrySink(QuickbooksSink):
             if acct_ref is not None:
                 je_detail["AccountRef"] = {"value": acct_ref}
             else:
-                errored = True
-                raise ValueError(f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num}")
-                
+                # Add an error entry to the context to update the target state
+                entry = ["JournalEntry", {
+                    "id": je_id,
+                    "error": f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num}"
+                }, "error"]
+                context["records"].append(entry)
+                return
 
             # Get the Quickbooks Class Ref
             class_name = row.get("className")

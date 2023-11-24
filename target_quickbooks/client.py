@@ -252,14 +252,23 @@ class QuickbooksSink(HotglueBatchSink):
                 self.update_state(state)
         else:
             # If the stream is not "TaxRate", send a single batch request for all records
+            original_records = records.copy()
+            # only send the correctly mapped records to QBO
+            records = [r for r in records if r["operation"] != "error"]
             response = self.make_batch_request(records)
             # Handle the batch response 
             result = self.handle_batch_response(response)
-            # Update the latest state for each state update in the response
-            for state in result.get("state_updates", list()):
-                self.update_state(state)
+            state_updates = iter(result.get("state_updates", list()))
 
-    
+            # Update the latest state for each state update in the response
+            for i, r in enumerate(original_records):
+                if r["operation"] == "error":
+                    entry = [r[k] for k in r.keys() if k not in ["bId", "operation"]][0]
+                    self.update_state({"success": False, "error": entry.get("error"), "id": entry.get("id")})
+                else:
+                    self.update_state(next(state_updates, None))
+
+
     def make_request(self, url, data):
         access_token = self.access_token
 
