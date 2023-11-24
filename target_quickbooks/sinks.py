@@ -361,10 +361,8 @@ class JournalEntrySink(QuickbooksSink):
                 je_detail["AccountRef"] = {"value": acct_ref}
             else:
                 errored = True
-                self.logger.error(
-                    f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num} \n Skipping..."
-                )
-                return
+                raise ValueError(f"Account is missing on Journal Entry {je_id}! Name={acct_name} No={acct_num}")
+                
 
             # Get the Quickbooks Class Ref
             class_name = row.get("className")
