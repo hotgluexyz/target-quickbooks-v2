@@ -11,6 +11,16 @@ class QuickbooksSink(HotglueBatchSink):
     max_size = 30  # Max records to write in one batch
 
     @property
+    def is_full(self):
+        # Checks if all records were already read
+        all_records_were_read = self._total_records_read == self._target.target_counter[self.name]
+
+        # Checks if the max batch size was reached
+        max_batch_size_reached = self._total_records_read % self.max_size == 0
+
+        return all_records_were_read or max_batch_size_reached
+
+    @property
     def base_url(self) -> str:
         realm = self.config.get("realmId")
 
