@@ -74,15 +74,10 @@ class TargetQuickBooks(TargetHotglue):
 
         super()._process_lines(lines)
 
-    def get_sink(self, stream, schema, *args, **kwargs):
-        """Return sink class for stream."""
-        return next(
-            (
-                sink for sink in self.SINK_TYPES
-                if sink.name == stream or sink.name.lower() == stream.lower()
-            ), None
-        )
-
+    def get_sink_class(self, stream_name: str):
+        for sink_class in self.SINK_TYPES:
+            if sink_class.name.lower() == stream_name.lower():
+                return sink_class
 
 if __name__ == "__main__":
     TargetQuickBooks.cli()
