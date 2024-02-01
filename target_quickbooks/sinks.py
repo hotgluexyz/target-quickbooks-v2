@@ -156,7 +156,7 @@ class CustomerSink(QuickbooksSink):
             else:
                 print(f"Customer {record.get('id')} not found. Skipping...")
                 return
-        elif customer["DisplayName"] in self.customers:
+        elif customer.get("DisplayName") in self.customers:
             old_customer = self.customers[customer["DisplayName"]]
             customer["Id"] = old_customer["Id"]
             customer["SyncToken"] = old_customer["SyncToken"]
