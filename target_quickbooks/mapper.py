@@ -6,6 +6,18 @@ import logging
 from datetime import datetime
 
 
+    
+def lookup_entity(record, id_field, name_field, entity, entity_list):
+    id = None
+    if record.get(id_field) or record.get(name_field):
+        if record.get(id_field) in {k:v["Id"] for k,v in entity_list.items()}.values():
+            id = record.get(id_field)
+        if record.get(name_field) and not id:
+            id = entity_list.get(record.get(name_field), {}).get("Id")
+        if not id:
+            raise Exception(f"Could not find {entity} in Quickbooks matching Id= {id_field} or Name={name_field}")
+        return id
+
 def customer_from_unified(record):
     mapp = {
         "customerName": "CompanyName",
@@ -248,8 +260,9 @@ def invoice_line(record, items, products, tax_codes=None):
 
 
 def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
-    customer_id = customers[record.get("customerName")]["Id"]
-
+    # Get customer
+    customer_id = lookup_entity(record, "customerId", "customerName", "Customer", customers)
+    
     invoice_lines = invoice_line(record, record.get("lineItems"), products, tax_codes)
 
     invoice = {
@@ -275,9 +288,10 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     if record.get("taxAmount"):
         invoice["TotalTax"] = record.get("taxAmount")
 
-    if record.get("taxCode"):
+    tax_code_id = lookup_entity(record, None, "taxCode", "TaxCode", tax_codes)
+    if tax_code_id:
         invoice["TxnTaxDetail"] = {
-            "TxnTaxCodeRef": {"value": tax_codes[record.get("taxCode")]["Id"]},
+            "TxnTaxCodeRef": {"value": tax_code_id},
         }
 
     if record.get("customerMemo"):
@@ -301,8 +315,9 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     #     }
 
     if record.get("salesTerm"):
+        sales_term_id = lookup_entity(record, None, "salesTerm", "SalesTerm", sales_terms)
         invoice["SalesTermRef"] = {
-            "value": sales_terms[record.get("salesTerm")]["Id"],
+            "value": sales_term_id,
             "name": record.get("salesTerm"),
         }
 
