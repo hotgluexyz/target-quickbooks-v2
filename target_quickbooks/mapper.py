@@ -256,7 +256,6 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
         "Line": invoice_lines,
         "CustomerRef": {"value": customer_id},
         "TotalAmt": record.get("totalAmount"),
-        "DueDate": record.get("dueDate").split("T")[0],
         "TxnDate": record.get("issueDate"),
         "TrackingNum": record.get("trackingNumber"),
         "EmailStatus": record.get("emailStatus"),
@@ -268,6 +267,10 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
         },
         "ApplyTaxAfterDiscount": record.get("applyTaxAfterDiscount", True),
     }
+
+    # TODO: Is this field required?
+    if record.get("dueDate"):
+        record["DueDate"] = record.get("dueDate").split("T")[0]
 
     if record.get("shipDate"):
         invoice["ShipDate"] = record.get("shipDate")
