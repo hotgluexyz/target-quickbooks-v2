@@ -156,7 +156,7 @@ class CustomerSink(QuickbooksSink):
             else:
                 print(f"Customer {record.get('id')} not found. Skipping...")
                 return
-        elif customer["DisplayName"] in self.customers:
+        elif customer.get("DisplayName") in self.customers:
             old_customer = self.customers[customer["DisplayName"]]
             customer["Id"] = old_customer["Id"]
             customer["SyncToken"] = old_customer["SyncToken"]
@@ -445,14 +445,15 @@ class BillSink(QuickbooksSink):
         vendor = None
         skip_vendor = True
         line_items = []
-        if record.get("department"):
-            departments = self.get_departments()
-            if record["department"] in departments:
-                department = departments[record["department"]]
-                entry["DepartmentRef"] = {
-                    "value": department["Id"],
-                    "name": department["Name"],
-                }
+        # NOTE: Departments aren't mapped yet
+        # if record.get("department"):
+        #     departments = self.get_departments()
+        #     if record["department"] in departments:
+        #         department = departments[record["department"]]
+        #         entry["DepartmentRef"] = {
+        #             "value": department["Id"],
+        #             "name": department["Name"],
+        #         }
 
         if "vendorName" in record:
             if record["vendorName"] in self.vendors:
