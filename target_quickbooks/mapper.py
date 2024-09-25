@@ -6,17 +6,41 @@ import logging
 from datetime import datetime
 
 
-    
-def lookup_entity(record, id_field, name_field, entity, entity_list):
-    id = None
+class EntityNotFoundException(Exception):
+    pass
+
+
+def lookup_entity(record, id_field, name_field, entity, entity_list: dict):
+    entity_id = None
     if record.get(id_field) or record.get(name_field):
-        if record.get(id_field) in {k:v["Id"] for k,v in entity_list.items()}.values():
-            id = record.get(id_field)
-        if record.get(name_field) and not id:
-            id = entity_list.get(record.get(name_field), {}).get("Id")
-        if not id:
-            raise Exception(f"Could not find {entity} in Quickbooks matching Id= {id_field} or Name={name_field}")
-        return id
+        if record.get(id_field) in [v["Id"] for v in entity_list.values()]:
+            entity_id = record.get(id_field)
+        elif record.get(name_field):
+            entity_id = entity_list.get(record.get(name_field), {}).get("Id")
+        if not entity_id:
+            raise EntityNotFoundException(f"Could not find {entity} in Quickbooks matching Id= {id_field} or Name={name_field}")
+    return entity_id
+
+
+def lookup_entity_tuples(record, id_field_tuples, name_field_tuples, entity, entity_list: dict):
+    entity_id = None
+
+    for ref_id_field, lookup_id_field in id_field_tuples:
+        entity_id = record.get(lookup_id_field)
+        if entity_id and entity_id in [v[ref_id_field] for v in entity_list.values() if v.get(ref_id_field)]:
+            return entity_id
+
+    for ref_id_field, lookup_name_field in name_field_tuples:
+        entity_name = record.get(lookup_name_field)
+        if entity_name:
+            entity_id = entity_list.get(entity_name, {}).get(ref_id_field)
+            if entity_id:
+                return entity_id
+
+    id_tuple_str = ';'.join([f'{ref}={lkup}' for ref, lkup in  id_field_tuples])
+    name_tuple_str = ';'.join([f'{ref}={lkup}' for ref, lkup in  name_field_tuples])
+    raise EntityNotFoundException(f"Could not find {entity} in Quickbooks matching {id_tuple_str} or {name_tuple_str}")
+
 
 def customer_from_unified(record):
     mapp = {
@@ -87,6 +111,9 @@ def customer_from_unified(record):
     if addresses:
         if isinstance(addresses, str):
             addresses = eval(addresses)
+
+        if isinstance(addresses, dict):
+            addresses = [addresses]
 
         # TODO: Addresses should use type mapping for shipping/billing like we do for phone numbers above
 
@@ -269,7 +296,6 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
         "Line": invoice_lines,
         "CustomerRef": {"value": customer_id},
         "TotalAmt": record.get("totalAmount"),
-        "DueDate": record.get("dueDate").split("T")[0],
         "TxnDate": record.get("issueDate"),
         "TrackingNum": record.get("trackingNumber"),
         "EmailStatus": record.get("emailStatus"),
@@ -281,6 +307,9 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
         },
         "ApplyTaxAfterDiscount": record.get("applyTaxAfterDiscount", True),
     }
+
+    if record.get("dueDate"):
+        invoice["DueDate"] = record.get("dueDate").split("T")[0]
 
     if record.get("shipDate"):
         invoice["ShipDate"] = record.get("shipDate")
@@ -326,6 +355,10 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     if addresses:
         if isinstance(addresses, str):
             addresses = eval(addresses)
+        
+        if isinstance(addresses, dict):
+            addresses = [addresses]
+
 
         invoice["BillAddr"] = {
             "Line1": addresses[0].get("line1"),
@@ -370,33 +403,26 @@ def sales_receipt_line(record, items, products, tax_codes=None):
 
     for item in items:
         product = None
-        # lookup product by Name
-        if item.get("productName"):
-            product = products.get(item.get("productName"))
-        # lookup product by productId
-        if product is None and item.get("productId"):
-            #check if productId is a valid id
-            for qb_product in products.values():
-                if qb_product["Id"] == item["productId"]:
-                    product = qb_product
-                    break
-            #check if productId is a valid sku
-            if product is None:
-                for qb_product in products.values():
-                    if qb_product.get("Sku") == item["productId"]:
-                        product = qb_product
-                        break
-        #check if sku is a valid sku
-        if product is None and item.get("sku"):
-            for qb_product in products.values():
-                if qb_product.get("Sku") == item["sku"]:
-                    product = qb_product
-                    break
-        if not product:
+
+        try:
+            product_id = lookup_entity_tuples(
+                record,
+                [
+                    ("Id", "productId"),
+                    ("Sku", "productId"),
+                    ("Sku", "sku"),
+                ],
+                [("Id", "productName")],
+                "Product",
+                products
+            )
+        # TODO: should we just skip and continue or raise the exception?
+        except EntityNotFoundException:
+            pass
+
+        if not product_id:
             logging.warn(f"Could not find matching product for {item.get('productName')}")
             continue
-        
-        product_id = product["Id"]
 
         item_line_detail = {
             "ItemRef": {"value": product_id},
@@ -634,8 +660,9 @@ def deposit_from_unified(record, entity):
                     "value": entity.accounts_name.get(line_item["accountName"], entity.accounts.get(line_item["accountName"], {})).get("Id"),
                 },
                 "Entity": {
+                    # TODO: this could be none value? or is better to not have Entity in that case?
                     "name": line_item.get("customerName"),
-                    "value": ref_customers.get(line_item["customerName"], {}).get("Id")
+                    "value": ref_customers.get(line_item.get("customerName"), {}).get("Id")
                 }
             }
         }
