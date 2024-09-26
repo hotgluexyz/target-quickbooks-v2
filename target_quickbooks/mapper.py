@@ -6,6 +6,56 @@ import logging
 from datetime import datetime
 
 
+class EntityNotFoundException(Exception):
+    pass
+
+
+def jsonable_list_objs(obj):
+    if isinstance(obj, str):
+        obj = json.loads(obj)
+    if isinstance(obj, dict):
+        return [obj]
+    return obj
+
+
+def evalable_list_objs(obj):
+    if isinstance(obj, str):
+        obj = eval(obj)
+    if isinstance(obj, dict):
+        return [obj]
+    return obj
+    
+
+def lookup_entity(record, id_field, name_field, entity, entity_list, required):
+    entity_id = None
+    if record.get(id_field) in [v["Id"] for v in entity_list.values()]:
+        entity_id = record.get(id_field)
+    elif record.get(name_field):
+        entity_id = entity_list.get(record.get(name_field), {}).get("Id")
+    if not entity_id and required:
+        raise EntityNotFoundException(f"Could not find {entity} in Quickbooks matching Id= {id_field} or Name={name_field}")
+    return entity_id
+
+
+def lookup_entity_tuples(record, id_field_tuples, name_field_tuples, entity, entity_list, required):
+    for ref_id_field, lookup_id_field in id_field_tuples:
+        entity_id = record.get(lookup_id_field)
+        if entity_id and entity_id in [v[ref_id_field] for v in entity_list.values() if v.get(ref_id_field)]:
+            return entity_id
+
+    for ref_id_field, lookup_name_field in name_field_tuples:
+        entity_name = record.get(lookup_name_field)
+        if entity_name:
+            entity_id = entity_list.get(entity_name, {}).get(ref_id_field)
+            if entity_id:
+                return entity_id
+    if required:
+        id_tuple_str = ';'.join([f'{ref}={lkup}' for ref, lkup in  id_field_tuples])
+        name_tuple_str = ';'.join([f'{ref}={lkup}' for ref, lkup in  name_field_tuples])
+        raise EntityNotFoundException(f"Could not find {entity} in Quickbooks matching {id_tuple_str} or {name_tuple_str}")
+    return None
+
+
 def customer_from_unified(record):
     mapp = {
         "customerName": "CompanyName",
@@ -45,8 +95,7 @@ def customer_from_unified(record):
     phone_numbers = record.get("phoneNumbers")
 
     if phone_numbers:
-        if isinstance(phone_numbers, str):
-            phone_numbers = eval(phone_numbers)
+        phone_numbers = evalable_list_objs(phone_numbers)
 
         fax_number = next((x for x in phone_numbers if x.get("type") == "fax"), None)
         if fax_number:
@@ -73,11 +122,9 @@ def customer_from_unified(record):
     addresses = record.get("addresses")
 
     if addresses:
-        if isinstance(addresses, str):
-            addresses = eval(addresses)
+        addresses = evalable_list_objs(addresses)
 
         # TODO: Addresses should use type mapping for shipping/billing like we do for phone numbers above
-
         customer["BillAddr"] = {
             "Line1": addresses[0].get("line1"),
             "Line2": addresses[0].get("line2"),
@@ -173,8 +220,7 @@ def item_from_unified(record, tax_codes, categories):
 
 def invoice_line(record, items, products, tax_codes=None):
     lines = []
-    if isinstance(items, str):
-        items = json.loads(items)
+    items = jsonable_list_objs(items)
 
     total_discount = 0
 
@@ -248,8 +294,9 @@ def invoice_line(record, items, products, tax_codes=None):
 
 
 def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
-    customer_id = customers[record.get("customerName")]["Id"]
-
+    # Get customer
+    customer_id = lookup_entity(record, "customerId", "customerName", "Customer", customers, True)
+    
     invoice_lines = invoice_line(record, record.get("lineItems"), products, tax_codes)
 
     invoice = {
@@ -278,9 +325,10 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     if record.get("taxAmount"):
         invoice["TotalTax"] = record.get("taxAmount")
 
-    if record.get("taxCode"):
+    tax_code_id = lookup_entity(record, None, "taxCode", "TaxCode", tax_codes, False)
+    if tax_code_id:
         invoice["TxnTaxDetail"] = {
-            "TxnTaxCodeRef": {"value": tax_codes[record.get("taxCode")]["Id"]},
+            "TxnTaxCodeRef": {"value": tax_code_id},
         }
 
     if record.get("customerMemo"):
@@ -304,16 +352,17 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
     #     }
 
     if record.get("salesTerm"):
-        invoice["SalesTermRef"] = {
-            "value": sales_terms[record.get("salesTerm")]["Id"],
-            "name": record.get("salesTerm"),
-        }
+        sales_term_id = lookup_entity(record, None, "salesTerm", "SalesTerm", sales_terms, False)
+        if sales_term_id:
+            invoice["SalesTermRef"] = {
+                "value": sales_term_id,
+                "name": record.get("salesTerm"),
+            }
 
     addresses = record.get("addresses")
 
     if addresses:
-        if isinstance(addresses, str):
-            addresses = eval(addresses)
+        addresses = evalable_list_objs(addresses)
 
         invoice["BillAddr"] = {
             "Line1": addresses[0].get("line1"),
@@ -351,40 +400,25 @@ def invoice_from_unified(record, customers, products, tax_codes, sales_terms):
 
 def sales_receipt_line(record, items, products, tax_codes=None):
     lines = []
-    if isinstance(items, str):
-        items = json.loads(items)
+    items = jsonable_list_objs(items)
 
     total_discount = 0
 
     for item in items:
         product = None
-        # lookup product by Name
-        if item.get("productName"):
-            product = products.get(item.get("productName"))
-        # lookup product by productId
-        if product is None and item.get("productId"):
-            #check if productId is a valid id
-            for qb_product in products.values():
-                if qb_product["Id"] == item["productId"]:
-                    product = qb_product
-                    break
-            #check if productId is a valid sku
-            if product is None:
-                for qb_product in products.values():
-                    if qb_product.get("Sku") == item["productId"]:
-                        product = qb_product
-                        break
-        #check if sku is a valid sku
-        if product is None and item.get("sku"):
-            for qb_product in products.values():
-                if qb_product.get("Sku") == item["sku"]:
-                    product = qb_product
-                    break
-        if not product:
-            logging.warn(f"Could not find matching product for {item.get('productName')}")
-            continue
-        
-        product_id = product["Id"]
+
+        product_id = lookup_entity_tuples(
+            record,
+            [
+                ("Id", "productId"),
+                ("Sku", "productId"),
+                ("Sku", "sku"),
+            ],
+            [("Id", "productName")],
+            "Product",
+            products,
+            True
+        )
 
         item_line_detail = {
             "ItemRef": {"value": product_id},
@@ -531,8 +565,7 @@ def sales_receipt_from_unified(record, customers, products, tax_codes):
 
 def credit_line(items, products, tax_codes=None):
     lines = []
-    if isinstance(items, str):
-        items = json.loads(items)
+    items = jsonable_list_objs(items)
 
     for item in items:
         if not item.get("productName"):
@@ -603,7 +636,7 @@ def deposit_from_unified(record, entity):
         "Line": [], 
         "DepositToAccountRef": {
             "name": record.get("accountName"), 
-            "value": ref_accounts.get(record["accountName"], {}).get("Id") if not record.get("accountId") else record.get("accountId"),
+            "value": ref_accounts.get(record.get("accountName"), {}).get("Id") if not record.get("accountId") else record.get("accountId"),
         },
         "TxnDate": record.get("issueDate"),
     }
@@ -619,18 +652,19 @@ def deposit_from_unified(record, entity):
             "DepositLineDetail": {
                 "AccountRef": {
                     "name": line_item.get("accountName"),
-                    "value": entity.accounts_name.get(line_item["accountName"], entity.accounts.get(line_item["accountName"], {})).get("Id"),
+                    "value": entity.accounts_name.get(line_item.get("accountName"), entity.accounts.get(line_item["accountName"], {})).get("Id"),
                 },
                 "Entity": {
+                    # TODO: this could be none value? or is better to not have Entity in that case?
                     "name": line_item.get("customerName"),
-                    "value": ref_customers.get(line_item["customerName"], {}).get("Id")
+                    "value": ref_customers.get(line_item.get("customerName"), {}).get("Id")
                 }
             }
         }
-        if ref_classes.get(line_item["className"], {}).get("Id", False):
+        if ref_classes.get(line_item.get("className"), {}).get("Id", False):
             content["DepositLineDetail"]["ClassRef"] = {
                 "name": line_item.get("className"),
-                "value": ref_classes.get(line_item["className"], {}).get("Id") if not line_item.get("classId") else line_item.get("classId")
+                "value": ref_classes.get(line_item.get("className"), {}).get("Id") if not line_item.get("classId") else line_item.get("classId")
             }
             
         qb_deposit["Line"].append(content)
