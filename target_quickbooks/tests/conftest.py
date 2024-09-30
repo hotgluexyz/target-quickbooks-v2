@@ -27,8 +27,7 @@ def mock_config():
         "hideText": True,
         "realmId": "4620816365164029070",
         "skipCallbackOAuthErrors": True,
-        "is_sandbox": True,
-        "last_update": 1727275218
+        "is_sandbox": True
     }
 
 @pytest.fixture
@@ -68,6 +67,13 @@ def mock_invoice_dict():
             }
         ]
     }
+
+@pytest.fixture
+def mock_data_invoice():
+    return """{"type": "SCHEMA", "stream": "Invoices", "schema": {"type": ["object", "null"], "properties": {"id": {"type": ["string", "null"]}, "amountDue": {"type": ["string", "null"]}, "currency": {"type": ["string", "null"]}, "createdAt": {"type": ["string", "null"]}, "customerId": {"type": ["string", "null"]}, "customerName": {"type": ["string", "null"]}, "invoiceNumber": {"type": ["string", "null"]}, "lineItems": {"type": ["array", "null"], "items": {"type": ["object", "null"], "properties": {"quantity": {"type": ["integer", "null"]}, "unitPrice": {"type": ["string", "null"]}, "totalPrice": {"type": ["string", "null"]}, "productName": {"type": ["string", "null"]}}}}, "customFields": {"type": ["array", "null"], "items": {"type": ["object", "null"], "properties": {"name": {"type": ["string", "null"]}, "value": {"type": ["string", "null"]}}}}}}, "key_properties": ["id"]}
+{"type": "RECORD", "stream": "invoices", "record": {"id": "5", "amountDue": "1923.06", "currency": "USD", "createdAt": "2024-09-23T01:00:37Z", "customerId": "2", "customerName": "Phong Tran 2", "invoiceNumber": "20-2-202408-5", "lineItems": [{"quantity": 1, "unitPrice": "1923.06", "totalPrice": "1923.06", "productName": "Design"}], "customFields": [{"name": "connector", "value": "quickbooks"}, {"name": "ownerEmail", "value": "phongtc73@yahoo.com"}, {"name": "ownerId", "value": "2650"}, {"name": "invoiceDate", "value": "2024-8-31"}]}}
+{"type": "STATE", "value": {}}
+"""
 
 @pytest.fixture
 def mock_target(mock_config):
