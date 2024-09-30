@@ -1,10 +1,13 @@
+import pytest
 from io import StringIO
 from unittest.mock import patch
 from target_quickbooks.client import QuickbooksSink
 from target_quickbooks.sinks import InvoiceSink
 
-def test_target_process_lines_invoice(mock_target, mock_data_invoice):
-    file_input = StringIO(mock_data_invoice)
+@pytest.mark.parametrize("mock_data_invoice", ["mock_data_invoice_lowercase", "mock_data_invoice_uppercase"])
+def test_target_process_lines_lowercase_invoice(mock_target, mock_data_invoice, request):
+    data_invoice = request.getfixturevalue(mock_data_invoice)
+    file_input = StringIO(data_invoice)
 
     with (
         patch.object(QuickbooksSink, "is_token_valid", return_value=True), 
