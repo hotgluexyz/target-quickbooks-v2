@@ -19,6 +19,7 @@ from target_quickbooks.mapper import (
 
 class InvoiceSink(QuickbooksSink):
     name = "Invoices"
+    alias_name = "invoices"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -58,6 +59,7 @@ class InvoiceSink(QuickbooksSink):
 
 class SalesReceiptSink(QuickbooksSink):
     name = "SalesReceipts"
+    alias_name = "salesreceipts"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -100,6 +102,7 @@ class SalesReceiptSink(QuickbooksSink):
 
 class CustomerSink(QuickbooksSink):
     name = "Customers"
+    alias_name = "customers"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -170,6 +173,7 @@ class CustomerSink(QuickbooksSink):
 
 class ItemSink(QuickbooksSink):
     name = "Items"
+    alias_name = "items"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -267,6 +271,7 @@ class ItemSink(QuickbooksSink):
 
 class CreditNoteSink(QuickbooksSink):
     name = "CreditNotes"
+    alias_name = "creditnotes"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -283,6 +288,7 @@ class CreditNoteSink(QuickbooksSink):
 
 class PaymentMethodSink(QuickbooksSink):
     name = "PaymentMethod"
+    alias_name = "paymentmethod"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -296,6 +302,7 @@ class PaymentMethodSink(QuickbooksSink):
 
 class PaymentTermSink(QuickbooksSink):
     name = "PaymentTerm"
+    alias_name = "paymentterm"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -309,6 +316,7 @@ class PaymentTermSink(QuickbooksSink):
 
 class TaxRateSink(QuickbooksSink):
     name = "TaxRate"
+    alias_name = "taxrate"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -322,6 +330,7 @@ class TaxRateSink(QuickbooksSink):
 
 class DepartmentSink(QuickbooksSink):
     name = "Department"
+    alias_name = "department"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -335,6 +344,7 @@ class DepartmentSink(QuickbooksSink):
 
 class JournalEntrySink(QuickbooksSink):
     name = "JournalEntries"
+    alias_name = "journalentries"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -435,6 +445,7 @@ class JournalEntrySink(QuickbooksSink):
 
 class BillSink(QuickbooksSink):
     name = "Bills"
+    alias_name = "bills"
 
     def process_record(self, record: dict, context: dict) -> None:
         # Bill id
@@ -558,6 +569,7 @@ class BillSink(QuickbooksSink):
 
 class DepositsSink(QuickbooksSink):
     name = "Deposits"
+    alias_name = "deposits"
 
     def _process_deposit(self, deposit):
         deposit = deposit_from_unified(deposit, self)

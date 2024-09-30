@@ -8,12 +8,21 @@ from typing import Dict, List, Optional
 
 class QuickbooksSink(HotglueBatchSink):
     endpoint = "/batch"
+    alias_name = None
     max_size = 30  # Max records to write in one batch
 
     @property
     def is_full(self):
         # Checks if all records were already read
-        all_records_were_read = self._total_records_read == self._target.target_counter[self.name]
+        if self.name in self._target.target_counter:
+            all_records_were_read = self._total_records_read == self._target.target_counter[self.name]
+        elif self.stream_name in self._target.target_counter:
+            all_records_were_read = self._total_records_read == self._target.target_counter[self.stream_name]
+        elif self.alias_name in self._target.target_counter:
+            all_records_were_read = self._total_records_read == self._target.target_counter[self.alias_name]
+        else:
+            raise Exception(f"Stream name from record doesn't match schema. Name={self.name}, StreamName={self.stream_name}, AliasName={self.alias_name}. TargetCounter={self._target.target_counter}")
+
 
         # Checks if the max batch size was reached
         max_batch_size_reached = self._total_records_read % self.max_size == 0
@@ -209,7 +218,7 @@ class QuickbooksSink(HotglueBatchSink):
             self.init_state()
         
         # Extract the raw records from the context
-        raw_records = context["records"]
+        raw_records = context.get("records", [])
 
         records = list(map(lambda e: self.process_batch_record(e[1], e[0]), enumerate(raw_records)))
 
