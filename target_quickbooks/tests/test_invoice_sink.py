@@ -3,7 +3,7 @@ from unittest.mock import patch
 from target_quickbooks.client import QuickbooksSink
 from target_quickbooks.sinks import InvoiceSink
 
-def test_target_cli_invoice_sink(mock_target, mock_data_invoice, mock_invoice_sink):
+def test_target_cli_invoice_sink(mock_target, mock_data_invoice):
     file_input = StringIO(mock_data_invoice)
 
     with (
