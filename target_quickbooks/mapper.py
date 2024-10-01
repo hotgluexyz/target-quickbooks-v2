@@ -262,8 +262,14 @@ def invoice_line(record, items, products, tax_codes=None):
             "Description": item.get("description"),
         }
 
-        if product["TrackQtyOnHand"]:
-            if product["QtyOnHand"] < 1:
+        if product.get("TrackQtyOnHand"):
+            produdct_qty = product.get("QtyOnHand")
+            if not (isinstance(produdct_qty, int) or isinstance(produdct_qty, float)):
+                logging.info(
+                    f"Invalid QtyOnHand for Product: {item.get('productName')}. QtyOnHand: {produdct_qty}"
+                )
+                line_item = None
+            if produdct_qty < 1:
                 logging.info(
                     f"No quantity available for Product: {item.get('productName')}"
                 )

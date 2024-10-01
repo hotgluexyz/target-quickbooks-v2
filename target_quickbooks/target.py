@@ -17,7 +17,6 @@ from target_quickbooks.sinks import (
     SalesReceiptSink,
     DepositsSink
 )
-import io
 import json
 
 
@@ -73,6 +72,12 @@ class TargetQuickBooks(TargetHotglue):
             ) + 1
 
         super()._process_lines(lines)
+    
+    def _process_record_message(self, message_dict: dict) -> None:
+        if message_dict["stream"] not in self.mapper.stream_maps:
+            sink = self.get_sink_class(message_dict["stream"])
+            message_dict["stream"] = sink.name
+        return super()._process_record_message(message_dict)
 
     def get_sink_class(self, stream_name: str):
         for sink_class in self.SINK_TYPES:
