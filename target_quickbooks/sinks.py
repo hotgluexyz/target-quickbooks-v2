@@ -346,16 +346,28 @@ class JournalEntrySink(QuickbooksSink):
         line_items = []
 
         # Create line items
-        for row in record["lines"]:
+        for row in record.get("journalLines", record.get("lines", [])):
+            if not "postingType" in row:
+                # Add an error entry to the context to update the target state
+                entry = ["JournalEntry", {
+                    "id": je_id,
+                    "error": f"Journal Entry {je_id} - you must define a postingType for each journalLine! Valid values are: Debit, Credit."
+                }, "error"]
+                context["records"].append(entry)
+                return
+
             # Create journal entry line detail
             je_detail = {"PostingType": row["postingType"]}
 
             # Get the Quickbooks Account Ref
-            acct_num = str(row["accountNumber"])
+            acct_num = str(row["accountNumber"]) if row.get("accountNumber") else None
             acct_name = row["accountName"]
-            acct_ref = self.accounts.get(
-                acct_num, self.accounts.get(acct_name, {})
-            ).get("Id")
+            if acct_num:
+                acct_ref = self.accounts.get(
+                    acct_num, self.accounts.get(acct_name, {})
+                ).get("Id")
+            else:
+                acct_ref = self.accounts.get(acct_name, {}).get("Id")
 
             if acct_ref is not None:
                 je_detail["AccountRef"] = {"value": acct_ref}
@@ -439,6 +451,18 @@ class BillSink(QuickbooksSink):
     def process_record(self, record: dict, context: dict) -> None:
         # Bill id
         bill_id = record.get("id")
+        updating_bill = False
+        if bill_id:
+            bill_details = self.get_entities(
+                "Bill",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" id ='{record.get('id')}'",
+            )
+
+            if bill_details:
+                updating_bill = True
+
         if not context.get("records"):
             context["records"] = []
         entry = {}
@@ -462,15 +486,15 @@ class BillSink(QuickbooksSink):
             else:
                 skip_vendor = True
 
-        if skip_vendor == True:
-            self.logger.error(f"A valid vendor is required for creating bill. No match found for {record.get('vendorName')}. Skipping...")
-            return
+        # NOTE: We can proceed even without a Vendor if we are updating an existing Bill
+        if skip_vendor == True and not updating_bill:
+            raise Exception(f"A valid vendor is required for creating bill. No match found for {record.get('vendorName')}.")
 
         if vendor is not None:
             entry["VendorRef"] = {"value": vendor["Id"]}
 
         # Create line items
-        for row in record["lineItems"]:
+        for row in record.get("lineItems", []):
             # Create journal entry line detail
             line_detail = {}
             detail_type = "ItemBasedExpenseLineDetail"
@@ -551,7 +575,10 @@ class BillSink(QuickbooksSink):
         if record.get("currency"):
             entry["CurrencyRef"] = {"value": record["currency"]}
 
-        entry = ["Bill", entry, "create"]
+        if updating_bill:
+            entry = ["Bill", entry, "update"]
+        else:
+            entry = ["Bill", entry, "create"]
 
         context["records"].append(entry)
 
