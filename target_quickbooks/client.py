@@ -5,6 +5,7 @@ from intuitlib.client import AuthClient
 from singer_sdk.plugin_base import PluginBase
 from target_hotglue.client import HotglueBatchSink
 from typing import Dict, List, Optional
+import ast
 
 class QuickbooksSink(HotglueBatchSink):
     endpoint = "/batch"
@@ -61,6 +62,17 @@ class QuickbooksSink(HotglueBatchSink):
 
     def validate_input(self, record: dict):
         return True
+    
+    def parse_objs(self, obj):
+        if isinstance(obj, str):
+            try:
+                return json.loads(obj)
+            except:
+                try:
+                    return ast.literal_eval(obj)
+                except:
+                    return obj
+        return obj
 
     def instantiate_client(self):
         self.last_refreshed = None
