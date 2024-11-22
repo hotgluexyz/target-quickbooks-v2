@@ -207,7 +207,7 @@ class ItemSink(QuickbooksSink):
 
         # Pick up account information from invoiceItem
         if not income_account and not expense_account and record.get("invoiceItem"):
-            invoice_item = json.loads(record.get("invoiceItem"))
+            invoice_item = self.parse_objs(record.get("invoiceItem"))
             account_detail = self.accounts_name.get(invoice_item.get("accountName"))
 
             if account_detail is None:
