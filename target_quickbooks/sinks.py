@@ -530,6 +530,11 @@ class BillSink(QuickbooksSink):
                     line_detail["UnitPrice"] = row.get("unitPrice")
                     line_detail["Qty"] = row.get("quantity")
 
+            elif row.get("accountId"):
+                detail_type = "AccountBasedExpenseLineDetail"
+                line_detail["AccountRef"] = {"value": row.get("accountId")}
+                line_detail["TaxAmount"] = row.get("taxAmount")
+
             elif row.get("accountName"):
                 # Get the Quickbooks Account Ref
                 # acct_num = str(row["accountName"])
