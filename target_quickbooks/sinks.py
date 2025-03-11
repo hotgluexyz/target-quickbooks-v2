@@ -361,13 +361,13 @@ class JournalEntrySink(QuickbooksSink):
 
             # Get the Quickbooks Account Ref
             acct_num = str(row["accountNumber"]) if row.get("accountNumber") else None
-            acct_name = row["accountName"]
-            if acct_num:
+            acct_name = row.get("accountName")
+            acct_ref = row.get("accountId")
+
+            if acct_name and not acct_ref:
                 acct_ref = self.accounts.get(
                     acct_num, self.accounts.get(acct_name, {})
                 ).get("Id")
-            else:
-                acct_ref = self.accounts.get(acct_name, {}).get("Id")
 
             if acct_ref is not None:
                 je_detail["AccountRef"] = {"value": acct_ref}
@@ -419,10 +419,18 @@ class JournalEntrySink(QuickbooksSink):
                     f"Vendor is missing on Journal Entry {je_id}! Name={vendor_name}"
                 )
 
+            amount = row.get("amount")
+            if not amount:
+                entry = ["JournalEntry", {
+                    "id": je_id,
+                    "error": f"Journal entry line amount is missing on Journal Entry {je_id}"
+                }, "error"]
+                context["records"].append(entry)
+
             # Create the line item
             line_items.append(
                 {
-                    "Description": row["description"],
+                    "Description": row.get("description"),
                     "Amount": row["amount"],
                     "DetailType": "JournalEntryLineDetail",
                     "JournalEntryLineDetail": je_detail,
