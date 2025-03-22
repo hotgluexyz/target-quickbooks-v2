@@ -5,6 +5,7 @@ import re
 
 from target_quickbooks.mapper import (
     customer_from_unified,
+    vendor_from_unified,
     item_from_unified,
     invoice_from_unified,
     creditnote_from_unified,
@@ -166,6 +167,23 @@ class CustomerSink(QuickbooksSink):
             entry = ["Customer", customer, "create"]
 
         context["records"].append(entry)
+
+
+class VendorSink(QuickbooksSink):
+    name = "Vendors"
+
+    def process_record(self, record: dict, context: dict) -> None:
+        if not context.get("records"):
+            context["records"] = []
+
+        vendor = vendor_from_unified(record, self.tax_codes)
+
+        # TODO: Check if vendor already exists and update if so
+        entry = ["Vendor", vendor, "create"]
+
+        context["records"].append(entry)
+
+        self.logger.info(f"Generated record: {entry}")
 
 
 class ItemSink(QuickbooksSink):
