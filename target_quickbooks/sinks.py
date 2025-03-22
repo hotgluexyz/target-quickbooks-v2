@@ -565,14 +565,25 @@ class BillSink(QuickbooksSink):
             else:
                 errored = True
                 self.logger.error(
-                    f"Account and product is missing on Journal Entry {bill_id}! Name={acct_name} \n Skipping..."
+                    f"Account and product is missing on Bill {bill_id}! Skipping..."
                 )
                 return
 
             # Create the line item
+            total_price = row.get("totalPrice")
+            if not total_price and row.get("unitPrice") and row.get("quantity"):
+                total_price = row["unitPrice"] * row["quantity"]
+
+            if not total_price:
+                errored = True
+                self.logger.error(
+                    f"Total price is missing on Bill {bill_id}! Skipping..."
+                )
+                return
+
             line_items.append(
                 {
-                    "Amount": row["totalPrice"],
+                    "Amount": total_price,
                     "DetailType": detail_type,
                     detail_type: line_detail,
                     "Description": row.get("description"),
