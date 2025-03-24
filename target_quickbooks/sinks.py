@@ -476,7 +476,7 @@ class JournalEntrySink(QuickbooksSink):
             line_items.append(
                 {
                     "Description": row.get("description"),
-                    "Amount": row["amount"],
+                    "Amount": abs(amount) if row.get("postingType") == "Credit" else amount,
                     "DetailType": "JournalEntryLineDetail",
                     "JournalEntryLineDetail": je_detail,
                 }
