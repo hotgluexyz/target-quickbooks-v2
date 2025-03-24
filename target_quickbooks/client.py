@@ -319,6 +319,7 @@ class QuickbooksSink(HotglueBatchSink):
         entities = [
             "JournalEntry",
             "Customer",
+            "Vendor",
             "Item",
             "Invoice",
             "CreditMemo",
@@ -384,6 +385,7 @@ class QuickbooksSink(HotglueBatchSink):
         entities = [
             "JournalEntry",
             "Customer",
+            "Vendor",
             "Item",
             "Invoice",
             "CreditMemo",

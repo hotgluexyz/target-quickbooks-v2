@@ -178,8 +178,35 @@ class VendorSink(QuickbooksSink):
 
         vendor = vendor_from_unified(record, self.tax_codes)
 
-        # TODO: Check if vendor already exists and update if so
-        entry = ["Vendor", vendor, "create"]
+        if record.get("id"):
+            vendor_details = self.get_entities(
+                "Vendor",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" id ='{record.get('id')}'",
+            )
+            if str(record.get("id")) in vendor_details:
+                vendor.update(
+                    {
+                        "Id": record.get("id"),
+                        "sparse": True,
+                        "SyncToken": vendor_details[str(record.get("id"))][
+                            "SyncToken"
+                        ],
+                    }
+                )
+                entry = ["Vendor", vendor, "update"]
+            else:
+                print(f"Vendor {record.get('id')} not found. Skipping...")
+                return
+        elif vendor.get("DisplayName") in self.vendors:
+            old_vendor = self.vendors[vendor["DisplayName"]]
+            vendor["Id"] = old_vendor["Id"]
+            vendor["SyncToken"] = old_vendor["SyncToken"]
+            vendor["sparse"] = True
+            entry = ["Vendor", vendor, "update"]
+        else:
+            entry = ["Vendor", vendor, "create"]
 
         context["records"].append(entry)
 
