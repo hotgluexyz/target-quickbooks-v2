@@ -150,6 +150,91 @@ def customer_from_unified(record):
     return customer
 
 
+def vendor_from_unified(record, tax_codes):
+    vendor = {}
+
+    if record.get("emailAddress"):
+        vendor["PrimaryEmailAddr"] = {
+            "Address": record.get("emailAddress")
+        }
+
+    phone_numbers = record.get("phoneNumbers")
+
+    if phone_numbers:
+        phone_numbers = evalable_list_objs(phone_numbers)
+
+        mobile_number = next(
+            (x for x in phone_numbers if x.get("type") == "mobile"), None
+        )
+
+        if mobile_number:
+            vendor["Mobile"] = {"FreeFormNumber": mobile_number["number"]}
+
+        primary_number = next(
+            (x for x in phone_numbers if x.get("type") == "primary"), None
+        )
+
+        if primary_number:
+            vendor["PrimaryPhone"] = {"FreeFormNumber": primary_number["number"]}
+        else:
+            primary_number = next(
+                (x for x in phone_numbers if x.get("type") == "phone1"), None
+            )
+
+            if primary_number:
+                vendor["PrimaryPhone"] = {"FreeFormNumber": primary_number["number"]}
+            else:
+                vendor["PrimaryPhone"] = {"FreeFormNumber": phone_numbers[0]["number"]}
+
+    addresses = record.get("addresses")
+
+    if addresses:
+        addresses = evalable_list_objs(addresses)
+
+        # TODO: Addresses should use type mapping for shipping/billing like we do for phone numbers above
+
+        vendor["BillAddr"] = {
+            "Line1": addresses[0].get("line1"),
+            "Line2": addresses[0].get("line2"),
+            "Line3": addresses[0].get("line3"),
+            "City": addresses[0].get("city"),
+            "CountrySubDivisionCode": addresses[0].get("state"),
+            "PostalCode": addresses[0].get("postalCode"),
+            "Country": addresses[0].get("country"),
+        }
+
+    if record.get("vendorName"):
+        vendor["DisplayName"] = record.get("vendorName")
+        vendor["CompanyName"] = record.get("vendorName")
+        vendor["PrintOnCheckName"] = record.get("vendorName")
+
+    if record.get("contactName"):
+        contact_name = record.get("contactName")
+
+        if len(contact_name.split()) > 1:
+            given_name, *family_name = contact_name.split()
+
+            if isinstance(family_name, list):
+                family_name = " ".join(family_name)
+            else:
+                given_name, family_name = contact_name, None
+
+            vendor["GivenName"] = given_name
+            vendor["FamilyName"] = family_name
+
+    # TODO: I am pretty sure the below is wrong, so I've commented it out for now.
+    # if record.get("bankAccounts"):
+    #     bank_accounts = evalable_list_objs(record.get("bankAccounts"))
+
+    #     tax_code_id = lookup_entity(record, None, "taxCode", "TaxCode", tax_codes, False)
+
+    #     if len(bank_accounts):
+    #         vendor["TaxIdentifier"] = tax_code_id
+
+    #     vendor["AcctNum"] = bank_accounts[0].get("accountNumber")
+
+    return vendor
+
 def item_from_unified(record, tax_codes, categories):
     mapp = {
         "name": "Name",

@@ -5,6 +5,7 @@ import re
 
 from target_quickbooks.mapper import (
     customer_from_unified,
+    vendor_from_unified,
     item_from_unified,
     invoice_from_unified,
     creditnote_from_unified,
@@ -166,6 +167,50 @@ class CustomerSink(QuickbooksSink):
             entry = ["Customer", customer, "create"]
 
         context["records"].append(entry)
+
+
+class VendorSink(QuickbooksSink):
+    name = "Vendors"
+
+    def process_record(self, record: dict, context: dict) -> None:
+        if not context.get("records"):
+            context["records"] = []
+
+        vendor = vendor_from_unified(record, self.tax_codes)
+
+        if record.get("id"):
+            vendor_details = self.get_entities(
+                "Vendor",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" id ='{record.get('id')}'",
+            )
+            if str(record.get("id")) in vendor_details:
+                vendor.update(
+                    {
+                        "Id": record.get("id"),
+                        "sparse": True,
+                        "SyncToken": vendor_details[str(record.get("id"))][
+                            "SyncToken"
+                        ],
+                    }
+                )
+                entry = ["Vendor", vendor, "update"]
+            else:
+                print(f"Vendor {record.get('id')} not found. Skipping...")
+                return
+        elif vendor.get("DisplayName") in self.vendors:
+            old_vendor = self.vendors[vendor["DisplayName"]]
+            vendor["Id"] = old_vendor["Id"]
+            vendor["SyncToken"] = old_vendor["SyncToken"]
+            vendor["sparse"] = True
+            entry = ["Vendor", vendor, "update"]
+        else:
+            entry = ["Vendor", vendor, "create"]
+
+        context["records"].append(entry)
+
+        self.logger.info(f"Generated record: {entry}")
 
 
 class ItemSink(QuickbooksSink):
