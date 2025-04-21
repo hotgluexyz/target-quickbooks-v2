@@ -391,7 +391,8 @@ class QuickbooksSink(HotglueBatchSink):
             "CreditMemo",
             "Bill",
             "SalesReceipt",
-            "Deposits"
+            "Deposits",
+            "BillPayment"
         ]
 
         for ri in response_items:
