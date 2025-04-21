@@ -667,3 +667,85 @@ class DepositsSink(QuickbooksSink):
         generated_record = self._process_deposit(record)
         context["records"].append(generated_record)
         self.logger.info(f"Generated record: {generated_record}")
+
+
+class BillPaymentsSink(QuickbooksSink):
+    name = "BillPayments"
+
+    def process_record(self, record: dict, context: dict) -> None:
+        if not context.get("records"):
+            context["records"] = []
+
+        new_record = {
+            "PayType": record.get("payType"),
+            "CurrencyRef": {
+                "value": record.get("currency")
+            },
+        }
+
+        vendor_id = record.get("vendorId")
+        vendor_name = record.get("vendorName")
+        if vendor_id:
+            vendor = next((vendor for vendor in self.vendors.values() if vendor.get("Id", None) == vendor_id), None)
+            if not vendor:
+                entry = ["BillPayments", {
+                    "error": f"Invalid vendorId={vendor_id}. Record={record}"
+                }, "error"]
+                context["records"].append(entry)
+                return
+            new_record["VendorRef"] = {"value": vendor["Id"]}
+        elif vendor_name:
+            vendor = self.vendors.get(vendor_name)
+            if vendor is None:
+                entry = ["BillPayments", {
+                    "error": f"Invalid vendorName={vendor_name}. Record={record}"
+                }, "error"]
+                context["records"].append(entry)
+                return
+            new_record["VendorRef"] = {"value": vendor["Id"]}
+        else:
+            entry = ["BillPayments", {
+                "error": f"vendorId/vendorName not supplied. Record={record}"
+            }, "error"]
+            context["records"].append(entry)
+            return
+
+        pay_type = record.get("payType")
+        if pay_type == "CreditCard":
+            new_record["CreditCardPayment"] = {
+                "CCAccountRef": {
+                    "value": record.get("ccAccountId")
+                }
+            }
+        elif pay_type == "Check":
+            new_record["CheckPayment"] = {
+                "BankAccountRef": {
+                    "value": record.get("bankAccountId")
+                }
+            }
+        else:
+            entry = ["BillPayments", {
+                "error": f"Invalid PayType={pay_type}. Record={record}"
+            }, "error"]
+            context["records"].append(entry)
+            return
+
+        total_amount = 0
+        bills_to_pay = []
+        for line_item in record.get("lineItems", []):
+            total_amount += line_item.get("amount", 0)
+            bills_to_pay.append({
+                "Amount": line_item.get("amount"),
+                "LinkedTxn": [
+                    {
+                        "TxnId": line_item.get("billId"),
+                        "TxnType": "Bill"
+                    }
+                ]
+            })
+
+        new_record["TotalAmt"] = total_amount
+        new_record["Line"] = bills_to_pay
+
+        entry = ["BillPayment", new_record, "create"]
+        context["records"].append(entry)

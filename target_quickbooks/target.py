@@ -16,7 +16,8 @@ from target_quickbooks.sinks import (
     JournalEntrySink,
     PaymentMethodSink,
     SalesReceiptSink,
-    DepositsSink
+    DepositsSink,
+    BillPaymentsSink
 )
 import json
 
@@ -49,7 +50,8 @@ class TargetQuickBooks(TargetHotglue):
         JournalEntrySink,
         PaymentMethodSink,
         SalesReceiptSink,
-        DepositsSink
+        DepositsSink,
+        BillPaymentsSink
     ]
 
     def _process_lines(self, file_input):
