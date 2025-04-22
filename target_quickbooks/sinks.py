@@ -677,7 +677,6 @@ class BillPaymentsSink(QuickbooksSink):
             context["records"] = []
 
         new_record = {
-            "PayType": record.get("payType"),
             "CurrencyRef": {
                 "value": record.get("currency")
             },
@@ -710,25 +709,34 @@ class BillPaymentsSink(QuickbooksSink):
             context["records"].append(entry)
             return
 
-        pay_type = record.get("payType")
-        if pay_type == "CreditCard":
-            new_record["CreditCardPayment"] = {
-                "CCAccountRef": {
-                    "value": record.get("ccAccountId")
-                }
-            }
-        elif pay_type == "Check":
-            new_record["CheckPayment"] = {
-                "BankAccountRef": {
-                    "value": record.get("bankAccountId")
-                }
-            }
-        else:
+        account_id = record.get("accountId")
+        account_name = record.get("accountName")
+        account = None
+        if account_id:
+            account = next((account for account in self.accounts.values() if account.get("Id", None) == account_id), None)
+        if account_name and account is None:
+            account = self.accounts.get(account_name)
+        if account is None:
             entry = ["BillPayments", {
-                "error": f"Invalid PayType={pay_type}. Record={record}"
+                "error": f"accountId/accountName not found. Record={record}"
             }, "error"]
             context["records"].append(entry)
             return
+        
+        new_record["PayType"] = "CreditCard" if account["AccountType"] == "Credit Card" else "Check"
+
+        if new_record["PayType"] == "CreditCard":
+            new_record["CreditCardPayment"] = {
+                "CCAccountRef": {
+                    "value": account["Id"]
+                }
+            }
+        else:
+            new_record["CheckPayment"] = {
+                "BankAccountRef": {
+                    "value": account["Id"]
+                }
+            }
 
         total_amount = 0
         bills_to_pay = []
