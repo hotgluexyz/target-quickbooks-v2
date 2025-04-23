@@ -677,10 +677,25 @@ class BillPaymentsSink(QuickbooksSink):
             context["records"] = []
 
         new_record = {
+            "TotalAmt": record.get("amount"),
             "CurrencyRef": {
                 "value": record.get("currency")
             },
         }
+
+        if not new_record.get("TotalAmt"):
+            entry = ["BillPayments", {
+                "error": f"Amount not provided. Record={record}"
+            }, "error"]
+            context["records"].append(entry)
+            return
+        
+        if not record.get("transactionId"):
+            entry = ["BillPayments", {
+                "error": f"transactionId not provided. Record={record}"
+            }, "error"]
+            context["records"].append(entry)
+            return
 
         vendor_id = record.get("vendorId")
         vendor_name = record.get("vendorName")
@@ -738,22 +753,15 @@ class BillPaymentsSink(QuickbooksSink):
                 }
             }
 
-        total_amount = 0
-        bills_to_pay = []
-        for line_item in record.get("lineItems", []):
-            total_amount += line_item.get("amount", 0)
-            bills_to_pay.append({
-                "Amount": line_item.get("amount"),
-                "LinkedTxn": [
-                    {
-                        "TxnId": line_item.get("billId"),
-                        "TxnType": "Bill"
-                    }
-                ]
-            })
-
-        new_record["TotalAmt"] = total_amount
-        new_record["Line"] = bills_to_pay
+        new_record["Line"] = [{
+            "Amount": new_record.get("TotalAmt"),
+            "LinkedTxn": [
+                {
+                    "TxnId": record.get("transactionId"),
+                    "TxnType": "Bill"
+                }
+            ]
+        }]
 
         entry = ["BillPayment", new_record, "create"]
         context["records"].append(entry)
