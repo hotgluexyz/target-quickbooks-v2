@@ -667,3 +667,101 @@ class DepositsSink(QuickbooksSink):
         generated_record = self._process_deposit(record)
         context["records"].append(generated_record)
         self.logger.info(f"Generated record: {generated_record}")
+
+
+class BillPaymentsSink(QuickbooksSink):
+    name = "BillPayments"
+
+    def process_record(self, record: dict, context: dict) -> None:
+        if not context.get("records"):
+            context["records"] = []
+
+        new_record = {
+            "TotalAmt": record.get("amount"),
+            "CurrencyRef": {
+                "value": record.get("currency")
+            },
+        }
+
+        if not new_record.get("TotalAmt"):
+            entry = ["BillPayments", {
+                "error": f"Amount not provided. Record={record}"
+            }, "error"]
+            context["records"].append(entry)
+            return
+        
+        if not record.get("transactionId"):
+            entry = ["BillPayments", {
+                "error": f"transactionId not provided. Record={record}"
+            }, "error"]
+            context["records"].append(entry)
+            return
+
+        vendor_id = record.get("vendorId")
+        vendor_name = record.get("vendorName")
+        if vendor_id:
+            vendor = next((vendor for vendor in self.vendors.values() if vendor.get("Id", None) == vendor_id), None)
+            if not vendor:
+                entry = ["BillPayments", {
+                    "error": f"Invalid vendorId={vendor_id}. Record={record}"
+                }, "error"]
+                context["records"].append(entry)
+                return
+            new_record["VendorRef"] = {"value": vendor["Id"]}
+        elif vendor_name:
+            vendor = self.vendors.get(vendor_name)
+            if vendor is None:
+                entry = ["BillPayments", {
+                    "error": f"Invalid vendorName={vendor_name}. Record={record}"
+                }, "error"]
+                context["records"].append(entry)
+                return
+            new_record["VendorRef"] = {"value": vendor["Id"]}
+        else:
+            entry = ["BillPayments", {
+                "error": f"vendorId/vendorName not supplied. Record={record}"
+            }, "error"]
+            context["records"].append(entry)
+            return
+
+        account_id = record.get("accountId")
+        account_name = record.get("accountName")
+        account = None
+        if account_id:
+            account = next((account for account in self.accounts.values() if account.get("Id", None) == account_id), None)
+        if account_name and account is None:
+            account = self.accounts.get(account_name)
+        if account is None:
+            entry = ["BillPayments", {
+                "error": f"accountId/accountName not found. Record={record}"
+            }, "error"]
+            context["records"].append(entry)
+            return
+        
+        new_record["PayType"] = "CreditCard" if account["AccountType"] == "Credit Card" else "Check"
+
+        if new_record["PayType"] == "CreditCard":
+            new_record["CreditCardPayment"] = {
+                "CCAccountRef": {
+                    "value": account["Id"]
+                }
+            }
+        else:
+            new_record["CheckPayment"] = {
+                "BankAccountRef": {
+                    "value": account["Id"]
+                }
+            }
+
+        new_record["Line"] = [{
+            "Amount": new_record.get("TotalAmt"),
+            "LinkedTxn": [
+                {
+                    "TxnId": record.get("transactionId"),
+                    "TxnType": "Bill"
+                }
+            ]
+        }]
+
+        entry = ["BillPayment", new_record, "create"]
+        context["records"].append(entry)
