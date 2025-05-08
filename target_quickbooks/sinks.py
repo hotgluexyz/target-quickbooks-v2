@@ -672,15 +672,28 @@ class DepositsSink(QuickbooksSink):
 class BillPaymentsSink(QuickbooksSink):
     name = "BillPayments"
 
+    def get_transaction(self, record, context):
+        transaction_id = record.get("transactionId")
+        transaction = self.get_entities(
+            "Bill",
+            check_active=False,
+            fallback_key="Id",
+            where_filter=f" id ='{transaction_id}'",
+        )
+        if not transaction:
+            entry = ["BillPayments", {
+                "error": f"Invalid transactionId={transaction_id}. Record={record}"
+            }, "error"]
+            context["records"].append(entry)
+            return
+        return transaction[transaction_id]
+
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
             context["records"] = []
 
         new_record = {
             "TotalAmt": record.get("amount"),
-            "CurrencyRef": {
-                "value": record.get("currency")
-            },
         }
 
         if not new_record.get("TotalAmt"):
@@ -699,6 +712,7 @@ class BillPaymentsSink(QuickbooksSink):
 
         vendor_id = record.get("vendorId")
         vendor_name = record.get("vendorName")
+        transaction = None
         if vendor_id:
             vendor = next((vendor for vendor in self.vendors.values() if vendor.get("Id", None) == vendor_id), None)
             if not vendor:
@@ -718,11 +732,21 @@ class BillPaymentsSink(QuickbooksSink):
                 return
             new_record["VendorRef"] = {"value": vendor["Id"]}
         else:
-            entry = ["BillPayments", {
-                "error": f"vendorId/vendorName not supplied. Record={record}"
-            }, "error"]
-            context["records"].append(entry)
-            return
+            transaction = self.get_transaction(record, context)
+            # if transaction is not found, error was appended to context, return
+            if not transaction:
+                return
+            new_record["VendorRef"] = {"value": transaction["VendorRef"]["value"]}
+        
+        if record.get("currency"):
+            new_record["CurrencyRef"] = {"value": record["currency"]}
+        else:
+            # if currency not provided, get it from the linked transaction
+            transaction = self.get_transaction(record, context) if not transaction else transaction
+            # if transaction is not found, error was appended to context, return
+            if not transaction:
+                return
+            new_record["CurrencyRef"] = {"value": transaction["CurrencyRef"]["value"]}
 
         account_id = record.get("accountId")
         account_name = record.get("accountName")
