@@ -29,6 +29,7 @@ class InvoiceSchemaMapper(BaseMapper):
             **self._map_tax_code()
         }
 
+        self._map_discount(payload)
         self._map_fields(payload)
 
         return payload
@@ -71,4 +72,17 @@ class InvoiceSchemaMapper(BaseMapper):
                 mapped_lines.append(mapped_line)
         
         return { "Line": mapped_lines }
+
+    def _map_discount(self, payload):
+        if discount := self.record.get("discountAmount"):
+            discount_line = {
+                "DetailType": "DiscountLineDetail",
+                "Amount": discount,
+                "DiscountLineDetail": {
+                    "PercentBased": False
+                }
+            }
+            existing_lines = payload.get("Line", [])
+            existing_lines.append(discount_line)
+            payload["Line"] = existing_lines
 
