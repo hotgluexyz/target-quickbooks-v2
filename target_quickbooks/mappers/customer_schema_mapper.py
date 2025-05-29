@@ -112,7 +112,8 @@ class CustomerSchemaMapper(BaseMapper):
     def _map_taxable(self):
         taxable_info = {}
 
-        if taxable := self.record.get("taxable"):
+        taxable = self.record.get("taxable")
+        if taxable is not None:
             taxable_info["Taxable"] = taxable
             if taxable is False:
                 taxable_info["TaxExemptionReasonId"] = self.record.get("taxExemptionReasonId")
