@@ -1,5 +1,5 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound
+from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, InvalidInputError
 
 class CustomerSchemaMapper(BaseMapper):
     existing_record_pk_mappings = [
@@ -15,10 +15,8 @@ class CustomerSchemaMapper(BaseMapper):
         "lastName": "FamilyName",
         "suffix": "Suffix",
         "title": "Title",
-        "taxable": "Taxable",
         "taxCode": "PrimaryTaxIdentifier",
-        "notes": "Notes",
-        "isActive": "Active"
+        "notes": "Notes"
     }
 
     def to_quickbooks(self) -> Dict:
@@ -31,9 +29,11 @@ class CustomerSchemaMapper(BaseMapper):
             **self._map_addresses(),
             **self._map_parent(),
             **self._map_payment_method(),
+            **self._map_taxable(),
             **self._map_customer_ref_type()
         }
 
+        self._map_is_active(payload)
         self._map_fields(payload)
 
         return payload
@@ -108,3 +108,22 @@ class CustomerSchemaMapper(BaseMapper):
             return {"CustomerTypeRef": {"value": found_customer_type["Id"]}}
         
         return {}
+
+    def _map_taxable(self):
+        taxable_info = {}
+
+        taxable = self.record.get("taxable")
+        if taxable is not None:
+            taxable_info["Taxable"] = taxable
+            if taxable is False:
+                taxable_info["TaxExemptionReasonId"] = self.record.get("taxExemptionReasonId")
+
+        return taxable_info
+    
+    def _map_is_active(self, payload):
+        is_active = self.record.get("isActive")
+        if is_active is not None:
+            if is_active is False and payload.get("Id") is None:
+                raise InvalidInputError(f"Invalid value isActive=False when creating a new record. It can only be used to delete an existing Customer")
+                
+            payload["Active"] = is_active
