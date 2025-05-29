@@ -159,3 +159,30 @@ class BaseMapper:
             }
 
         return addresses
+    
+    def _map_customer(self):
+        found_customer = None
+
+        if customer_id := self.record.get("customerId"):
+            found_customer = next(
+                (customer for customer in self.reference_data.get("Customers", [])
+                if customer["Id"] == customer_id),
+                None
+            )
+
+        if (customer_name := self.record.get("customerName")) and found_customer is None:
+            found_customer = next(
+                (customer for customer in self.reference_data.get("Customers", [])
+                if customer["DisplayName"] == customer_name),
+                None
+            )
+
+        if (customer_id or customer_name) and found_customer is None:
+            raise RecordNotFound(f"Customer could not be found in QBO with Id={customer_id} / Name={customer_name}")
+
+        if found_customer:
+            return {
+                "CustomerRef": {"value": found_customer["Id"], "name": found_customer["DisplayName"]}
+            }
+        
+        return {}
