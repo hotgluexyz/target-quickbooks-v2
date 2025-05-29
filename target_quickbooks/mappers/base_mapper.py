@@ -51,8 +51,13 @@ class BaseMapper:
 
         return {}
 
-    def _map_fields(self, payload):
-        for record_key, payload_key in self.field_mappings.items():
+    def _map_fields(self, payload, custom_field_mappings={}):
+        field_mappings = self.field_mappings
+
+        if custom_field_mappings:
+            field_mappings = custom_field_mappings
+
+        for record_key, payload_key in field_mappings.items():
             if record_key in self.record and self.record.get(record_key) != None:
                 if isinstance(payload_key, list):
                     for key in payload_key:
