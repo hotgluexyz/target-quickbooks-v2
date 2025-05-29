@@ -25,7 +25,7 @@ class InvoiceSchemaMapper(BaseMapper):
             **self._map_description(),
             **self._map_currency(),
             **self._map_addresses(),
-            **self._map_tax_amount(),
+            **self._map_line_items(),
             **self._map_line_items()
         }
 
@@ -48,5 +48,8 @@ class InvoiceSchemaMapper(BaseMapper):
 
         if lines := self.record.get("lineItems", []):
             for line in lines:
-                mapped_line = InvoiceLineItemSchemaMapper(line, "InvoiceLineItem", self.reference_data)
+                mapped_line = InvoiceLineItemSchemaMapper(line, "InvoiceLineItem", self.reference_data).to_quickbooks()
+                mapped_lines.append(mapped_line)
+        
+        return { "Line": mapped_lines }
 

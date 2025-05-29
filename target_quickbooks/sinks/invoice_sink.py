@@ -1,7 +1,7 @@
 from typing import Dict, List
 
 from target_quickbooks.base_sinks import QuickbooksBatchSink
-from target_quickbooks.mappers.invoice_line_item_schema_mapper import InvoiceSchemaMapper
+from target_quickbooks.mappers.invoice_schema_mapper import InvoiceSchemaMapper
 
 
 class InvoiceSink(QuickbooksBatchSink):
