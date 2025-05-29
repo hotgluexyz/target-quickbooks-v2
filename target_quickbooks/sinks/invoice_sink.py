@@ -35,8 +35,23 @@ class InvoiceSink(QuickbooksBatchSink):
             customer_names_str = ",".join(customer_names)
             customers += self.quickbooks_client.get_entities("Customer", select_statement="Id, DisplayName, SyncToken", where_filter=f"DisplayName in ({customer_names_str})")
 
+        # fetch items by Id and Name
+        items = []
+        item_ids = set()
+        item_names = set()
+        for record in records:
+            item_ids.update({f"'{line_item['itemId']}'" for line_item in record.get("lineItems", []) if line_item.get("itemId")})
+            item_names.update({line_item['itemName'].replace("'", r"\'") for line_item in record.get("lineItems", []) if line_item.get("itemName")})
 
-        return {**self._target.reference_data, self.name: invoices, "Customers": customers}
+        if item_ids:
+            item_ids_str = ",".join(item_ids)
+            items += self.quickbooks_client.get_entities("Item", select_statement="Id, Name", where_filter=f"Id in ({item_ids_str})")
+        if item_names:
+            item_names = {f"'{item_name}'" for item_name in item_names}
+            item_names_str = ",".join(item_names)
+            items += self.quickbooks_client.get_entities("Item", select_statement="Id, Name", where_filter=f"Name in ({item_names_str})")
+
+        return {**self._target.reference_data, self.name: invoices, "Customers": customers, "Items": items}
     
     def process_batch_record(self, record: dict, index: int, reference_data: dict) -> dict:
         mapped_record = InvoiceSchemaMapper(record, self.name, reference_data=reference_data).to_quickbooks()
