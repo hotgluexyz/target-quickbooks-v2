@@ -26,7 +26,7 @@ class InvoiceSchemaMapper(BaseMapper):
             **self._map_currency(),
             **self._map_addresses(),
             **self._map_line_items(),
-            **self._map_line_items()
+            **self._map_tax_code()
         }
 
         self._map_fields(payload)
@@ -38,11 +38,30 @@ class InvoiceSchemaMapper(BaseMapper):
             return {"CustomerMemo": { "value": description }}
         return {}
     
-    def _map_tax_amount(self):
-        if tax_amount := self.record.get("taxAmount"):
-            return {"TxnTaxDetail": { "TotalTax": tax_amount }}
-        return {}
-    
+    def _map_tax_code(self):
+        tax_code_info = {}
+        found_tax_code = None
+
+        if tax_code := self.record.get("taxCode"):
+            found_tax_code = next(
+                (tax for tax in self.reference_data["TaxCodes"]
+                if tax["Name"] == tax_code),
+                None
+            )
+
+        if tax_code and found_tax_code is None:
+            raise RecordNotFound(f"A TaxCode with Name={tax_code} could not be found in QBO")
+
+        if found_tax_code:
+            tax_code_info["TxnTaxDetail"] = {
+                "TxnTaxCodeRef": {
+                    "value": found_tax_code["Id"],
+                    "name": found_tax_code["Name"]
+                }
+            }
+
+        return tax_code_info
+
     def _map_line_items(self):
         mapped_lines = []
 
