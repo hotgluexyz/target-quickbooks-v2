@@ -1,5 +1,5 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound
+from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, InvalidInputError
 
 class CustomerSchemaMapper(BaseMapper):
     existing_record_pk_mappings = [
@@ -16,8 +16,7 @@ class CustomerSchemaMapper(BaseMapper):
         "suffix": "Suffix",
         "title": "Title",
         "taxCode": "PrimaryTaxIdentifier",
-        "notes": "Notes",
-        "isActive": "Active"
+        "notes": "Notes"
     }
 
     def to_quickbooks(self) -> Dict:
@@ -34,6 +33,7 @@ class CustomerSchemaMapper(BaseMapper):
             **self._map_customer_ref_type()
         }
 
+        self._map_is_active(payload)
         self._map_fields(payload)
 
         return payload
@@ -118,3 +118,11 @@ class CustomerSchemaMapper(BaseMapper):
                 taxable_info["TaxExemptionReasonId"] = self.record.get("taxExemptionReasonId")
 
         return taxable_info
+    
+    def _map_is_active(self, payload):
+        is_active = self.record.get("isActive")
+        if is_active is not None:
+            if is_active is False and payload.get("Id") is None:
+                raise InvalidInputError(f"Invalid value isActive=False when creating a new record. It can only be used to delete an existing Customer")
+                
+            payload["Active"] = is_active
