@@ -13,15 +13,16 @@ class InvoiceSink(QuickbooksBatchSink):
         # we have to perform two operations because QBO doesn't support the OR operator
         invoices = []
         invoice_ids = {f"'{record['id']}'" for record in records if record.get("id")}
-        invoice_numbers = {f"'{record['DocNumber']}'" for record in records if record.get("DocNumber")}
+        invoice_numbers = {f"'{record['invoiceNumber']}'" for record in records if record.get("invoiceNumber")}
 
         if invoice_ids:
             invoice_ids_str = ",".join(invoice_ids)
-            invoices += self.quickbooks_client.get_entities("invoice", select_statement="Id, DocNumber, SyncToken", where_filter=f"Id in ({invoice_ids_str})")
+            invoices += self.quickbooks_client.get_entities("Invoice", select_statement="Id, DocNumber, SyncToken", where_filter=f"Id in ({invoice_ids_str})")
         if invoice_numbers:
             invoice_numbers_str = ",".join(invoice_numbers)
-            invoices += self.quickbooks_client.get_entities("invoice", select_statement="Id, DocNumber, SyncToken", where_filter=f"DocNumber in ({invoice_numbers_str})")
+            invoices += self.quickbooks_client.get_entities("Invoice", select_statement="Id, DocNumber, SyncToken", where_filter=f"DocNumber in ({invoice_numbers_str})")
 
+        # fetch customers by Id and DisplayName
         customers = []
         customer_ids = {f"'{record['customerId']}'" for record in records if record.get("customerId")}
         customer_names = {record['customerName'].replace("'", r"\'") for record in records if record.get("customerName")}
