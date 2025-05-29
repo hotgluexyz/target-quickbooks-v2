@@ -15,7 +15,6 @@ class CustomerSchemaMapper(BaseMapper):
         "lastName": "FamilyName",
         "suffix": "Suffix",
         "title": "Title",
-        "taxable": "Taxable",
         "taxCode": "PrimaryTaxIdentifier",
         "notes": "Notes",
         "isActive": "Active"
@@ -31,6 +30,7 @@ class CustomerSchemaMapper(BaseMapper):
             **self._map_addresses(),
             **self._map_parent(),
             **self._map_payment_method(),
+            **self._map_taxable(),
             **self._map_customer_ref_type()
         }
 
@@ -108,3 +108,13 @@ class CustomerSchemaMapper(BaseMapper):
             return {"CustomerTypeRef": {"value": found_customer_type["Id"]}}
         
         return {}
+
+    def _map_taxable(self):
+        taxable_info = {}
+
+        if taxable := self.record.get("taxable"):
+            taxable_info["Taxable"] = taxable
+            if taxable is False:
+                taxable_info["TaxExemptionReasonId"] = self.record.get("taxExemptionReasonId")
+
+        return taxable_info
