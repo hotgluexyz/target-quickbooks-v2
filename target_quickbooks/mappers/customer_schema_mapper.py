@@ -15,6 +15,7 @@ class CustomerSchemaMapper(BaseMapper):
         "lastName": "FamilyName",
         "suffix": "Suffix",
         "title": "Title",
+        "checkName": "PrintOnCheckName",
         "taxCode": "PrimaryTaxIdentifier",
         "notes": "Notes"
     }
