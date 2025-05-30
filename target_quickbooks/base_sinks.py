@@ -74,7 +74,8 @@ class QuickbooksBatchSink(HotglueBatchSink):
         state_updates = []
         entities = [
             "Customer",
-            "Invoice"
+            "Invoice",
+            "Payment"
         ]
 
         for ri in response_items:

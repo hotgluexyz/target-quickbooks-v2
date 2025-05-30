@@ -5,6 +5,7 @@ from target_hotglue.target import TargetHotglue
 from target_quickbooks.quickbooks_client import QuickbooksClient
 from target_quickbooks.sinks.customer_sink import CustomerSink
 from target_quickbooks.sinks.invoice_sink import InvoiceSink
+from target_quickbooks.sinks.invoice_payment_sink import InvoicePaymentSink
 
 
 class TargetQuickBooks(TargetHotglue):
@@ -25,7 +26,8 @@ class TargetQuickBooks(TargetHotglue):
 
     SINK_TYPES = [
         CustomerSink,
-        InvoiceSink
+        InvoiceSink,
+        InvoicePaymentSink
     ]
 
     def __init__(
