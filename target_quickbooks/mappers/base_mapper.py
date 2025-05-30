@@ -107,7 +107,7 @@ class BaseMapper:
         if found_currency:
             currency_info = {
                 "CurrencyRef": {
-                    "value": found_currency["Id"],
+                    "value": found_currency["Code"],
                     "name": found_currency["Name"]
                 }
             }
