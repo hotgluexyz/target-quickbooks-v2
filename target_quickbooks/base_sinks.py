@@ -92,6 +92,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
                 self.logger.error(f"Failure creating entity error=[{json.dumps(ri)}]")
                 state_updates.append({
                     "success": False,
+                    "externalId": record_payload.get(entity, {}).get("externalId"),
                     "error": ri.get("Fault").get("Error"),
                     "record": json.dumps(record_payload, cls=HGJSONEncoder, sort_keys=True)
                 })
