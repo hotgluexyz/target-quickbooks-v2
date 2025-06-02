@@ -6,7 +6,6 @@ from singer_sdk.plugin_base import PluginBase
 
 from target_hotglue.client import HotglueBatchSink
 from target_hotglue.client import HotglueBatchSink
-from target_hotglue.common import HGJSONEncoder
 from target_quickbooks.quickbooks_client import QuickbooksClient
 
 
@@ -53,9 +52,11 @@ class QuickbooksBatchSink(HotglueBatchSink):
                 record = self.process_batch_record(raw_record[1], raw_record[0], reference_data)
                 records.append(record)
             except Exception as e:
-                state = {"success": False, "error": str(e), "record": json.dumps(raw_record[1], cls=HGJSONEncoder, sort_keys=True)}
+                state = {"success": False, "error": str(e)}
                 if id := raw_record[1].get("id"):
                     state["id"] = id
+                if external_id := raw_record[1].get("externalId"):
+                    state["externalId"] = external_id
                 self.update_state(state)
 
         response = self.make_batch_request(records)
@@ -93,8 +94,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
                 state_updates.append({
                     "success": False,
                     "externalId": record_payload.get(self.record_type, {}).get("externalId"),
-                    "error": ri.get("Fault").get("Error"),
-                    "record": json.dumps(record_payload, cls=HGJSONEncoder, sort_keys=True)
+                    "error": ri.get("Fault").get("Error")
                 })
             else:
                 for entity in entities:
