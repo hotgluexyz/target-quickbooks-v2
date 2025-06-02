@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 from typing import Dict, List, Optional
 
 from singer_sdk.plugin_base import PluginBase
@@ -11,7 +12,6 @@ from target_quickbooks.quickbooks_client import QuickbooksClient
 
 class QuickbooksBatchSink(HotglueBatchSink):
     max_size = 30  # Max records to write in one batch
-    external_id_field = None
 
     def __init__(self, target: PluginBase, stream_name: str, schema: Dict, key_properties: Optional[List[str]]) -> None:
         super().__init__(target, stream_name, schema, key_properties)
@@ -68,7 +68,13 @@ class QuickbooksBatchSink(HotglueBatchSink):
             self.update_state(state_update)
 
     def make_batch_request(self, records: List[Dict]):
-        return self.quickbooks_client.make_batch_request(records)
+        request_records = []
+        for record in records:
+            rec = deepcopy(record)
+            rec[self.record_type].pop("externalId", None)
+            request_records.append(rec)
+
+        return self.quickbooks_client.make_batch_request(request_records)
 
     def handle_batch_response(self, response, records):
         response_items = response or []
@@ -81,6 +87,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
 
         for ri in response_items:
             record_payload = next((record for record in records if record.get("bId") == ri.get("bId")), {})
+
             if ri.get("Fault") is not None:
                 self.logger.error(f"Failure creating entity error=[{json.dumps(ri)}]")
                 state_updates.append({
@@ -94,11 +101,10 @@ class QuickbooksBatchSink(HotglueBatchSink):
                         continue
 
                     resulting_record = ri.get(entity)
-                    external_id = record_payload.get(entity, {}).get(self.external_id_field) if self.external_id_field else None
 
                     state = {
                         "id": resulting_record.get("Id"),
-                        "externalId": external_id,
+                        "externalId": record_payload.get(entity, {}).get("externalId"),
                         "success": True,
                     }
 
