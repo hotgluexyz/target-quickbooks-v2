@@ -10,6 +10,7 @@ class InvoiceSchemaMapper(BaseMapper):
     ]
 
     field_mappings = {
+        "externalId": "externalId",
         "invoiceNumber": "DocNumber",
         "exchangeRate": "ExchangeRate",
         "issueDate": "TxnDate",

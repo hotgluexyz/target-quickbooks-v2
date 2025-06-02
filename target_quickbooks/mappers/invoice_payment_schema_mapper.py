@@ -10,7 +10,7 @@ class InvoicePaymentSchemaMapper(BaseMapper):
     ]
 
     field_mappings = {
-        "externalId": "PaymentRefNum",
+        "externalId": ["externalId", "PaymentRefNum"],
         "paymentDate": "TxnDate",
         "exchangeRate": "ExchangeRate",
         "amount": "TotalAmt"
