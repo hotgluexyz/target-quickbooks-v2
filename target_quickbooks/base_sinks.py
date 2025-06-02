@@ -94,7 +94,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
                         continue
 
                     resulting_record = ri.get(entity)
-                    external_id = resulting_record.get(self.external_id_field) if self.resulting_record else None
+                    external_id = resulting_record.get(self.external_id_field) if self.external_id_field else None
 
                     state = {
                         "Id": resulting_record.get("Id"),
