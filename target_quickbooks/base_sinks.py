@@ -95,8 +95,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
                     resulting_record = ri.get(entity)
 
                     state = {
-                        "Id": resulting_record.get("Id"),
-                        "entityData": resulting_record,
+                        "id": resulting_record.get("Id"),
                         "success": True,
                     }
                     if record_payload.get("operation") == "update":
