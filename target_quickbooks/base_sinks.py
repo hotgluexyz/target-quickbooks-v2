@@ -11,6 +11,7 @@ from target_quickbooks.quickbooks_client import QuickbooksClient
 
 class QuickbooksBatchSink(HotglueBatchSink):
     max_size = 30  # Max records to write in one batch
+    external_id_field = None
 
     def __init__(self, target: PluginBase, stream_name: str, schema: Dict, key_properties: Optional[List[str]]) -> None:
         super().__init__(target, stream_name, schema, key_properties)
@@ -93,11 +94,14 @@ class QuickbooksBatchSink(HotglueBatchSink):
                         continue
 
                     resulting_record = ri.get(entity)
+                    external_id = resulting_record.get(self.external_id_field) if self.resulting_record else None
 
                     state = {
                         "Id": resulting_record.get("Id"),
+                        "externalId": external_id,
                         "success": True,
                     }
+
                     if record_payload.get("operation") == "update":
                         state["is_updated"] = True
                     

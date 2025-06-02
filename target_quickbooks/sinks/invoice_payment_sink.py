@@ -7,6 +7,7 @@ from target_quickbooks.mappers.invoice_payment_schema_mapper import InvoicePayme
 class InvoicePaymentSink(QuickbooksBatchSink):
     name = "InvoicePayments"
     record_type = "Payment"
+    external_id_field = "PaymentRefNum"
 
     def get_batch_reference_data(self, records: List) -> Dict:
         # get existing invoice payments by id or PaymentRefNum
