@@ -1,11 +1,11 @@
 import json
+from copy import deepcopy
 from typing import Dict, List, Optional
 
 from singer_sdk.plugin_base import PluginBase
 
 from target_hotglue.client import HotglueBatchSink
 from target_hotglue.client import HotglueBatchSink
-from target_hotglue.common import HGJSONEncoder
 from target_quickbooks.quickbooks_client import QuickbooksClient
 
 
@@ -52,9 +52,11 @@ class QuickbooksBatchSink(HotglueBatchSink):
                 record = self.process_batch_record(raw_record[1], raw_record[0], reference_data)
                 records.append(record)
             except Exception as e:
-                state = {"success": False, "error": str(e), "record": json.dumps(raw_record[1], cls=HGJSONEncoder, sort_keys=True)}
+                state = {"success": False, "error": str(e)}
                 if id := raw_record[1].get("id"):
                     state["id"] = id
+                if external_id := raw_record[1].get("externalId"):
+                    state["externalId"] = external_id
                 self.update_state(state)
 
         response = self.make_batch_request(records)
@@ -67,7 +69,13 @@ class QuickbooksBatchSink(HotglueBatchSink):
             self.update_state(state_update)
 
     def make_batch_request(self, records: List[Dict]):
-        return self.quickbooks_client.make_batch_request(records)
+        request_records = []
+        for record in records:
+            rec = deepcopy(record)
+            rec[self.record_type].pop("externalId", None)
+            request_records.append(rec)
+
+        return self.quickbooks_client.make_batch_request(request_records)
 
     def handle_batch_response(self, response, records):
         response_items = response or []
@@ -80,12 +88,13 @@ class QuickbooksBatchSink(HotglueBatchSink):
 
         for ri in response_items:
             record_payload = next((record for record in records if record.get("bId") == ri.get("bId")), {})
+
             if ri.get("Fault") is not None:
                 self.logger.error(f"Failure creating entity error=[{json.dumps(ri)}]")
                 state_updates.append({
                     "success": False,
-                    "error": ri.get("Fault").get("Error"),
-                    "record": json.dumps(record_payload, cls=HGJSONEncoder, sort_keys=True)
+                    "externalId": record_payload.get(self.record_type, {}).get("externalId"),
+                    "error": ri.get("Fault").get("Error")
                 })
             else:
                 for entity in entities:
@@ -96,8 +105,10 @@ class QuickbooksBatchSink(HotglueBatchSink):
 
                     state = {
                         "id": resulting_record.get("Id"),
+                        "externalId": record_payload.get(entity, {}).get("externalId"),
                         "success": True,
                     }
+
                     if record_payload.get("operation") == "update":
                         state["is_updated"] = True
                     
