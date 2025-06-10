@@ -25,7 +25,7 @@ class InvoiceSchemaMapper(BaseMapper):
             **self._map_customer(),
             **self._map_description(),
             **self._map_currency(),
-            **self._map_addresses(),
+            **self._map_addresses({"billing": "BillAddr", "shipping": "ShipAddr"}),
             **self._map_line_items(),
             **self._map_tax_code()
         }

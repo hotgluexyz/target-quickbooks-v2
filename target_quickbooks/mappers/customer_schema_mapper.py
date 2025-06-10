@@ -28,7 +28,7 @@ class CustomerSchemaMapper(BaseMapper):
             **self._map_website(),
             **self._map_currency(),
             **self._map_phone_numbers({"primary": "PrimaryPhone", "secondary": "AlternatePhone", "fax": "Fax", "mobile": "Mobile"}),
-            **self._map_addresses(),
+            **self._map_addresses({"billing": "BillAddr", "shipping": "ShipAddr"}),
             **self._map_parent(),
             **self._map_payment_method(),
             **self._map_taxable(),
