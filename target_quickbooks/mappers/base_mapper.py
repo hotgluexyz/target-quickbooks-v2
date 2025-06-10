@@ -30,7 +30,7 @@ class BaseMapper:
             if record_id := self.record.get(existing_record_pk_mapping["record_field"]):
                 found_record = next(
                     (qbo_record for qbo_record in reference_list
-                    if qbo_record[existing_record_pk_mapping["qbo_field"]] == record_id),
+                    if str(qbo_record[existing_record_pk_mapping["qbo_field"]]) == str(record_id)),
                     None
                 )
                 if existing_record_pk_mapping["required_if_present"] and found_record is None:
