@@ -135,9 +135,8 @@ class BaseMapper:
 
         return phones
     
-    def _map_addresses(self):
+    def _map_addresses(self, addresses_types_map):
         """Extracts phone numbers in QBO format."""
-        addresses_types_map = {"billing": "BillAddr", "shipping": "ShipAddr"}
         addresses = {}
 
         if not self.record.get("addresses"):
