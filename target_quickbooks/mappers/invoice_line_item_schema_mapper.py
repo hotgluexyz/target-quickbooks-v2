@@ -22,7 +22,7 @@ class InvoiceLineItemSchemaMapper(BaseMapper):
             "DetailType": "SalesItemLineDetail",
             "SalesItemLineDetail": {
                 **self._map_item(),
-                **self._map_line_tax_code(),
+                **self._map_transaction_line_tax_code(),
                 **self._map_class()
             }
         }
@@ -68,17 +68,3 @@ class InvoiceLineItemSchemaMapper(BaseMapper):
             }
 
         return item_info
-
-    def _map_line_tax_code(self):
-        tax_code_info = {}
-
-        if tax_code := self.record.get("taxCode"):
-            if tax_code not in ["TAX", "NON"]:
-                raise InvalidInputError(f"Invalid value {tax_code} for line taxCode, it should be either 'TAX' or 'NON'")
-
-            tax_code_info["TaxCodeRef"] = {
-                "value": tax_code,
-                "name": tax_code
-            }
-
-        return tax_code_info

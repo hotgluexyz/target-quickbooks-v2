@@ -303,3 +303,41 @@ class BaseMapper:
 
         return department_info
     
+    def _map_transaction_tax_code(self):
+        """Maps the tax code for a transaction."""
+        tax_code_info = {}
+        found_tax_code = None
+
+        if tax_code := self.record.get("taxCode"):
+            found_tax_code = next(
+                (tax for tax in self.reference_data["TaxCodes"]
+                if tax["Name"] == tax_code),
+                None
+            )
+
+        if tax_code and found_tax_code is None:
+            raise RecordNotFound(f"A TaxCode with Name={tax_code} could not be found in QBO")
+
+        if found_tax_code:
+            tax_code_info["TxnTaxDetail"] = {
+                "TxnTaxCodeRef": {
+                    "value": found_tax_code["Id"],
+                    "name": found_tax_code["Name"]
+                }
+            }
+
+        return tax_code_info
+    
+    def _map_transaction_line_tax_code(self):
+        tax_code_info = {}
+
+        if tax_code := self.record.get("taxCode"):
+            if tax_code not in ["TAX", "NON"]:
+                raise InvalidInputError(f"Invalid value {tax_code} for line taxCode, it should be either 'TAX' or 'NON'")
+
+            tax_code_info["TaxCodeRef"] = {
+                "value": tax_code,
+                "name": tax_code
+            }
+
+        return tax_code_info
