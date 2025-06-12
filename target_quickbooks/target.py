@@ -58,6 +58,7 @@ class TargetQuickBooks(TargetHotglue):
 
         reference_data = {}
         reference_data["Accounts"] = self.quickbooks_client.get_entities("Account")
+        reference_data["Departments"] = self.quickbooks_client.get_entities("Department")
         reference_data["PaymentMethods"] = self.quickbooks_client.get_entities("PaymentMethod")
         reference_data["CustomerTypes"] = self.quickbooks_client.get_entities("CustomerType")
         reference_data["TaxCodes"] = self.quickbooks_client.get_entities("TaxCode")
