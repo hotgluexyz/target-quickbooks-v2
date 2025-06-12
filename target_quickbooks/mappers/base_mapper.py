@@ -217,6 +217,34 @@ class BaseMapper:
             }
         
         return {}
+    
+    def _map_vendor(self):
+        found_vendor = None
+
+        if vendor_id := self.record.get("vendorId"):
+            found_vendor = next(
+                (vendor for vendor in self.reference_data.get("Vendors", [])
+                if vendor["Id"] == vendor_id),
+                None
+            )
+
+        if (vendor_name := self.record.get("vendorName")) and found_vendor is None:
+            found_vendor = next(
+                (vendor for vendor in self.reference_data.get("Vendors", [])
+                if vendor["DisplayName"] == vendor_name),
+                None
+            )
+
+        if (vendor_id or vendor_name) and found_vendor is None:
+            raise RecordNotFound(f"Vendor could not be found in QBO with Id={vendor_id} / Name={vendor_name}")
+
+        if found_vendor:
+            return {
+                "VendorRef": {"value": found_vendor["Id"], "name": found_vendor["DisplayName"]}
+            }
+        
+        return {}
+    
     def _map_class(self):
         class_info = {}
         found_class = None
