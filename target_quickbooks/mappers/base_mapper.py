@@ -273,7 +273,6 @@ class BaseMapper:
             }
 
         return class_info
-        return class_info
     
     def _map_department(self):
         department_info = {}
