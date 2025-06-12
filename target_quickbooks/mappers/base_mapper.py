@@ -273,3 +273,34 @@ class BaseMapper:
             }
 
         return class_info
+        return class_info
+    
+    def _map_department(self):
+        department_info = {}
+        found_department = None
+
+        if department_id := self.record.get("departmentId"):
+            found_department = next(
+                (department for department in self.reference_data["Departments"]
+                if department["Id"] == department_id),
+                None
+            )
+
+        if (department_name := self.record.get("departmentName")) and not found_department:
+            found_department = next(
+                (department for department in self.reference_data["Departments"]
+                if department["Name"] == department_name),
+                None
+            )
+
+        if (department_id or department_name) and found_department is None:
+            raise RecordNotFound(f"A Department with Id={department_id} / Name={department_name} could not be found in QBO")
+
+        if found_department:
+            department_info["DepartmentRef"] = {
+                "value": found_department["Id"],
+                "name": found_department["Name"]
+            }
+
+        return department_info
+    
