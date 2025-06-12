@@ -191,6 +191,32 @@ class BaseMapper:
         
         return {}
     
+    def _map_account(self):
+        found_account = None
+
+        if account_id := self.record.get("accountId"):
+            found_account = next(
+                (account for account in self.reference_data.get("Accounts", [])
+                if account["Id"] == account_id),
+                None
+            )
+
+        if (account_name := self.record.get("accountName")) and found_account is None:
+            found_account = next(
+                (account for account in self.reference_data.get("Accounts", [])
+                if account["Name"] == account_name),
+                None
+            )
+
+        if (account_id or account_name) and found_account is None:
+            raise RecordNotFound(f"Account could not be found in QBO with Id={account_id} / Name={account_name}")
+
+        if found_account:
+            return {
+                "AccountRef": {"value": found_account["Id"], "name": found_account["Name"]}
+            }
+        
+        return {}
     def _map_class(self):
         class_info = {}
         found_class = None
