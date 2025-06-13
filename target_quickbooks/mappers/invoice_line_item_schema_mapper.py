@@ -69,35 +69,6 @@ class InvoiceLineItemSchemaMapper(BaseMapper):
 
         return item_info
 
-    def _map_class(self):
-        class_info = {}
-        found_class = None
-
-        if class_id := self.record.get("classId"):
-            found_class = next(
-                (_class for _class in self.reference_data["Classes"]
-                if _class["Id"] == class_id),
-                None
-            )
-
-        if (class_name := self.record.get("className")) and not found_class:
-            found_class = next(
-                (_class for _class in self.reference_data["Classes"]
-                if _class["Name"] == class_name),
-                None
-            )
-
-        if (class_id or class_name) and found_class is None:
-            raise RecordNotFound(f"A Class with Id={class_id} / Name={class_name} could not be found in QBO")
-
-        if found_class:
-            class_info["ClassRef"] = {
-                "value": found_class["Id"],
-                "name": found_class["Name"]
-            }
-
-        return class_info
-
     def _map_line_tax_code(self):
         tax_code_info = {}
 

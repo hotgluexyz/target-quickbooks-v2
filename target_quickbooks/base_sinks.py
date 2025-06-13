@@ -83,7 +83,9 @@ class QuickbooksBatchSink(HotglueBatchSink):
         entities = [
             "Customer",
             "Invoice",
-            "Payment"
+            "Item",
+            "Payment",
+            "Vendor"
         ]
 
         for ri in response_items:

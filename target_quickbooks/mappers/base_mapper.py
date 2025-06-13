@@ -135,9 +135,8 @@ class BaseMapper:
 
         return phones
     
-    def _map_addresses(self):
+    def _map_addresses(self, addresses_types_map):
         """Extracts phone numbers in QBO format."""
-        addresses_types_map = {"billing": "BillAddr", "shipping": "ShipAddr"}
         addresses = {}
 
         if not self.record.get("addresses"):
@@ -191,3 +190,32 @@ class BaseMapper:
             }
         
         return {}
+    
+    def _map_class(self):
+        class_info = {}
+        found_class = None
+
+        if class_id := self.record.get("classId"):
+            found_class = next(
+                (_class for _class in self.reference_data["Classes"]
+                if _class["Id"] == class_id),
+                None
+            )
+
+        if (class_name := self.record.get("className")) and not found_class:
+            found_class = next(
+                (_class for _class in self.reference_data["Classes"]
+                if _class["Name"] == class_name),
+                None
+            )
+
+        if (class_id or class_name) and found_class is None:
+            raise RecordNotFound(f"A Class with Id={class_id} / Name={class_name} could not be found in QBO")
+
+        if found_class:
+            class_info["ClassRef"] = {
+                "value": found_class["Id"],
+                "name": found_class["Name"]
+            }
+
+        return class_info
