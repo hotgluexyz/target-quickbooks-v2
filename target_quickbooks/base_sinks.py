@@ -54,7 +54,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
             except Exception as e:
                 state = {"success": False, "error": str(e)}
                 if id := raw_record[1].get("id"):
-                    state["id"] = id
+                    state["id"] = str(id)
                 if external_id := raw_record[1].get("externalId"):
                     state["externalId"] = external_id
                 self.update_state(state)
