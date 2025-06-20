@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+from hotglue_models_accounting.accounting import PurchaseOrder
 from target_quickbooks.base_sinks import QuickbooksBatchSink
 from target_quickbooks.mappers.purchase_order_schema_mapper import PurchaseOrderSchemaMapper
 
@@ -7,6 +8,8 @@ from target_quickbooks.mappers.purchase_order_schema_mapper import PurchaseOrder
 class PurchaseOrderSink(QuickbooksBatchSink):
     name = "PurchaseOrders"
     record_type = "PurchaseOrder"
+    unified_schema = PurchaseOrder
+    auto_validate_unified_schema = True
 
     def get_batch_reference_data(self, records: List) -> Dict:
         # get existing PurchaseOrders by Id or DocNumber

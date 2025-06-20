@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+from hotglue_models_accounting.accounting import Customer
 from target_quickbooks.base_sinks import QuickbooksBatchSink
 from target_quickbooks.mappers.customer_schema_mapper import CustomerSchemaMapper
 
@@ -7,6 +8,8 @@ from target_quickbooks.mappers.customer_schema_mapper import CustomerSchemaMappe
 class CustomerSink(QuickbooksBatchSink):
     name = "Customers"
     record_type = "Customer"
+    unified_schema = Customer
+    auto_validate_unified_schema = True
 
     def get_batch_reference_data(self, records: List) -> Dict:
         # get existing customers and parent customers by id or DisplayName

@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+from hotglue_models_accounting.accounting import Vendor
 from target_quickbooks.base_sinks import QuickbooksBatchSink
 from target_quickbooks.mappers.vendor_schema_mapper import VendorSchemaMapper
 
@@ -7,6 +8,8 @@ from target_quickbooks.mappers.vendor_schema_mapper import VendorSchemaMapper
 class VendorSink(QuickbooksBatchSink):
     name = "Vendors"
     record_type = "Vendor"
+    unified_schema = Vendor
+    auto_validate_unified_schema = True
 
     def get_batch_reference_data(self, records: List) -> Dict:
         # get existing vendors by id or DisplayName
