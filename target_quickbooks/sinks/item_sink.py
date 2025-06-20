@@ -1,6 +1,5 @@
 from typing import Dict, List
 
-from hotglue_models_accounting.accounting import Item
 from target_quickbooks.base_sinks import QuickbooksBatchSink
 from target_quickbooks.mappers.item_schema_mapper import ItemSchemaMapper
 
@@ -8,8 +7,6 @@ from target_quickbooks.mappers.item_schema_mapper import ItemSchemaMapper
 class ItemSink(QuickbooksBatchSink):
     name = "Items"
     record_type = "Item"
-    unified_schema = Item
-    auto_validate_unified_schema = True
 
     def get_batch_reference_data(self, records: List) -> Dict:
         # get existing items by Id or Name

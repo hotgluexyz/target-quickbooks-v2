@@ -1,6 +1,5 @@
 from typing import Dict, List
 
-from hotglue_models_accounting.accounting import BillPayment
 from target_quickbooks.base_sinks import QuickbooksBatchSink
 from target_quickbooks.mappers.bill_payment_schema_mapper import BillPaymentSchemaMapper
 
@@ -8,8 +7,6 @@ from target_quickbooks.mappers.bill_payment_schema_mapper import BillPaymentSche
 class BillPaymentSink(QuickbooksBatchSink):
     name = "BillPayments"
     record_type = "BillPayment"
-    unified_schema = BillPayment
-    auto_validate_unified_schema = True
 
     def get_batch_reference_data(self, records: List) -> Dict:
         # get existing Bill payments by Id or DocNumber
