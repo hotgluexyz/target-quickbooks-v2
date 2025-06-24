@@ -196,17 +196,3 @@ class QuickbooksClient:
             return False, msg
         else:
             return True, None
-
-   
-    # def search_reference_data(self, reference_data, key, value):
-    #     return_data = {}
-    #     for data in reference_data:
-    #         if key in data:
-    #             if isinstance(data,dict):
-    #                 if data[key] == value:
-    #                     return data
-    #             elif isinstance(data,str):
-    #                 if data==value:
-    #                     return data    
-    #     return return_data
-    
