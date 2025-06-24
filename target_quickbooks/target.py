@@ -6,6 +6,7 @@ from target_quickbooks.quickbooks_client import QuickbooksClient
 from target_quickbooks.sinks.customer_sink import CustomerSink
 from target_quickbooks.sinks.invoice_sink import InvoiceSink
 from target_quickbooks.sinks.invoice_payment_sink import InvoicePaymentSink
+from target_quickbooks.sinks.item_sink import ItemSink
 from target_quickbooks.sinks.vendor_sink import VendorSink
 
 
@@ -29,6 +30,7 @@ class TargetQuickBooks(TargetHotglue):
         CustomerSink,
         InvoiceSink,
         InvoicePaymentSink,
+        ItemSink,
         VendorSink
     ]
 
