@@ -1,7 +1,7 @@
 import json
 import requests
 from datetime import datetime
-
+from typing import Union
 from intuitlib.client import AuthClient
 
 class QuickbooksClient:
@@ -190,23 +190,9 @@ class QuickbooksClient:
         self.logger.info(f"Response: {response_json}")
         return response_json
     
-    def _validate_response(self, response: requests.Response) -> tuple[bool, str | None]:
+    def _validate_response(self, response: requests.Response) -> tuple[bool, Union[str, None]]:
         if response.status_code >= 400:
             msg = json.dumps(response.json())
             return False, msg
         else:
             return True, None
-
-   
-    # def search_reference_data(self, reference_data, key, value):
-    #     return_data = {}
-    #     for data in reference_data:
-    #         if key in data:
-    #             if isinstance(data,dict):
-    #                 if data[key] == value:
-    #                     return data
-    #             elif isinstance(data,str):
-    #                 if data==value:
-    #                     return data    
-    #     return return_data
-    
