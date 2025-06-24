@@ -1,7 +1,7 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, InvalidInputError, RecordNotFound
+from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound
 
-class InvoiceLineItemSchemaMapper(BaseMapper):
+class BillLineItemSchemaMapper(BaseMapper):
     existing_record_pk_mappings = []
 
     field_mappings = {
@@ -10,33 +10,35 @@ class InvoiceLineItemSchemaMapper(BaseMapper):
 
     def to_quickbooks(self) -> Dict:
         payload = {
-            **self._map_sales_item_line_details()
+            **self._map_item_based_line_details()
         }
 
         self._map_fields(payload)
 
         return payload
 
-    def _map_sales_item_line_details(self):
+    def _map_item_based_line_details(self):
+        self.record["customerId"] = self.record.get("projectId")
+        self.record["customerName"] = self.record.get("projectName")
+
         details_info = {
-            "DetailType": "SalesItemLineDetail",
-            "SalesItemLineDetail": {
+            "DetailType": "ItemBasedExpenseLineDetail",
+            "ItemBasedExpenseLineDetail": {
                 **self._map_item(),
+                **self._map_customer(),
                 **self._map_transaction_line_tax_code(),
                 **self._map_class()
             }
         }
 
         field_mappings = {
-            "discount": "DiscountAmt",
             "quantity": "Qty",
-            "unitPrice": "UnitPrice",
-            "serviceDate": "ServiceDate"
+            "unitPrice": "UnitPrice"
         }
 
-        self._map_fields(details_info["SalesItemLineDetail"], custom_field_mappings=field_mappings)
+        self._map_fields(details_info["ItemBasedExpenseLineDetail"], custom_field_mappings=field_mappings)
 
-        details_info["Amount"] = details_info["SalesItemLineDetail"].get("Qty", 1) * details_info["SalesItemLineDetail"].get("UnitPrice", 0)
+        details_info["Amount"] = details_info["ItemBasedExpenseLineDetail"].get("Qty", 1) * details_info["ItemBasedExpenseLineDetail"].get("UnitPrice", 0)
 
         return details_info
     

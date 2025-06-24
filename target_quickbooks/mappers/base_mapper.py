@@ -191,6 +191,60 @@ class BaseMapper:
         
         return {}
     
+    def _map_account(self):
+        found_account = None
+
+        if account_id := self.record.get("accountId"):
+            found_account = next(
+                (account for account in self.reference_data.get("Accounts", [])
+                if account["Id"] == account_id),
+                None
+            )
+
+        if (account_name := self.record.get("accountName")) and found_account is None:
+            found_account = next(
+                (account for account in self.reference_data.get("Accounts", [])
+                if account["Name"] == account_name),
+                None
+            )
+
+        if (account_id or account_name) and found_account is None:
+            raise RecordNotFound(f"Account could not be found in QBO with Id={account_id} / Name={account_name}")
+
+        if found_account:
+            return {
+                "AccountRef": {"value": found_account["Id"], "name": found_account["Name"]}
+            }
+        
+        return {}
+    
+    def _map_vendor(self):
+        found_vendor = None
+
+        if vendor_id := self.record.get("vendorId"):
+            found_vendor = next(
+                (vendor for vendor in self.reference_data.get("Vendors", [])
+                if vendor["Id"] == vendor_id),
+                None
+            )
+
+        if (vendor_name := self.record.get("vendorName")) and found_vendor is None:
+            found_vendor = next(
+                (vendor for vendor in self.reference_data.get("Vendors", [])
+                if vendor["DisplayName"] == vendor_name),
+                None
+            )
+
+        if (vendor_id or vendor_name) and found_vendor is None:
+            raise RecordNotFound(f"Vendor could not be found in QBO with Id={vendor_id} / Name={vendor_name}")
+
+        if found_vendor:
+            return {
+                "VendorRef": {"value": found_vendor["Id"], "name": found_vendor["DisplayName"]}
+            }
+        
+        return {}
+    
     def _map_class(self):
         class_info = {}
         found_class = None
@@ -219,3 +273,71 @@ class BaseMapper:
             }
 
         return class_info
+    
+    def _map_department(self):
+        department_info = {}
+        found_department = None
+
+        if department_id := self.record.get("departmentId"):
+            found_department = next(
+                (department for department in self.reference_data["Departments"]
+                if department["Id"] == department_id),
+                None
+            )
+
+        if (department_name := self.record.get("departmentName")) and not found_department:
+            found_department = next(
+                (department for department in self.reference_data["Departments"]
+                if department["Name"] == department_name),
+                None
+            )
+
+        if (department_id or department_name) and found_department is None:
+            raise RecordNotFound(f"A Department with Id={department_id} / Name={department_name} could not be found in QBO")
+
+        if found_department:
+            department_info["DepartmentRef"] = {
+                "value": found_department["Id"],
+                "name": found_department["Name"]
+            }
+
+        return department_info
+    
+    def _map_transaction_tax_code(self):
+        """Maps the tax code for a transaction."""
+        tax_code_info = {}
+        found_tax_code = None
+
+        if tax_code := self.record.get("taxCode"):
+            found_tax_code = next(
+                (tax for tax in self.reference_data["TaxCodes"]
+                if tax["Name"] == tax_code),
+                None
+            )
+
+        if tax_code and found_tax_code is None:
+            raise RecordNotFound(f"A TaxCode with Name={tax_code} could not be found in QBO")
+
+        if found_tax_code:
+            tax_code_info["TxnTaxDetail"] = {
+                "TxnTaxCodeRef": {
+                    "value": found_tax_code["Id"],
+                    "name": found_tax_code["Name"]
+                }
+            }
+
+        return tax_code_info
+    
+    def _map_transaction_line_tax_code(self):
+        tax_code_info = {}
+
+        if tax_code := self.record.get("taxCode"):
+            if tax_code not in ["TAX", "NON"]:
+                raise InvalidInputError(f"Invalid value {tax_code} for line taxCode, it should be either 'TAX' or 'NON'")
+
+            tax_code_info["TaxCodeRef"] = {
+                "value": tax_code,
+                "name": tax_code
+            }
+
+        return tax_code_info

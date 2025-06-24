@@ -3,6 +3,7 @@
 from singer_sdk import typing as th
 from target_hotglue.target import TargetHotglue
 from target_quickbooks.quickbooks_client import QuickbooksClient
+from target_quickbooks.sinks.bill_sink import BillSink
 from target_quickbooks.sinks.customer_sink import CustomerSink
 from target_quickbooks.sinks.invoice_sink import InvoiceSink
 from target_quickbooks.sinks.invoice_payment_sink import InvoicePaymentSink
@@ -27,6 +28,7 @@ class TargetQuickBooks(TargetHotglue):
     ).to_dict()
 
     SINK_TYPES = [
+        BillSink,
         CustomerSink,
         InvoiceSink,
         InvoicePaymentSink,
@@ -56,6 +58,7 @@ class TargetQuickBooks(TargetHotglue):
 
         reference_data = {}
         reference_data["Accounts"] = self.quickbooks_client.get_entities("Account")
+        reference_data["Departments"] = self.quickbooks_client.get_entities("Department")
         reference_data["PaymentMethods"] = self.quickbooks_client.get_entities("PaymentMethod")
         reference_data["CustomerTypes"] = self.quickbooks_client.get_entities("CustomerType")
         reference_data["TaxCodes"] = self.quickbooks_client.get_entities("TaxCode")
