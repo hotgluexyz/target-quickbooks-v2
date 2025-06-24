@@ -1,7 +1,7 @@
 import json
 import requests
 from datetime import datetime
-
+from typing import Union
 from intuitlib.client import AuthClient
 
 class QuickbooksClient:
@@ -190,7 +190,7 @@ class QuickbooksClient:
         self.logger.info(f"Response: {response_json}")
         return response_json
     
-    def _validate_response(self, response: requests.Response) -> tuple[bool, str | None]:
+    def _validate_response(self, response: requests.Response) -> tuple[bool, Union[str, None]]:
         if response.status_code >= 400:
             msg = json.dumps(response.json())
             return False, msg
