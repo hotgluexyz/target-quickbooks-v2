@@ -88,7 +88,8 @@ class QuickbooksBatchSink(HotglueBatchSink):
             "Item",
             "Payment",
             "PurchaseOrder",
-            "Vendor"
+            "Vendor",
+            "VendorCredit"
         ]
 
         for ri in response_items:
