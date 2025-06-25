@@ -164,7 +164,7 @@ class BaseMapper:
 
         return addresses
     
-    def _map_customer(self):
+    def _map_customer(self, ref_key="CustomerRef"):
         found_customer = None
 
         if customer_id := self.record.get("customerId"):
@@ -186,7 +186,7 @@ class BaseMapper:
 
         if found_customer:
             return {
-                "CustomerRef": {"value": found_customer["Id"], "name": found_customer["DisplayName"]}
+                ref_key: {"value": found_customer["Id"], "name": found_customer["DisplayName"]}
             }
         
         return {}
