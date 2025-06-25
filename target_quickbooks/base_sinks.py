@@ -86,6 +86,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
             "Customer",
             "Invoice",
             "Item",
+            "JournalEntry",
             "Payment",
             "PurchaseOrder",
             "Vendor"

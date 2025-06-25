@@ -9,6 +9,7 @@ from target_quickbooks.sinks.customer_sink import CustomerSink
 from target_quickbooks.sinks.invoice_sink import InvoiceSink
 from target_quickbooks.sinks.invoice_payment_sink import InvoicePaymentSink
 from target_quickbooks.sinks.item_sink import ItemSink
+from target_quickbooks.sinks.journal_entry_sink import JournalEntrySink
 from target_quickbooks.sinks.purchase_order_sink import PurchaseOrderSink
 from target_quickbooks.sinks.vendor_sink import VendorSink
 
@@ -36,6 +37,7 @@ class TargetQuickBooks(TargetHotglue):
         InvoiceSink,
         InvoicePaymentSink,
         ItemSink,
+        JournalEntrySink,
         VendorSink,
         PurchaseOrderSink
     ]
