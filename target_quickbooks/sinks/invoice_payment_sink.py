@@ -16,14 +16,14 @@ class InvoicePaymentSink(QuickbooksBatchSink):
         # we have to perform two operations because QBO doesn't support the OR operator
         invoice_payments = []
         invoice_payment_ids = {f"'{record['id']}'" for record in records if record.get("id")}
-        invoice_external_ids = {f"'{record['externalId']}'" for record in records if record.get("externalId")}
+        invoice_payment_number_ids = {f"'{record['paymentNumber']}'" for record in records if record.get("paymentNumber")}
 
         if invoice_payment_ids:
             invoice_payment_ids_str = ",".join(invoice_payment_ids)
             invoice_payments += self.quickbooks_client.get_entities(self.record_type, select_statement="Id, PaymentRefNum, SyncToken", where_filter=f"Id in ({invoice_payment_ids_str})")
-        if invoice_external_ids:
-            invoice_external_ids_str = ",".join(invoice_external_ids)
-            invoice_payments += self.quickbooks_client.get_entities(self.record_type, select_statement="Id, PaymentRefNum, SyncToken", where_filter=f"PaymentRefNum in ({invoice_external_ids_str})")
+        if invoice_payment_number_ids:
+            invoice_payment_number_ids_str = ",".join(invoice_payment_number_ids)
+            invoice_payments += self.quickbooks_client.get_entities(self.record_type, select_statement="Id, PaymentRefNum, SyncToken", where_filter=f"PaymentRefNum in ({invoice_payment_number_ids_str})")
 
         # get existing invoices by id or DocNumber
         # TODO: refactor this into quickbooks_client.get_invoices(ids, numbers) because the same code is used in Invoice and Invoice payment sinks

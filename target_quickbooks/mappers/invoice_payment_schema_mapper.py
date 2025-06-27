@@ -6,11 +6,12 @@ from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, In
 class InvoicePaymentSchemaMapper(BaseMapper):
     existing_record_pk_mappings = [
         {"record_field": "id", "qbo_field": "Id", "required_if_present": True},
-        {"record_field": "externalId", "qbo_field": "PaymentRefNum", "required_if_present": False}
+        {"record_field": "paymentNumber", "qbo_field": "PaymentRefNum", "required_if_present": False}
     ]
 
     field_mappings = {
-        "externalId": ["externalId", "PaymentRefNum"],
+        "externalId": "externalId",
+        "paymentNumber": "PaymentRefNum",
         "paymentDate": "TxnDate",
         "exchangeRate": "ExchangeRate",
         "amount": "TotalAmt"
