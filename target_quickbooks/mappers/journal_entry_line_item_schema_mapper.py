@@ -34,8 +34,6 @@ class JournalEntryLineItemSchemaMapper(BaseMapper):
             details_info["JournalEntryLineDetail"]["Entity"] = {**customer_info, "Type": "Customer"}
         elif vendor_info:
             details_info["JournalEntryLineDetail"]["Entity"] = {**vendor_info, "Type": "Vendor"}
-        else:
-            raise RecordNotFound("No customer or vendor found for the journal entry line item")
 
         field_mappings = {
             "entryType": "PostingType"
