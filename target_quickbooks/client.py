@@ -6,6 +6,8 @@ from singer_sdk.plugin_base import PluginBase
 from target_hotglue.client import HotglueBatchSink
 from typing import Dict, List, Optional
 import ast
+from target_quickbooks.util import save_api_usage
+from target_hotglue.rest import HGJSONEncoder
 
 class QuickbooksSink(HotglueBatchSink):
     endpoint = "/batch"
@@ -177,6 +179,7 @@ class QuickbooksSink(HotglueBatchSink):
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {access_token}",
                 },
+                stream=entity_type
             )
 
 
@@ -237,7 +240,7 @@ class QuickbooksSink(HotglueBatchSink):
             # Extract the "Customer" data from each record
             list_data = [data["Customer"] for data in records]
             # Send a separate request for each "Customer" data using map
-            response = map(lambda data: self.make_request(url,data), list_data)
+            response = map(lambda data: self.make_request(url,data, "Customer"), list_data)
             # Handle the response for each request using the handle_response function
             result = map(lambda response: self.handle_response(response), list(response))
             # In case the response is successful and the record was marked as "InActive", update the record 
@@ -252,7 +255,7 @@ class QuickbooksSink(HotglueBatchSink):
             if len(update_records) > 0:
                 # Send a separate request for each "Customer" data using map
                 update_records = [data["Customer"] for data in update_records]
-                response = map(lambda data: self.make_request(url,data), update_records)
+                response = map(lambda data: self.make_request(url,data, "Customer"), update_records)
                 # Handle the response for each request using the handle_response function
                 result_update = map(lambda response: self.handle_response(response), list(response))
                 # Update the latest state for each successful request
@@ -272,7 +275,7 @@ class QuickbooksSink(HotglueBatchSink):
             # Extract the "TaxService" data from each record
             list_data = [data["TaxService"] for data in records]
             # Send a separate request for each "TaxService" data using map
-            response = map(lambda data: self.make_request(url,data), list_data)
+            response = map(lambda data: self.make_request(url,data, "TaxRate"), list_data)
             # Handle the response for each request using the handle_response function
             result = map(lambda response: self.handle_response(response), list(response))
             # Update the latest state for each successful request
@@ -297,7 +300,7 @@ class QuickbooksSink(HotglueBatchSink):
                     self.update_state(next(state_updates, None))
 
 
-    def make_request(self, url, data):
+    def make_request(self, url, data, stream=None):
         access_token = self.access_token
 
         # Send the request
@@ -310,6 +313,7 @@ class QuickbooksSink(HotglueBatchSink):
                 "Authorization": f"Bearer {access_token}",
             },
         )
+        save_api_usage("POST", url, {}, data, r, stream=stream)
 
         response = r.json()
         self.logger.info(f"DEBUG RESPONSE: {response}")
@@ -365,6 +369,7 @@ class QuickbooksSink(HotglueBatchSink):
             headers=headers,
             params=params,
             request_data={"BatchItemRequest": batch_requests},
+            stream="Batch"
         )
 
         response = r.json()
@@ -450,4 +455,34 @@ class QuickbooksSink(HotglueBatchSink):
         posted_records = list(map(format_record, posted_records))
 
         return {"state_updates": posted_records}
+    
+    def request_api(self, http_method, endpoint=None, params={}, request_data=None, headers={}, verify=True, stream=None):
+        """Request records from REST endpoint(s), returning response records."""
+        resp = self._request(http_method, endpoint, params, request_data, headers, verify=verify, stream=stream)
+        return resp      
 
+    def _request(
+        self, http_method, endpoint, params={}, request_data=None, headers={}, verify=True, stream=None
+    ) -> requests.PreparedRequest:
+        """Prepare a request object."""
+        url = self.url(endpoint)
+        headers.update(self.default_headers)
+        headers.update({"Content-Type": "application/json"})
+        params.update(self.params)
+        data = (
+            json.dumps(request_data, cls=HGJSONEncoder)
+            if request_data
+            else None
+        )
+
+        response = requests.request(
+            method=http_method,
+            url=url,
+            params=params,
+            headers=headers,
+            data=data,
+            verify=verify
+        )
+        save_api_usage(http_method.upper(), url, params, data, response, stream=stream)
+        self.validate_response(response)
+        return response
