@@ -2,8 +2,6 @@
 
 from singer_sdk import typing as th
 from target_hotglue.target import TargetHotglue
-from target_quickbooks.util import cleanup
-import atexit
 
 from target_quickbooks.sinks import (
     BillSink,
@@ -91,5 +89,4 @@ class TargetQuickBooks(TargetHotglue):
                 return sink_class
 
 if __name__ == "__main__":
-    atexit.register(cleanup)
     TargetQuickBooks.cli()
