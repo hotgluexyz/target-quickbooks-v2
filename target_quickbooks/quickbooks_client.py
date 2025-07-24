@@ -3,6 +3,7 @@ import requests
 from datetime import datetime
 from typing import Union
 from intuitlib.client import AuthClient
+from target_quickbooks.util import save_api_usage
 
 class QuickbooksClient:
     MINOR_VERSION = "75"
@@ -97,7 +98,7 @@ class QuickbooksClient:
                 }
             ]
 
-            responses = self.make_batch_request(batch_requests)
+            responses = self.make_batch_request(batch_requests, stream=entity_type)
             if not responses:
                 return []
             
@@ -134,7 +135,7 @@ class QuickbooksClient:
 
         return entities
 
-    def make_batch_request(self, batch_requests):
+    def make_batch_request(self, batch_requests, stream="Batch"):
         if not self.is_token_valid():
             self.update_access_token()
 
@@ -142,6 +143,7 @@ class QuickbooksClient:
             "POST",
             "/batch",
             request_data={"BatchItemRequest": batch_requests},
+            stream=stream
         )
 
         if response is None:
@@ -153,7 +155,7 @@ class QuickbooksClient:
 
         return response.get("BatchItemResponse")
 
-    def make_request(self, method, endpoint, request_data=None, params={}, headers={}):
+    def make_request(self, method, endpoint, request_data=None, params={}, headers={}, stream=None):
         if not self.is_token_valid():
             self.update_access_token()
 
@@ -171,14 +173,18 @@ class QuickbooksClient:
 
         url = f"{self.base_url}{endpoint}"
 
+        request_data = json.dumps(request_data) if request_data else None
+
         # Send the request
         response = requests.request(
             method,
             url,
-            data=json.dumps(request_data) if request_data else None,
+            data=request_data,
             headers=request_headers,
             params=params
         )
+
+        save_api_usage(method.upper(), url, params, request_data, response, stream=stream)
 
         success, error_message = self._validate_response(response)
 

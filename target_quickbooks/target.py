@@ -13,6 +13,8 @@ from target_quickbooks.sinks.journal_entry_sink import JournalEntrySink
 from target_quickbooks.sinks.purchase_order_sink import PurchaseOrderSink
 from target_quickbooks.sinks.vendor_sink import VendorSink
 from target_quickbooks.sinks.vendor_credit_sink import VendorCreditSink
+from target_quickbooks.util import cleanup
+import atexit
 
 
 class TargetQuickBooks(TargetHotglue):
@@ -80,4 +82,5 @@ class TargetQuickBooks(TargetHotglue):
 
 
 if __name__ == "__main__":
+    atexit.register(cleanup)
     TargetQuickBooks.cli()
