@@ -4,7 +4,7 @@ import threading
 import queue
 import os
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 
 # Configurable log path
 LOG_FILE_PATH = Path(os.getenv("API_USAGE_LOG", "api_usage.jsonl"))
@@ -69,3 +69,7 @@ def cleanup():
         _log_queue.join()
     if _log_thread:
         _log_thread.join(timeout=2)
+
+def pick_fields(item, fields: List[str]):
+    """Pick only the fields from the item that are in the fields list."""
+    return {k: item.get(k) for k in fields}
