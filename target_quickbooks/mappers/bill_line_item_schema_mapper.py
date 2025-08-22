@@ -46,7 +46,16 @@ class BillLineItemSchemaMapper(BaseMapper):
         item_info = {}
         found_item = None
 
-        if item_id := self.record.get("itemId"):
+        if item_sku := self.record.get("itemNumber"):
+            found_item = next(
+                (item for item in self.reference_data["Items"]
+                if item.get("Sku") == item_sku),
+                None
+            )
+            if not found_item:  
+                raise RecordNotFound(f"An item with Sku={item_sku} could not be found in QBO")
+
+        if item_id := self.record.get("itemId") and not found_item:
             found_item = next(
                 (item for item in self.reference_data["Items"]
                 if item["Id"] == item_id),
