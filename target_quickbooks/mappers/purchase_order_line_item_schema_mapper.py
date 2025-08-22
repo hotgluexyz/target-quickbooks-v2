@@ -63,7 +63,7 @@ class PurchaseOrderLineItemSchemaMapper(BaseMapper):
             if not found_item:  
                 raise RecordNotFound(f"An item with Sku={item_sku} could not be found in QBO")
 
-        if item_id := self.record.get("itemId") and not found_item:
+        if (item_id := self.record.get("itemId")) and not found_item:
             found_item = next(
                 (item for item in self.reference_data["Items"]
                 if item["Id"] == item_id),
