@@ -3,7 +3,7 @@ from typing import Dict, List
 from hotglue_models_accounting.accounting import PurchaseOrder
 from target_quickbooks.base_sinks import QuickbooksBatchSink
 from target_quickbooks.mappers.purchase_order_schema_mapper import PurchaseOrderSchemaMapper
-
+from target_quickbooks.util import pick_fields
 
 class PurchaseOrderSink(QuickbooksBatchSink):
     name = "PurchaseOrders"
@@ -57,14 +57,27 @@ class PurchaseOrderSink(QuickbooksBatchSink):
         # fetch items by Id and Name
         items = []
         item_ids = set()
+        item_skus = set()
         item_names = set()
         for record in records:
             item_ids.update({f"'{line_item['itemId']}'" for line_item in record.get("lineItems", []) if line_item.get("itemId")})
+            item_skus.update({f"'{line_item['itemNumber']}'" for line_item in record.get("lineItems", []) if line_item.get("itemNumber")})
             item_names.update({line_item['itemName'].replace("'", r"\'") for line_item in record.get("lineItems", []) if line_item.get("itemName")})
 
         if item_ids:
             item_ids_str = ",".join(item_ids)
             items += self.quickbooks_client.get_entities("Item", select_statement="Id, Name", where_filter=f"Id in ({item_ids_str})")
+        if item_skus:
+            item_skus_str = ",".join(item_skus)
+            # sku field is only returned when all fields are selected
+            items += [
+                pick_fields(item, ["Id", "Name", "Sku"])
+                for item in self.quickbooks_client.get_entities(
+                    "Item",
+                    select_statement="*",
+                    where_filter=f"Sku in ({item_skus_str})"
+                )
+            ]
         if item_names:
             item_names = {f"'{item_name}'" for item_name in item_names}
             item_names_str = ",".join(item_names)

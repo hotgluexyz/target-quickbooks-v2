@@ -70,7 +70,6 @@ def cleanup():
     if _log_thread:
         _log_thread.join(timeout=2)
 
-
 def pick_fields(item, fields: List[str]):
     """Pick only the fields from the item that are in the fields list."""
     return {k: item.get(k) for k in fields}

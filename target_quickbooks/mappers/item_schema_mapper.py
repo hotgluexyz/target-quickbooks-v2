@@ -10,6 +10,7 @@ class ItemSchemaMapper(BaseMapper):
 
     field_mappings = {
         "externalId": "externalId",
+        "itemNumber": "Sku",
         "name": "Name",
         "type": "Type",
         "quantityOnHand": "QtyOnHand"
