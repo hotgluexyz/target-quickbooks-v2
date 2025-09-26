@@ -52,8 +52,6 @@ class InvoiceSink(QuickbooksSink):
         else:
             entry = ["Invoice", invoice, "create"]
 
-            self.logger.info(json.dumps(entry))
-
         context["records"].append(entry)
 
 
@@ -93,8 +91,6 @@ class SalesReceiptSink(QuickbooksSink):
                 return
         else:
             entry = ["SalesReceipt", sales_receipt, "create"]
-
-            self.logger.info(json.dumps(entry))
 
         context["records"].append(entry)
 
@@ -209,9 +205,6 @@ class VendorSink(QuickbooksSink):
             entry = ["Vendor", vendor, "create"]
 
         context["records"].append(entry)
-
-        self.logger.info(f"Generated record: {entry}")
-
 
 class ItemSink(QuickbooksSink):
     name = "Items"
@@ -666,8 +659,6 @@ class DepositsSink(QuickbooksSink):
 
         generated_record = self._process_deposit(record)
         context["records"].append(generated_record)
-        self.logger.info(f"Generated record: {generated_record}")
-
 
 class BillPaymentsSink(QuickbooksSink):
     name = "BillPayments"
