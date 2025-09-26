@@ -131,8 +131,6 @@ class QuickbooksClient:
 
             offset += max
 
-        self.logger.debug(f"[get_entities]: Found {len(entities)} {entity_type}.")
-
         return entities
 
     def make_batch_request(self, batch_requests, stream="Batch"):
@@ -193,7 +191,6 @@ class QuickbooksClient:
             return
 
         response_json = response.json()
-        self.logger.info(f"Response: {response_json}")
         return response_json
     
     def _validate_response(self, response: requests.Response) -> tuple[bool, Union[str, None]]:
