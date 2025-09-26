@@ -217,6 +217,8 @@ class QuickbooksSink(HotglueBatchSink):
 
             offset += max
 
+        self.logger.debug(f"[get_entities]: Found {len(entities)} {entity_type}.")
+
         return entities
 
     def process_batch_record(self, record: dict, index: int) -> dict:
