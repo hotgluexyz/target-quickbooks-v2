@@ -130,6 +130,8 @@ class QuickbooksClient:
                 break
 
             offset += max
+        
+        self.logger.debug(f"[get_entities]: Found {len(entities)} {entity_type}.")
 
         return entities
 
