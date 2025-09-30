@@ -739,15 +739,30 @@ class BillPaymentsSink(QuickbooksSink):
             new_record["VendorRef"] = {"value": transaction["VendorRef"]["value"]}
         
         if record.get("currency"):
-            new_record["CurrencyRef"] = {"value": record["currency"]}
+            currency_code = record["currency"]
+            new_record["CurrencyRef"] = {"value": currency_code}
         else:
             # if currency not provided, get it from the linked transaction
             transaction = self.get_transaction(record, context) if not transaction else transaction
             # if transaction is not found, error was appended to context, return
             if not transaction:
                 return
-            new_record["CurrencyRef"] = {"value": transaction["CurrencyRef"]["value"]}
-            new_record["ExchangeRate"] = transaction["ExchangeRate"]
+            currency_code = transaction["CurrencyRef"]["value"]
+            new_record["CurrencyRef"] = {"value": currency_code}
+
+        if record.get("exchangeRate"):
+            new_record["ExchangeRate"] = record["exchangeRate"]
+        elif currency_code in self.currency:
+            # self.currency doesn't contain home currency
+            # so it means it's not home currency so we need to set the exchange rate
+            if currency_code not in self.exchange_rates:
+                entry = ["BillPayments", {
+                    "error": f"Could not determine ExchangeRate for currency={currency_code}. Record={record}"
+                }, "error"]
+                context["records"].append(entry)
+                return
+
+            new_record["ExchangeRate"] = self.exchange_rates[currency_code]["Rate"]
 
         account_id = record.get("accountId")
         account_name = record.get("accountName")
