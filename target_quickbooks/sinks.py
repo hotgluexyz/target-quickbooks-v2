@@ -747,6 +747,7 @@ class BillPaymentsSink(QuickbooksSink):
             if not transaction:
                 return
             new_record["CurrencyRef"] = {"value": transaction["CurrencyRef"]["value"]}
+            new_record["ExchangeRate"] = transaction["ExchangeRate"]
 
         account_id = record.get("accountId")
         account_name = record.get("accountName")
