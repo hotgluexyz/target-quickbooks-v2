@@ -316,7 +316,6 @@ class QuickbooksSink(HotglueBatchSink):
         save_api_usage("POST", url, {}, data, r, stream=stream)
 
         response = r.json()
-        self.logger.info(f"DEBUG RESPONSE: {response}")
         return response
 
     def handle_response(self, response):
@@ -373,8 +372,6 @@ class QuickbooksSink(HotglueBatchSink):
         )
 
         response = r.json()
-
-        self.logger.info(f"DEBUG RESPONSE: {response}")
 
         if response.get("Fault") is not None:
             self.logger.error(response)
@@ -446,7 +443,6 @@ class QuickbooksSink(HotglueBatchSink):
             # Do delete batch requests
             self.logger.info("Deleting any posted records entries...")
             response = self.make_batch_request(batch_requests)
-            self.logger.debug(json.dumps(response))
 
         def format_record(record: dict):
             record.pop("Entity", None)
