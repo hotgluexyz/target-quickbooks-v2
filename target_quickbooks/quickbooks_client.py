@@ -193,7 +193,6 @@ class QuickbooksClient:
             return
 
         response_json = response.json()
-        self.logger.info(f"Response: {response_json}")
         return response_json
     
     def _validate_response(self, response: requests.Response) -> tuple[bool, Union[str, None]]:
