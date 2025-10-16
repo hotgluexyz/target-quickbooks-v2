@@ -1,5 +1,6 @@
 import json
 import requests
+import backoff
 from datetime import datetime
 from intuitlib.client import AuthClient
 from singer_sdk.plugin_base import PluginBase
@@ -8,6 +9,12 @@ from typing import Dict, List, Optional
 import ast
 from target_quickbooks.util import save_api_usage
 from target_hotglue.rest import HGJSONEncoder
+
+class ClientRateLimitError(Exception):
+    pass
+
+class Server5xxError(Exception):
+    pass
 
 class QuickbooksSink(HotglueBatchSink):
     endpoint = "/batch"
@@ -458,10 +465,16 @@ class QuickbooksSink(HotglueBatchSink):
         resp = self._request(http_method, endpoint, params, request_data, headers, verify=verify, stream=stream)
         return resp      
 
+    @backoff.on_exception(
+        backoff.expo,
+        (ClientRateLimitError, Server5xxError),
+        max_tries=10,
+        factor=3
+    )
     def _request(
         self, http_method, endpoint, params={}, request_data=None, headers={}, verify=True, stream=None
     ) -> requests.PreparedRequest:
-        """Prepare a request object."""
+        """Prepare a request object with automatic retry on rate limits."""
         url = self.url(endpoint)
         headers.update(self.default_headers)
         headers.update({"Content-Type": "application/json"})
@@ -481,5 +494,11 @@ class QuickbooksSink(HotglueBatchSink):
             verify=verify
         )
         save_api_usage(http_method.upper(), url, params, data, response, stream=stream)
+        
+        if response.status_code == 429:
+            raise ClientRateLimitError(f"Rate limit exceeded: {response.status_code}")
+        if response.status_code >= 500:
+            raise Server5xxError(f"Server error: {response.status_code}")
+
         self.validate_response(response)
         return response
