@@ -5,13 +5,13 @@ from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, In
 class ItemSchemaMapper(BaseMapper):
     existing_record_pk_mappings = [
         {"record_field": "id", "qbo_field": "Id", "required_if_present": True},
-        {"record_field": "name", "qbo_field": "Name", "required_if_present": False}
+        {"record_field": "displayName", "qbo_field": "Name", "required_if_present": False}
     ]
 
     field_mappings = {
         "externalId": "externalId",
         "itemNumber": "Sku",
-        "name": "Name",
+        "displayName": "Name",
         "type": "Type",
         "quantityOnHand": "QtyOnHand"
     }

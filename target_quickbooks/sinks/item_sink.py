@@ -16,7 +16,7 @@ class ItemSink(QuickbooksBatchSink):
         # we have to perform two operations because QBO doesn't support the OR operator
         existing_items = []
         item_ids = {f"'{record['id']}'" for record in records if record.get("id")}
-        item_names = {record['name'].replace("'", r"\'") for record in records if record.get("name")}
+        item_names = {record['displayName'].replace("'", r"\'") for record in records if record.get("displayName")}
 
         if item_ids:
             item_ids_str = ",".join(item_ids)
