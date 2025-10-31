@@ -3,6 +3,7 @@ import datetime
 import threading
 import queue
 import os
+import sys
 from pathlib import Path
 from typing import Optional, List
 
@@ -27,7 +28,7 @@ def _log_writer():
         except queue.Empty:
             continue
         except Exception as e:
-            print(f"Error writing to log file: {e}")
+            print(f"Error writing to log file: {e}", file=sys.stderr)
 
 def _ensure_log_thread():
     """Ensure the logging thread is running."""
