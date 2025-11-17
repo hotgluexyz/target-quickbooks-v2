@@ -57,6 +57,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
                     state["id"] = str(id)
                 if external_id := raw_record[1].get("externalId"):
                     state["externalId"] = external_id
+                # not adding record here, because it failed during mapping
                 self.update_state(state)
 
         response = self.make_batch_request(records)
@@ -65,8 +66,8 @@ class QuickbooksBatchSink(HotglueBatchSink):
         state_updates = result.get("state_updates", [])
 
         # Update the latest state for each state update in the response
-        for state_update in state_updates:
-            self.update_state(state_update)
+        for i, state_update in enumerate(state_updates):
+            self.update_state(state_update, record=records[i])
 
     def make_batch_request(self, records: List[Dict]):
         request_records = []
