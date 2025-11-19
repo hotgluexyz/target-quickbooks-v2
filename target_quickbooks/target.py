@@ -82,6 +82,5 @@ class TargetQuickBooks(TargetHotglue):
 
 
 if __name__ == "__main__":
-    raise Exception("test")
     atexit.register(cleanup)
     TargetQuickBooks.cli()
