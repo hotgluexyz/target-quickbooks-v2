@@ -68,7 +68,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
         # Update the latest state for each state update in the response
         self.logger.info(f"Updating state for {len(state_updates)} records")
         import os
-        self.logger.info(f"ALL os env: {os.environ}")
+        self.logger.info(f"ALL os env 2: {os.environ}")
         for i, state_update in enumerate(state_updates):
             self.update_state(state_update, record=records[i])
 
