@@ -1,6 +1,6 @@
 import json
 from copy import deepcopy
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 
 from singer_sdk.plugin_base import PluginBase
 
@@ -122,3 +122,11 @@ class QuickbooksBatchSink(HotglueBatchSink):
                     state_updates.append(state)
 
         return {"state_updates": state_updates}
+
+    def error_to_string(self, error: Any):
+        if isinstance(error, list):
+            return ". ".join([self.error_to_string(item) for item in error])
+        if isinstance(error, dict) and "Detail" in error:
+            return error.get("Detail")
+        else:
+            return str(error)
