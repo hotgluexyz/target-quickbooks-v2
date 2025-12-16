@@ -1,6 +1,6 @@
 import json
 from copy import deepcopy
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 import os
 
 from singer_sdk.plugin_base import PluginBase
