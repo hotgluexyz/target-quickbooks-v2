@@ -1,6 +1,7 @@
 import json
 from copy import deepcopy
 from typing import Dict, List, Optional, Any
+import os
 
 from singer_sdk.plugin_base import PluginBase
 
@@ -57,16 +58,19 @@ class QuickbooksBatchSink(HotglueBatchSink):
                     state["id"] = str(id)
                 if external_id := raw_record[1].get("externalId"):
                     state["externalId"] = external_id
+                # not adding record here, because it failed during mapping
                 self.update_state(state)
 
         response = self.make_batch_request(records)
         # Handle the batch response 
         result = self.handle_batch_response(response, records)
         state_updates = result.get("state_updates", [])
+        
+        self.logger.info(f"Env variables: {os.environ}")
 
         # Update the latest state for each state update in the response
-        for state_update in state_updates:
-            self.update_state(state_update)
+        for i, state_update in enumerate(state_updates):
+            self.update_state(state_update, record=records[i])
 
     def make_batch_request(self, records: List[Dict]):
         request_records = []
