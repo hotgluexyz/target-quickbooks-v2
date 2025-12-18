@@ -47,6 +47,10 @@ class BillSink(QuickbooksBatchSink):
             customer_ids.update({f"'{line_item['projectId']}'" for line_item in record.get("lineItems", []) if line_item.get("projectId")})
             customer_names.update({line_item['projectName'].replace("'", r"\'") for line_item in record.get("lineItems", []) if line_item.get("projectName")})
 
+            # also fetch customers from expenses lines
+            customer_ids.update({f"'{expense['projectId']}'" for expense in record.get("expenses", []) if expense.get("projectId")})
+            customer_names.update({expense['projectName'].replace("'", r"\'") for expense in record.get("expenses", []) if expense.get("projectName")})
+
         if customer_ids:
             customer_ids_str = ",".join(customer_ids)
             existing_customers += self.quickbooks_client.get_entities("Customer", select_statement="Id, DisplayName, SyncToken", where_filter=f"Id in ({customer_ids_str})")
