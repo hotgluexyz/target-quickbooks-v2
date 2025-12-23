@@ -27,6 +27,11 @@ class BillSchemaMapper(BaseMapper):
             **self._map_line_items_and_expenses()
         }
 
+        # NOTE: The tax settings for Bills only work in non-US QBO accounts
+        # the other options are "GlobalTaxCalculation": "TaxExcluded" or "NotApplicable"
+        if self.record.get("taxIncluded"):
+            payload["GlobalTaxCalculation"] = "TaxInclusive"
+
         if payload.get("CurrencyRef") and (exchange_rate := self.record.get("exchangeRate")):
             payload["ExchangeRate"] = exchange_rate
 
