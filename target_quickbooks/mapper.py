@@ -499,7 +499,7 @@ def sales_receipt_line(record, items, products, tax_codes=None):
         product = None
 
         product_id = lookup_entity_tuples(
-            record,
+            item,
             [
                 ("Id", "productId"),
                 ("Sku", "productId"),
@@ -534,12 +534,13 @@ def sales_receipt_line(record, items, products, tax_codes=None):
             "Description": item.get("description"),
         }
 
-        if product["TrackQtyOnHand"]:
-            if product["QtyOnHand"] < 1:
-                logging.info(
-                    f"No quantity available for Product: {item.get('productName')}"
-                )
-                line_item = None
+        # product is always None because of line 499
+        # if product["TrackQtyOnHand"]:
+        #     if product["QtyOnHand"] < 1:
+        #         logging.info(
+        #             f"No quantity available for Product: {item.get('productName')}"
+        #         )
+        #         line_item = None
 
         if line_item:
             lines.append(line_item)
