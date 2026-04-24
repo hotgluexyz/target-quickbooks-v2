@@ -534,7 +534,7 @@ def sales_receipt_line(record, items, products, tax_codes=None):
             "Description": item.get("description"),
         }
 
-        if product["TrackQtyOnHand"]:
+        if product and product.get("TrackQtyOnHand"):
             if product["QtyOnHand"] < 1:
                 logging.info(
                     f"No quantity available for Product: {item.get('productName')}"
