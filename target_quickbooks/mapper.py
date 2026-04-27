@@ -579,7 +579,7 @@ def sales_receipt_line(record, items, products, tax_codes=None):
     return lines
 
 
-def sales_receipt_from_unified(record, customers, products, tax_codes):
+def sales_receipt_from_unified(record, customers, products, tax_codes, payment_methods=None):
     customer_name = record.get("customerName",record.get("customer_name"))
     customer_id = None
 
@@ -605,6 +605,43 @@ def sales_receipt_from_unified(record, customers, products, tax_codes):
 
     if customer_id:
         sales_receipt["CustomerRef"] = {"value": customer_id}
+
+    payment_methods = payment_methods or {}
+    payment_method_name = (
+        record.get("paymentMethod")
+        or record.get("payment_method")
+        or record.get("card_type")
+    )
+
+    normalized_payment_methods = {}
+    for name, method in payment_methods.items():
+        if name:
+            normalized_payment_methods[str(name).strip().lower()] = method
+
+    payment_method = None
+    if payment_method_name:
+        normalized_name = str(payment_method_name).strip().lower()
+        payment_method = normalized_payment_methods.get(normalized_name)
+
+        if not payment_method:
+            aliases = {
+                "visa": "credit card",
+                "mastercard": "credit card",
+                "master card": "credit card",
+                "amex": "american express",
+                "americanexpress": "american express",
+            }
+            alias_name = aliases.get(normalized_name)
+            if alias_name:
+                payment_method = normalized_payment_methods.get(alias_name)
+
+    if payment_method:
+        sales_receipt["PaymentMethodRef"] = {
+            "value": payment_method["Id"],
+            "name": payment_method["Name"],
+        }
+    elif payment_method_name:
+        logging.warn(f"Could not find matching payment method for {payment_method_name}")
 
     if record.get("taxCode"):
         sales_receipt["TxnTaxDetail"] = {

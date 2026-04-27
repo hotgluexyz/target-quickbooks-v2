@@ -56,7 +56,7 @@ class InvoiceSink(QuickbooksSink):
 
 
 class SalesReceiptSink(QuickbooksSink):
-    name = "SalesReceipts"
+    name = "SalesReceipt"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
@@ -67,6 +67,7 @@ class SalesReceiptSink(QuickbooksSink):
             self.customers,
             self.items,
             self.tax_codes,
+            self.payment_methods,
         )
         if record.get("id"):
             receipt_details = self.get_entities(
