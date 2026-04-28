@@ -86,10 +86,30 @@ class SalesReceiptSink(QuickbooksSink):
                         ],
                     }
                 )
-                entry = ["Sales Receipt", sales_receipt, "update"]
+                entry = ["SalesReceipt", sales_receipt, "update"]
             else:
                 print(f"Sales Receipt {record.get('id')} not found. Skipping...")
                 return
+        elif record.get("salesNumber"):
+            sales_number = str(record.get("salesNumber")).replace("'", "\\'")
+            receipt_details = self.get_entities(
+                "SalesReceipt",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" DocNumber='{sales_number}'",
+            )
+            if receipt_details:
+                old_receipt = next(iter(receipt_details.values()))
+                sales_receipt.update(
+                    {
+                        "Id": old_receipt["Id"],
+                        "sparse": True,
+                        "SyncToken": old_receipt["SyncToken"],
+                    }
+                )
+                entry = ["SalesReceipt", sales_receipt, "update"]
+            else:
+                entry = ["SalesReceipt", sales_receipt, "create"]
         else:
             entry = ["SalesReceipt", sales_receipt, "create"]
 
