@@ -496,10 +496,8 @@ def sales_receipt_line(record, items, products, tax_codes=None):
     total_discount = 0
 
     for item in items:
-        product = None
-
         product_id = lookup_entity_tuples(
-            record,
+            item,
             [
                 ("Id", "productId"),
                 ("Sku", "productId"),
@@ -533,13 +531,6 @@ def sales_receipt_line(record, items, products, tax_codes=None):
             "SalesItemLineDetail": item_line_detail,
             "Description": item.get("description"),
         }
-
-        if product["TrackQtyOnHand"]:
-            if product["QtyOnHand"] < 1:
-                logging.info(
-                    f"No quantity available for Product: {item.get('productName')}"
-                )
-                line_item = None
 
         if line_item:
             lines.append(line_item)
