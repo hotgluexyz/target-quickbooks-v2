@@ -91,7 +91,7 @@ class BillPaymentSchemaMapper(BaseMapper):
                     }
                 }
             else:
-                raise InvalidInputError(f"The account supplied should be of AccountType='Credit Card' or AccountType='Bank' and AccountSubType='Checking'")
+                raise InvalidInputError("The account supplied should be of AccountType='Credit Card' or AccountType='Bank' and AccountSubType='Checking'")
 
         return {}
 

@@ -1,7 +1,8 @@
 import datetime
-from typing import Dict, List, Optional
 
-class InvalidInputError(Exception):
+from hotglue_etl_exceptions import InvalidPayloadError
+
+class InvalidInputError(InvalidPayloadError):
     pass
 
 class RecordNotFound(InvalidInputError):
@@ -58,7 +59,7 @@ class BaseMapper:
             field_mappings = custom_field_mappings
 
         for record_key, payload_key in field_mappings.items():
-            if record_key in self.record and self.record.get(record_key) != None:
+            if record_key in self.record and self.record.get(record_key) is not None:
                 if isinstance(payload_key, list):
                     for key in payload_key:
                         payload[key] = self.record.get(record_key)

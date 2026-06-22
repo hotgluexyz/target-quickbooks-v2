@@ -126,6 +126,6 @@ class CustomerSchemaMapper(BaseMapper):
         is_active = self.record.get("isActive")
         if is_active is not None:
             if is_active is False and payload.get("Id") is None:
-                raise InvalidInputError(f"Invalid value isActive=False when creating a new record. It can only be used to delete an existing Customer")
+                raise InvalidInputError("Invalid value isActive=False when creating a new record. It can only be used to delete an existing Customer")
                 
             payload["Active"] = is_active

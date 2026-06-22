@@ -1,6 +1,6 @@
 from typing import Dict
 
-from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound
+from target_quickbooks.mappers.base_mapper import BaseMapper
 from target_quickbooks.mappers.invoice_line_item_schema_mapper import InvoiceLineItemSchemaMapper
 
 class InvoiceSchemaMapper(BaseMapper):

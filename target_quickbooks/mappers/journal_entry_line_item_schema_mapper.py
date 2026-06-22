@@ -1,5 +1,5 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, InvalidInputError
+from target_quickbooks.mappers.base_mapper import BaseMapper, InvalidInputError
 
 class JournalEntryLineItemSchemaMapper(BaseMapper):
     existing_record_pk_mappings = []

@@ -1,5 +1,5 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, InvalidInputError
+from target_quickbooks.mappers.base_mapper import BaseMapper, InvalidInputError
 
 class VendorSchemaMapper(BaseMapper):
     existing_record_pk_mappings = [
@@ -37,6 +37,6 @@ class VendorSchemaMapper(BaseMapper):
         is_active = self.record.get("isActive")
         if is_active is not None:
             if is_active is False and payload.get("Id") is None:
-                raise InvalidInputError(f"Invalid value isActive=False when creating a new record. It can only be used to delete an existing Vendor")
+                raise InvalidInputError("Invalid value isActive=False when creating a new record. It can only be used to delete an existing Vendor")
                 
             payload["Active"] = is_active
