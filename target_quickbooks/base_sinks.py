@@ -1,12 +1,11 @@
 import json
-from copy import deepcopy
-from typing import Dict, List, Optional, Any
 import os
+from copy import deepcopy
+from typing import Any, Dict, List, Optional
 
-from singer_sdk.plugin_base import PluginBase
+from hotglue_singer_sdk.plugin_base import PluginBase
+from hotglue_singer_sdk.target_sdk.client import HotglueBatchSink
 
-from target_hotglue.client import HotglueBatchSink
-from target_hotglue.client import HotglueBatchSink
 from target_quickbooks.quickbooks_client import QuickbooksClient
 
 

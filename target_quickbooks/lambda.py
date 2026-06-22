@@ -2,6 +2,7 @@ import importlib
 from logging import Logger
 from typing import Optional
 
+
 def real_time_handler(
     config: dict,
     stream_name: str,
@@ -11,7 +12,7 @@ def real_time_handler(
     input_path: Optional[str] = None,
 ):
     try:
-        mod = importlib.import_module("target_hotglue.lambda")
+        mod = importlib.import_module("hotglue_singer_sdk.target_sdk.lambda")
 
         if not hasattr(mod, "real_time_handler"):
             raise Exception("This target does not support real time")
