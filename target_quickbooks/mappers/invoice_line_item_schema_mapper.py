@@ -1,5 +1,5 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, InvalidInputError, RecordNotFound
+from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound
 
 class InvoiceLineItemSchemaMapper(BaseMapper):
     existing_record_pk_mappings = []

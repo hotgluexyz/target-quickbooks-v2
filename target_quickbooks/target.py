@@ -4,6 +4,7 @@ import atexit
 
 from hotglue_singer_sdk import typing as th
 from hotglue_singer_sdk.target_sdk.target import TargetHotglue
+from hotglue_singer_sdk.helpers.capabilities import AlertingLevel
 
 from target_quickbooks.quickbooks_client import QuickbooksClient
 from target_quickbooks.sinks.bill_payment_sink import BillPaymentSink
@@ -24,6 +25,7 @@ class TargetQuickBooks(TargetHotglue):
 
     name = "target-quickbooks"
     MAX_PARALLELISM = 1
+    alerting_level = AlertingLevel.WARNING
 
     config_jsonschema = th.PropertiesList(
         th.Property("client_id", th.StringType, required=True),
@@ -66,7 +68,7 @@ class TargetQuickBooks(TargetHotglue):
         self.reference_data = self.get_reference_data()
 
     def get_reference_data(self):
-        self.logger.info(f"Getting reference data...")
+        self.logger.info("Getting reference data...")
 
         reference_data = {}
         reference_data["Accounts"] = self.quickbooks_client.get_entities("Account")
@@ -79,7 +81,7 @@ class TargetQuickBooks(TargetHotglue):
         reference_data["Terms"] = self.quickbooks_client.get_entities("Term")
         reference_data["ItemCategories"] = self.quickbooks_client.get_entities("Item", where_filter="Type='Category'")
 
-        self.logger.info(f"Done getting reference data...")
+        self.logger.info("Done getting reference data...")
         return reference_data
 
 

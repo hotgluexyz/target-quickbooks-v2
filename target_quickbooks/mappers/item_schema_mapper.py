@@ -1,6 +1,6 @@
 import datetime
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, InvalidInputError
+from target_quickbooks.mappers.base_mapper import BaseMapper, InvalidInputError
 
 class ItemSchemaMapper(BaseMapper):
     existing_record_pk_mappings = [
@@ -110,6 +110,6 @@ class ItemSchemaMapper(BaseMapper):
         is_active = self.record.get("isActive")
         if is_active is not None:
             if is_active is False and payload.get("Id") is None:
-                raise InvalidInputError(f"Invalid value isActive=False when creating a new record. It can only be used to delete an existing Item")
+                raise InvalidInputError("Invalid value isActive=False when creating a new record. It can only be used to delete an existing Item")
                 
             payload["Active"] = is_active

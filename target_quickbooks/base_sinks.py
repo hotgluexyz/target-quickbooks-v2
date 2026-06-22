@@ -1,8 +1,8 @@
 import json
-import os
 from copy import deepcopy
 from typing import Any, Dict, List, Optional
 
+from hotglue_etl_exceptions import InvalidCredentialsError, InvalidPayloadError
 from hotglue_singer_sdk.plugin_base import PluginBase
 from hotglue_singer_sdk.target_sdk.client import HotglueBatchSink
 
@@ -19,7 +19,14 @@ class QuickbooksBatchSink(HotglueBatchSink):
         self.reference_data = self._target.reference_data
 
     def validate_input(self, record: dict):
-        return True    
+        return True
+
+    def _get_error_classification_metadata(self, error: Exception) -> dict:
+        if isinstance(error, InvalidCredentialsError):
+            return {"hg_error_class": InvalidCredentialsError.__name__}
+        if isinstance(error, InvalidPayloadError):
+            return {"hg_error_class": InvalidPayloadError.__name__}
+        return {}
 
     def get_batch_reference_data(self, records: List) -> dict:
         """Get the reference data for a batch
@@ -53,6 +60,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
                 records.append(record)
             except Exception as e:
                 state = {"success": False, "error": str(e)}
+                state.update(self._get_error_classification_metadata(e))
                 if id := raw_record[1].get("id"):
                     state["id"] = str(id)
                 if external_id := raw_record[1].get("externalId"):
