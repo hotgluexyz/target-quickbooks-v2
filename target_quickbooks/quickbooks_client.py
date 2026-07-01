@@ -1,9 +1,13 @@
 import json
 import requests
 from datetime import datetime
-from typing import Union
+from typing import Optional, Union
+
 from intuitlib.client import AuthClient
+from hotglue_etl_exceptions import InvalidCredentialsError
+
 from target_quickbooks.util import save_api_usage
+
 
 class QuickbooksClient:
     MINOR_VERSION = "75"
@@ -16,6 +20,7 @@ class QuickbooksClient:
 
     def instantiate_client(self):
         self.last_refreshed = None
+        self.credentials_error: Optional[str] = None
         self.access_token = self.config.get("access_token")
         self.refresh_token = self.config.get("refresh_token")
 
@@ -52,7 +57,19 @@ class QuickbooksClient:
         return True
 
     def update_access_token(self):
-        self.auth_client.refresh(self.config.get("refresh_token"))
+        if self.credentials_error is not None:
+            raise InvalidCredentialsError(self.credentials_error)
+
+        try:
+            self.auth_client.refresh(self.config.get("refresh_token"))
+        except Exception as exc:
+            invalid_credentials_message = self._get_invalid_credentials_error_message(exc)
+            if invalid_credentials_message is None:
+                raise
+
+            self.credentials_error = invalid_credentials_message
+            raise InvalidCredentialsError(invalid_credentials_message) from exc
+
         self.access_token = self.auth_client.access_token
         self.refresh_token = self.auth_client.refresh_token
         self.config["refresh_token"] = self.refresh_token
@@ -62,6 +79,42 @@ class QuickbooksClient:
 
         with open(self._config_file_path, "w") as outfile:
             json.dump(self.config, outfile, indent=4)
+
+    def _get_invalid_credentials_error_message(self, error: Exception) -> Optional[str]:
+        response = getattr(error, "response", None)
+        response_status_code = getattr(response, "status_code", None)
+        response_payload = {}
+        response_text = ""
+
+        if response is not None:
+            try:
+                response_payload = response.json() or {}
+            except Exception:
+                response_payload = {}
+
+            response_text = getattr(response, "text", "")
+            if not response_text:
+                response_content = getattr(response, "content", b"")
+                if isinstance(response_content, bytes):
+                    response_text = response_content.decode("utf-8", errors="ignore")
+                else:
+                    response_text = str(response_content)
+
+        error_code = str(response_payload.get("error", ""))
+        error_description = str(response_payload.get("error_description", ""))
+        combined_error_text = " ".join(
+            part
+            for part in [error_code, error_description, response_text, str(error)]
+            if part
+        ).lower()
+
+        invalid_credentials_markers = ("invalid_grant", "invalid_client", "token invalid")
+        if response_status_code not in (400, 401):
+            return None
+        if not any(marker in combined_error_text for marker in invalid_credentials_markers):
+            return None
+
+        return error_description or response_text or str(error)
 
     @property
     def base_url(self) -> str:

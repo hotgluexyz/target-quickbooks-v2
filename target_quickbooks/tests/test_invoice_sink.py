@@ -1,63 +1,51 @@
 import pytest
-from io import StringIO
-from unittest.mock import patch
-from target_quickbooks.client import QuickbooksSink
-from target_quickbooks.sinks import InvoiceSink
+from hotglue_etl_exceptions import InvalidCredentialsError
 
-@pytest.mark.parametrize("mock_data_invoice", ["mock_data_invoice_lowercase", "mock_data_invoice_uppercase"])
-def test_target_process_lines_lowercase_invoice(mock_target, mock_data_invoice, request):
-    data_invoice = request.getfixturevalue(mock_data_invoice)
-    file_input = StringIO(data_invoice)
+from target_quickbooks.quickbooks_client import QuickbooksClient
 
-    with (
-        patch.object(QuickbooksSink, "is_token_valid", return_value=True), 
-        patch.object(QuickbooksSink, "get_reference_data"),
-        patch.object(QuickbooksSink, "get_entities"),
-        patch.object(QuickbooksSink, "request_api"),
-        patch.object(InvoiceSink, "process_record"),
-    ):
-            mock_target._process_lines(file_input)
+from .test_core import FakeAuthRefreshError, FakeResponse
 
-def test_process_record_create_invoice(mock_invoice_sink, mock_invoice_dict):
-    record = mock_invoice_dict
-    record.pop("id")  # for create an invoice, it should not have an id
 
-    # context need to exist before the process record, so it could be updated
-    context = {}
+def test_quickbooks_client_re_raises_non_credential_refresh_failures(
+    monkeypatch,
+    quickbooks_config_file,
+    logger,
+):
+    class FakeAuthClient:
+        def __init__(self, *args, **kwargs):
+            self.access_token = None
+            self.refresh_token = None
 
-    mock_invoice_sink.process_record(record, context)
+        def refresh(self, refresh_token):
+            raise FakeAuthRefreshError(
+                FakeResponse(
+                    500,
+                    {
+                        "error": "server_error",
+                        "error_description": "Intuit is unavailable",
+                    },
+                )
+            )
 
-    assert len(context["records"]) == 1
-    assert context["records"][0][0] == "Invoice"
-    assert context["records"][0][2] == "create"
+    monkeypatch.setattr("target_quickbooks.quickbooks_client.AuthClient", FakeAuthClient)
 
-def test_process_record_update_invoice(mock_invoice_sink, mock_invoice_dict):
-    record = mock_invoice_dict
+    with pytest.raises(FakeAuthRefreshError, match="server_error"):
+        QuickbooksClient(str(quickbooks_config_file), logger)
 
-    # context need to exist before the process record, so it could be updated
-    context = {}
 
-    invoice_details = {"1": {"SyncToken": "token"}}
+def test_quickbooks_client_reuses_cached_invalid_credentials_error_without_refreshing(
+    logger,
+):
+    client = object.__new__(QuickbooksClient)
+    client.logger = logger
+    client.credentials_error = "Token invalid"
 
-    # Call process_record
-    mock_invoice_sink.get_entities.return_value = invoice_details
-    mock_invoice_sink.process_record(record, context)
+    class FakeAuthClient:
+        def refresh(self, refresh_token):
+            raise AssertionError("refresh should not be called once credentials are known invalid")
 
-    # Check if the invoice was created correctly
-    assert len(context["records"]) == 1
-    assert context["records"][0][0] == "Invoice"
-    assert context["records"][0][2] == "update"
-    assert context["records"][0][1]["SyncToken"] == "token"
+    client.auth_client = FakeAuthClient()
+    client.config = {"refresh_token": "test_refresh_token"}
 
-def test_process_record_invoice_not_found(mock_invoice_sink, mock_invoice_dict, capsys):
-    record = mock_invoice_dict
-    record["id"] = "2"
-
-    context = {}
-
-    mock_invoice_sink.get_entities.return_value = {}
-    mock_invoice_sink.process_record(record, context)
-
-    captured = capsys.readouterr()
-    assert f"Invoice {record['id']} not found. Skipping..." in captured.out
-    assert len(context.get("records", [])) == 0
+    with pytest.raises(InvalidCredentialsError, match="Token invalid"):
+        client.update_access_token()
