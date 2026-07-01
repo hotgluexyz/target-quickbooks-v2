@@ -53,35 +53,25 @@ def test_quickbooks_client_raises_invalid_credentials_for_invalid_grant(
         QuickbooksClient(str(quickbooks_config_file), logger)
 
 
-def test_target_init_propagates_invalid_credentials_error_from_refresh_failure(
+def test_target_init_defers_quickbooks_initialization(
     monkeypatch,
     quickbooks_config_file,
 ):
-    class FakeAuthClient:
-        def __init__(self, *args, **kwargs):
-            self.access_token = None
-            self.refresh_token = None
-
-        def refresh(self, refresh_token):
-            raise FakeAuthRefreshError(
-                FakeResponse(
-                    400,
-                    {
-                        "error": "invalid_grant",
-                        "error_description": "Token invalid",
-                    },
-                )
-            )
-
     def fake_target_hotglue_init(self, config, parse_env_config=False, validate_config=True):
         self._config_file_path = config[0]
-        self.logger = MagicMock()
+        self._config = {}
+        self._state = {}
+        self._latest_state = {}
 
-    monkeypatch.setattr("target_quickbooks.quickbooks_client.AuthClient", FakeAuthClient)
     monkeypatch.setattr(
         "target_quickbooks.target.TargetHotglue.__init__",
         fake_target_hotglue_init,
     )
+    quickbooks_client_ctor = MagicMock()
+    monkeypatch.setattr("target_quickbooks.target.QuickbooksClient", quickbooks_client_ctor)
 
-    with pytest.raises(InvalidCredentialsError, match="Token invalid"):
-        TargetQuickBooks([str(quickbooks_config_file)])
+    target = TargetQuickBooks([str(quickbooks_config_file)])
+
+    assert target.quickbooks_client is None
+    assert target.reference_data == {}
+    quickbooks_client_ctor.assert_not_called()

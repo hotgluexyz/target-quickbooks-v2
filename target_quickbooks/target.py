@@ -64,8 +64,17 @@ class TargetQuickBooks(TargetHotglue):
             validate_config=validate_config,
         )
 
-        self.quickbooks_client: QuickbooksClient = QuickbooksClient(self._config_file_path, self.logger)
-        self.reference_data = self.get_reference_data()
+        self.quickbooks_client: QuickbooksClient = None
+        self.reference_data = {}
+
+    def ensure_quickbooks_initialized(self):
+        if self.quickbooks_client is None:
+            self.quickbooks_client = QuickbooksClient(self._config_file_path, self.logger)
+
+        if not self.reference_data:
+            self.reference_data = self.get_reference_data()
+
+        return self.quickbooks_client, self.reference_data
 
     def get_reference_data(self):
         self.logger.info("Getting reference data...")

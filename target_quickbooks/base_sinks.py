@@ -16,7 +16,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
         super().__init__(target, stream_name, schema, key_properties)
 
         self.quickbooks_client: QuickbooksClient = target.quickbooks_client
-        self.reference_data = self._target.reference_data
+        self.reference_data = self._target.reference_data or {}
 
     def validate_input(self, record: dict):
         return True
@@ -42,6 +42,19 @@ class QuickbooksBatchSink(HotglueBatchSink):
     def process_batch_record(self, record: dict, index: int, reference_data: dict) -> dict:
         return {"bId": f"bid{index}", "operation": record[2], record[0]: record[1]}
 
+    def _ensure_quickbooks_context(self) -> None:
+        self.quickbooks_client, self.reference_data = self._target.ensure_quickbooks_initialized()
+
+    def _update_failed_records_state(self, records: List[Dict], error: Exception) -> None:
+        for record in records:
+            state = {"success": False, "error": str(error)}
+            state.update(self._get_error_classification_metadata(error))
+            if id := record.get("id"):
+                state["id"] = str(id)
+            if external_id := record.get("externalId"):
+                state["externalId"] = external_id
+            self.update_state(state)
+
     def process_batch(self, context: dict) -> None:
         # If the latest state is not set, initialize it
         if not self.latest_state:
@@ -50,14 +63,21 @@ class QuickbooksBatchSink(HotglueBatchSink):
         # Extract the raw records from the context
         raw_records = context.get("records", [])
 
-        reference_data = self.get_batch_reference_data(raw_records)
+        try:
+            self._ensure_quickbooks_context()
+            reference_data = self.get_batch_reference_data(raw_records)
+        except Exception as e:
+            self._update_failed_records_state(raw_records, e)
+            return
 
         records = []
+        pending_records = []
         for raw_record in enumerate(raw_records):
             try:
                 # performs record mapping from unified to QBO
                 record = self.process_batch_record(raw_record[1], raw_record[0], reference_data)
                 records.append(record)
+                pending_records.append(raw_record[1])
             except Exception as e:
                 state = {"success": False, "error": str(e)}
                 state.update(self._get_error_classification_metadata(e))
@@ -68,9 +88,14 @@ class QuickbooksBatchSink(HotglueBatchSink):
                 # not adding record here, because it failed during mapping
                 self.update_state(state)
 
-        response = self.make_batch_request(records)
-        # Handle the batch response 
-        result = self.handle_batch_response(response, records)
+        try:
+            response = self.make_batch_request(records)
+            # Handle the batch response
+            result = self.handle_batch_response(response, records)
+        except Exception as e:
+            self._update_failed_records_state(pending_records, e)
+            return
+
         state_updates = result.get("state_updates", [])
 
         # Update the latest state for each state update in the response
