@@ -16,7 +16,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
         super().__init__(target, stream_name, schema, key_properties)
 
         self.quickbooks_client: QuickbooksClient = target.quickbooks_client
-        self.reference_data = self._target.reference_data or {}
+        self.reference_data = self._target.reference_data
 
     def validate_input(self, record: dict):
         return True
@@ -42,9 +42,6 @@ class QuickbooksBatchSink(HotglueBatchSink):
     def process_batch_record(self, record: dict, index: int, reference_data: dict) -> dict:
         return {"bId": f"bid{index}", "operation": record[2], record[0]: record[1]}
 
-    def _ensure_quickbooks_context(self) -> None:
-        self.quickbooks_client, self.reference_data = self._target.ensure_quickbooks_initialized()
-
     def _update_failed_records_state(self, records: List[Dict], error: Exception) -> None:
         for record in records:
             state = {"success": False, "error": str(error)}
@@ -64,7 +61,8 @@ class QuickbooksBatchSink(HotglueBatchSink):
         raw_records = context.get("records", [])
 
         try:
-            self._ensure_quickbooks_context()
+            if self._target.initialization_error:
+                raise self._target.initialization_error
             reference_data = self.get_batch_reference_data(raw_records)
         except Exception as e:
             self._update_failed_records_state(raw_records, e)

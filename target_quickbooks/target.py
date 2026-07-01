@@ -5,6 +5,7 @@ import atexit
 from hotglue_singer_sdk import typing as th
 from hotglue_singer_sdk.target_sdk.target import TargetHotglue
 from hotglue_singer_sdk.helpers.capabilities import AlertingLevel
+from hotglue_etl_exceptions import InvalidCredentialsError
 
 from target_quickbooks.quickbooks_client import QuickbooksClient
 from target_quickbooks.sinks.bill_payment_sink import BillPaymentSink
@@ -64,17 +65,14 @@ class TargetQuickBooks(TargetHotglue):
             validate_config=validate_config,
         )
 
+        self.initialization_error = None
         self.quickbooks_client: QuickbooksClient = None
         self.reference_data = {}
-
-    def ensure_quickbooks_initialized(self):
-        if self.quickbooks_client is None:
+        try:
             self.quickbooks_client = QuickbooksClient(self._config_file_path, self.logger)
-
-        if not self.reference_data:
             self.reference_data = self.get_reference_data()
-
-        return self.quickbooks_client, self.reference_data
+        except InvalidCredentialsError as error:
+            self.initialization_error = error
 
     def get_reference_data(self):
         self.logger.info("Getting reference data...")
