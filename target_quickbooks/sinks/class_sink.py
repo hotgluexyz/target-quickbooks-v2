@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+from hotglue_models_accounting.accounting import Class
 from target_quickbooks.base_sinks import QuickbooksBatchSink
 from target_quickbooks.mappers.class_schema_mapper import ClassSchemaMapper
 
@@ -7,8 +8,8 @@ from target_quickbooks.mappers.class_schema_mapper import ClassSchemaMapper
 class ClassSink(QuickbooksBatchSink):
     name = "Classes"
     record_type = "Class"
-    # unified_schema will be added when hotglue-models-accounting has Class model
-    auto_validate_unified_schema = False
+    unified_schema = Class
+    auto_validate_unified_schema = True
 
     def get_batch_reference_data(self, records: List) -> Dict:
         """

@@ -117,28 +117,51 @@ class ClassSchemaMapper(BaseMapper):
         return {}
 
     def _find_parent(self):
-        """Find parent class by ID or Name."""
+        """Find parent class by ID or Name.
+
+        Name-based resolution prefers the unique FullyQualifiedName. Since the
+        QBO Name field is only the leaf name and can collide across different
+        parents, we only fall back to Name when it resolves unambiguously.
+        """
         parent_id = self.record.get("parentId")
         parent_name = self.record.get("parentName")
-        
+
+        classes = self.reference_data.get(self.sink_name, [])
+
         found_parent = None
 
         # Try by ID first (normalize to string)
         if parent_id:
             parent_id_str = str(parent_id)
             found_parent = next(
-                (cls for cls in self.reference_data.get(self.sink_name, [])
+                (cls for cls in classes
                  if str(cls.get("Id")) == parent_id_str),
                 None
             )
 
-        # Fall back to Name (search across all classes for matching Name)
+        # Fall back to name. FullyQualifiedName is the unique key in QBO, so
+        # match on it first, then only on the (non-unique) Name field.
         if not found_parent and parent_name:
             found_parent = next(
-                (cls for cls in self.reference_data.get(self.sink_name, [])
-                 if cls.get("Name") == parent_name),
+                (cls for cls in classes
+                 if cls.get("FullyQualifiedName") == parent_name),
                 None
             )
+
+        if not found_parent and parent_name:
+            name_matches = [cls for cls in classes if cls.get("Name") == parent_name]
+
+            if len(name_matches) > 1:
+                fqns = ", ".join(
+                    sorted(cls.get("FullyQualifiedName", cls.get("Name")) for cls in name_matches)
+                )
+                raise InvalidInputError(
+                    f"Parent Class Name={parent_name} is ambiguous in QBO; it matches "
+                    f"multiple classes ({fqns}). Provide parentId to disambiguate."
+                )
+
+            if name_matches:
+                found_parent = name_matches[0]
 
         return found_parent
     
