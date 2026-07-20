@@ -15,6 +15,12 @@ class ClassSink(QuickbooksBatchSink):
         """
         Get existing classes and parent classes by id or name.
         Note: Classes are returned as a list, but FQN should be used for uniqueness.
+
+        Freshly fetched classes are layered on top of the preloaded full Classes
+        list (deduped by Id, fresh data winning) rather than replacing it. The QBO
+        Name field only holds the leaf name, so a parentName that is a
+        FullyQualifiedName (e.g. "Dept:Sales") never matches the ``Name in (...)``
+        query. Preserving the preloaded list keeps such parents resolvable by FQN.
         """
         classes = []
         class_ids = {f"'{record['id']}'" for record in records if record.get("id")}
@@ -41,7 +47,23 @@ class ClassSink(QuickbooksBatchSink):
                 where_filter=f"Name in ({class_names_str})"
             )
 
-        return {**self._target.reference_data, self.name: classes}
+        # Start from the preloaded full Classes list so parents referenced by
+        # FullyQualifiedName stay resolvable, then layer the freshly fetched
+        # classes on top (fresh data wins) and deduplicate by Id. Deduping avoids
+        # inflating ambiguity checks that count distinct classes by Name.
+        deduped_classes = {}
+        for cls in self._target.reference_data.get(self.name, []):
+            class_id = cls.get("Id")
+            if class_id is None:
+                continue
+            deduped_classes[class_id] = cls
+        for cls in classes:
+            class_id = cls.get("Id")
+            if class_id is None:
+                continue
+            deduped_classes[class_id] = cls
+
+        return {**self._target.reference_data, self.name: list(deduped_classes.values())}
     
     def process_batch_record(self, record: dict, index: int, reference_data: dict) -> dict:
         mapped_record = ClassSchemaMapper(record, self.name, reference_data=reference_data).to_quickbooks()
