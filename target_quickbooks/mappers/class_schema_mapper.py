@@ -171,7 +171,7 @@ class ClassSchemaMapper(BaseMapper):
         if is_active is not None:
             if is_active is False and payload.get("Id") is None:
                 raise InvalidInputError(
-                    "Invalid value isActive=False when creating a new record. "
-                    "It can only be used to deactivate an existing Class"
+                    "Invalid value isActive=False when creating a new Class. "
+                    "Only existing Classes can be de-activated."
                 )
             payload["Active"] = is_active
