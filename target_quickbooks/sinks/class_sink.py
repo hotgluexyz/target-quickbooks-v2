@@ -35,7 +35,7 @@ class ClassSink(QuickbooksBatchSink):
             classes += self.quickbooks_client.get_entities(
                 "Class", 
                 select_statement="Id, Name, FullyQualifiedName, SyncToken, Active", 
-                where_filter=f"Id in ({class_ids_str})"
+                where_filter=f"Id in ({class_ids_str}) AND Active IN (true, false)"
             )
         
         if class_names:
@@ -44,7 +44,7 @@ class ClassSink(QuickbooksBatchSink):
             classes += self.quickbooks_client.get_entities(
                 "Class", 
                 select_statement="Id, Name, FullyQualifiedName, SyncToken, Active", 
-                where_filter=f"Name in ({class_names_str})"
+                where_filter=f"Name in ({class_names_str}) AND Active IN (true, false)"
             )
 
         # Start from the preloaded full Classes list so parents referenced by
