@@ -156,8 +156,9 @@ class ClassSchemaMapper(BaseMapper):
                     sorted(cls.get("FullyQualifiedName", cls.get("Name")) for cls in name_matches)
                 )
                 raise InvalidInputError(
-                    f"Parent Class Name={parent_name} is ambiguous in QBO; it matches "
-                    f"multiple classes ({fqns}). Provide parentId to disambiguate."
+                    f"parentName={parent_name} is ambiguous in QBO; it matches "
+                    f"multiple classes ({fqns}). Provide the fully qualified parentName "
+                    f"(e.g. one of: {fqns}) or a parentId to disambiguate."
                 )
 
             if name_matches:
