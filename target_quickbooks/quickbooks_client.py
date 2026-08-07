@@ -1,9 +1,13 @@
 import json
 import requests
 from datetime import datetime
-from typing import Union
+from typing import Optional, Union
+
 from intuitlib.client import AuthClient
+from hotglue_etl_exceptions import InvalidCredentialsError
+
 from target_quickbooks.util import save_api_usage
+
 
 class QuickbooksClient:
     MINOR_VERSION = "75"
@@ -16,6 +20,7 @@ class QuickbooksClient:
 
     def instantiate_client(self):
         self.last_refreshed = None
+        self.credentials_error: Optional[str] = None
         self.access_token = self.config.get("access_token")
         self.refresh_token = self.config.get("refresh_token")
 
@@ -52,7 +57,20 @@ class QuickbooksClient:
         return True
 
     def update_access_token(self):
-        self.auth_client.refresh(self.config.get("refresh_token"))
+        if self.credentials_error is not None:
+            raise InvalidCredentialsError(self.credentials_error)
+
+        try:
+            self.auth_client.refresh(self.config.get("refresh_token"))
+        except Exception as exc:
+            response = getattr(exc, "response", None)
+            if getattr(response, "status_code", None) not in (400, 401):
+                raise
+
+            error_message = getattr(response, "text", "") or str(exc)
+            self.credentials_error = error_message
+            raise InvalidCredentialsError(error_message) from exc
+
         self.access_token = self.auth_client.access_token
         self.refresh_token = self.auth_client.refresh_token
         self.config["refresh_token"] = self.refresh_token
