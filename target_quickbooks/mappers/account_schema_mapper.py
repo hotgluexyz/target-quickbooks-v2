@@ -57,7 +57,8 @@ class AccountSchemaMapper(BaseMapper):
                 return {
                     "Id": found_account["Id"],
                     "SyncToken": found_account["SyncToken"],
-                    "sparse": True
+                    "sparse": True,
+                    "Active": found_account["Active"]
                 }
 
         if account_name := self.record.get("name"):
@@ -73,7 +74,8 @@ class AccountSchemaMapper(BaseMapper):
                 return {
                     "Id": found_account["Id"],
                     "SyncToken": found_account["SyncToken"],
-                    "sparse": True
+                    "sparse": True,
+                    "Active": found_account["Active"]
                 }
 
         return {}
@@ -171,7 +173,16 @@ class AccountSchemaMapper(BaseMapper):
     def _map_is_active(self, payload):
         """Map isActive field with validation."""
         is_active = self.record.get("isActive")
-        if is_active is not None:
+        if is_active is not True and payload.get("Active") is False:
+            # To upsert an inactive account, it is required to set isActive to True
+            # if payload["Active"] = False on an inactive account we get:
+            # {'Message': 'Request has invalid or unsupported property', 'Detail': 'Request has invalid or unsupported property', 'code': '2010'}
+            raise InvalidInputError(
+                "This Account is inactive in QuickBooks. "
+                "Set isActive to True to reactivate it and be able to update it."
+            )
+
+        if is_active is not None: #being set on the record
             if is_active is False and payload.get("Id") is None:
                 raise InvalidInputError(
                     "Invalid value isActive=False when creating a new Account. "
