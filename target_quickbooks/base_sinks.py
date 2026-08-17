@@ -90,6 +90,7 @@ class QuickbooksBatchSink(HotglueBatchSink):
         response_items = response or []
         state_updates = []
         entities = [
+            "Account",
             "Bill",
             "BillPayment",
             "Class",

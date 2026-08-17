@@ -7,6 +7,7 @@ from hotglue_singer_sdk.target_sdk.target import TargetHotglue
 from hotglue_singer_sdk.helpers.capabilities import AlertingLevel
 
 from target_quickbooks.quickbooks_client import QuickbooksClient
+from target_quickbooks.sinks.account_sink import AccountSink
 from target_quickbooks.sinks.bill_payment_sink import BillPaymentSink
 from target_quickbooks.sinks.bill_sink import BillSink
 from target_quickbooks.sinks.class_sink import ClassSink
@@ -39,6 +40,7 @@ class TargetQuickBooks(TargetHotglue):
     ).to_dict()
 
     SINK_TYPES = [
+        AccountSink,
         BillSink,
         BillPaymentSink,
         ClassSink,
