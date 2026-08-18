@@ -1,5 +1,5 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, ParentNotFound, InvalidInputError
+from target_quickbooks.mappers.base_mapper import BaseMapper, ParentNotFound, InvalidInputError, _MAX_NESTING_LEVELS
 
 
 class ClassSchemaMapper(BaseMapper):
@@ -109,6 +109,10 @@ class ClassSchemaMapper(BaseMapper):
             )
 
         if found_parent:
+            if found_parent.get("FullyQualifiedName", "").count(":") + 1 >= _MAX_NESTING_LEVELS:
+                raise InvalidInputError(
+                    f"Cannot create a child class of {found_parent.get('FullyQualifiedName')} because it has too many nesting levels. Maximum nesting level is {_MAX_NESTING_LEVELS}."
+                )
             return {
                 "ParentRef": {"value": found_parent["Id"], "name": found_parent["Name"]},
                 "SubClass": True

@@ -23,11 +23,11 @@ class CustomerSink(QuickbooksBatchSink):
 
         if customer_ids:
             customer_ids_str = ",".join(customer_ids)
-            customers += self.quickbooks_client.get_entities("Customer", select_statement="Id, DisplayName, SyncToken", where_filter=f"Id in ({customer_ids_str})")
+            customers += self.quickbooks_client.get_entities("Customer", select_statement="Id, DisplayName, FullyQualifiedName, SyncToken", where_filter=f"Id in ({customer_ids_str})")
         if customer_names:
             customer_names = {f"'{customer_name}'" for customer_name in customer_names}
             customer_names_str = ",".join(customer_names)
-            customers += self.quickbooks_client.get_entities("Customer", select_statement="Id, DisplayName, SyncToken", where_filter=f"DisplayName in ({customer_names_str})")
+            customers += self.quickbooks_client.get_entities("Customer", select_statement="Id, DisplayName, FullyQualifiedName, SyncToken", where_filter=f"DisplayName in ({customer_names_str})")
 
         return {**self._target.reference_data, self.name: customers}
     
