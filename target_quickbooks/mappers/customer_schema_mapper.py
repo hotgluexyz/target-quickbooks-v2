@@ -1,5 +1,5 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, InvalidInputError
+from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, ParentNotFound, InvalidInputError, _MAX_NESTING_LEVELS
 
 class CustomerSchemaMapper(BaseMapper):
     existing_record_pk_mappings = [
@@ -58,9 +58,13 @@ class CustomerSchemaMapper(BaseMapper):
             )
 
         if (parent_id or parent_name) and found_parent is None:
-            raise RecordNotFound(f"Parent Customer could not be found in QBO with Id={parent_id} / Name={parent_name}")
+            raise ParentNotFound(f"Parent Customer could not be found in QBO with Id={parent_id} / Name={parent_name}")
 
         if found_parent:
+            if found_parent.get("FullyQualifiedName", "").count(":") + 1 >= _MAX_NESTING_LEVELS:
+                raise InvalidInputError(
+                    f"Cannot create a child customer of {found_parent.get('FullyQualifiedName')} because it has too many nesting levels. Maximum nesting level is {_MAX_NESTING_LEVELS}."
+                )
             return {
                 "ParentRef": {"value": found_parent["Id"], "name": found_parent["DisplayName"]},
                 "Job": True

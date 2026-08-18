@@ -8,6 +8,12 @@ class InvalidInputError(InvalidPayloadError):
 class RecordNotFound(InvalidInputError):
     pass
 
+class ParentNotFound(RecordNotFound):
+    pass
+
+# QBO caps account/class nesting at 5; 6 waves is enough before we bail
+_MAX_NESTING_LEVELS = 5
+
 class BaseMapper:
     """A base class responsible for mapping a record ingested in the unified schema format to a payload for NetSuite"""
     existing_record_pk_mappings = []
