@@ -10,6 +10,7 @@ class CustomerSink(QuickbooksBatchSink):
     record_type = "Customer"
     unified_schema = Customer
     auto_validate_unified_schema = True
+    buffer_until_stream_end = True
 
     def get_batch_reference_data(self, records: List) -> Dict:
         # get existing customers and parent customers by id or DisplayName

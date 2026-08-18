@@ -1,5 +1,5 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, InvalidInputError
+from target_quickbooks.mappers.base_mapper import BaseMapper, ParentNotFound, InvalidInputError
 
 
 class ClassSchemaMapper(BaseMapper):
@@ -104,7 +104,7 @@ class ClassSchemaMapper(BaseMapper):
         found_parent = self._find_parent()
 
         if (parent_id or parent_name) and found_parent is None:
-            raise RecordNotFound(
+            raise ParentNotFound(
                 f"Parent Class could not be found in QBO with Id={parent_id} / Name={parent_name}"
             )
 

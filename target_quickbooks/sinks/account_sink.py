@@ -10,6 +10,7 @@ class AccountSink(QuickbooksBatchSink):
     record_type = "Account"
     unified_schema = Account
     auto_validate_unified_schema = True
+    buffer_until_stream_end = True
 
     def get_batch_reference_data(self, records: List) -> Dict:
         """

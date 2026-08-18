@@ -1,5 +1,5 @@
 from typing import Dict
-from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, InvalidInputError
+from target_quickbooks.mappers.base_mapper import BaseMapper, RecordNotFound, ParentNotFound, InvalidInputError
 
 class CustomerSchemaMapper(BaseMapper):
     existing_record_pk_mappings = [
@@ -58,7 +58,7 @@ class CustomerSchemaMapper(BaseMapper):
             )
 
         if (parent_id or parent_name) and found_parent is None:
-            raise RecordNotFound(f"Parent Customer could not be found in QBO with Id={parent_id} / Name={parent_name}")
+            raise ParentNotFound(f"Parent Customer could not be found in QBO with Id={parent_id} / Name={parent_name}")
 
         if found_parent:
             return {
