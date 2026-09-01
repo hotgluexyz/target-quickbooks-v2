@@ -23,5 +23,5 @@ class TestTargetReferenceData:
             if call.args and call.args[0] == "Term"
         ]
         assert len(term_calls) == 1
-        assert term_calls[0].kwargs == {"where_filter": "Active IN (true, false)"}
+        assert term_calls[0].kwargs == {}
         assert reference_data["paymentTerms"] == all_terms

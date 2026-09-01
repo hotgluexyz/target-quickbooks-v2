@@ -84,10 +84,7 @@ class TargetQuickBooks(TargetHotglue):
         reference_data["TaxCodes"] = self.quickbooks_client.get_entities("TaxCode")
         reference_data["Currencies"] = self.quickbooks_client.get_entities("Currency")
         reference_data["Classes"] = self.quickbooks_client.get_entities("Class")
-        reference_data["paymentTerms"] = self.quickbooks_client.get_entities(
-            "Term",
-            where_filter="Active IN (true, false)",
-        )
+        reference_data["paymentTerms"] = self.quickbooks_client.get_entities("Term")
         reference_data["ItemCategories"] = self.quickbooks_client.get_entities("Item", where_filter="Type='Category'")
 
         self.logger.info("Done getting reference data...")
