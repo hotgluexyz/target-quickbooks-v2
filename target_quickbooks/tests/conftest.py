@@ -1,4 +1,10 @@
+import json
+
 import pytest
+from unittest.mock import MagicMock, patch
+
+from target_quickbooks.sinks.invoice_sink import InvoiceSink
+from target_quickbooks.target import TargetQuickBooks
 
 
 @pytest.fixture
@@ -68,3 +74,36 @@ def mock_data_invoice_lowercase():
 {"type": "RECORD", "stream": "Invoices", "record": {"id": "5", "amountDue": "1923.06", "currency": "USD", "createdAt": "2024-09-23T01:00:37Z", "customerId": "2", "customerName": "Phong Tran 2", "invoiceNumber": "20-2-202408-5", "lineItems": [{"quantity": 1, "unitPrice": "1923.06", "totalPrice": "1923.06", "productName": "Design"}], "customFields": [{"name": "connector", "value": "quickbooks"}, {"name": "ownerEmail", "value": "phongtc73@yahoo.com"}, {"name": "ownerId", "value": "2650"}, {"name": "invoiceDate", "value": "2024-8-31"}]}}
 {"type": "STATE", "value": {}}
 """
+
+
+@pytest.fixture
+def mock_target(mock_config, tmp_path):
+    config_file = tmp_path / "config.json"
+    config_file.write_text(json.dumps(mock_config))
+
+    with patch("target_quickbooks.target.QuickbooksClient") as mock_client_cls:
+        mock_client_cls.return_value = MagicMock()
+        with patch.object(TargetQuickBooks, "get_reference_data", return_value={}):
+            target = TargetQuickBooks([str(config_file)])
+
+    return target
+
+
+@pytest.fixture
+def mock_invoice_sink(mock_target):
+    mock_target.reference_data = {
+        "Invoices": [],
+        "Customers": [{"Id": "1", "DisplayName": "John Doe", "SyncToken": "0"}],
+        "Items": [{"Id": "1", "Name": "Design"}],
+        "TaxCodes": [],
+        "Currencies": [],
+    }
+
+    sink = InvoiceSink(
+        target=mock_target,
+        stream_name="Invoices",
+        schema={"properties": {}},
+        key_properties=None,
+    )
+    sink.quickbooks_client = MagicMock()
+    return sink
