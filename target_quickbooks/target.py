@@ -16,6 +16,7 @@ from target_quickbooks.sinks.invoice_payment_sink import InvoicePaymentSink
 from target_quickbooks.sinks.invoice_sink import InvoiceSink
 from target_quickbooks.sinks.item_sink import ItemSink
 from target_quickbooks.sinks.journal_entry_sink import JournalEntrySink
+from target_quickbooks.sinks.payment_term_sink import PaymentTermSink
 from target_quickbooks.sinks.purchase_order_sink import PurchaseOrderSink
 from target_quickbooks.sinks.vendor_credit_sink import VendorCreditSink
 from target_quickbooks.sinks.vendor_sink import VendorSink
@@ -51,7 +52,8 @@ class TargetQuickBooks(TargetHotglue):
         JournalEntrySink,
         VendorSink,
         VendorCreditSink,
-        PurchaseOrderSink
+        PurchaseOrderSink,
+        PaymentTermSink,
     ]
 
     def __init__(
@@ -82,7 +84,10 @@ class TargetQuickBooks(TargetHotglue):
         reference_data["TaxCodes"] = self.quickbooks_client.get_entities("TaxCode")
         reference_data["Currencies"] = self.quickbooks_client.get_entities("Currency")
         reference_data["Classes"] = self.quickbooks_client.get_entities("Class")
-        reference_data["Terms"] = self.quickbooks_client.get_entities("Term")
+        reference_data["paymentTerms"] = self.quickbooks_client.get_entities(
+            "Term",
+            where_filter="Active IN (true, false)",
+        )
         reference_data["ItemCategories"] = self.quickbooks_client.get_entities("Item", where_filter="Type='Category'")
 
         self.logger.info("Done getting reference data...")
