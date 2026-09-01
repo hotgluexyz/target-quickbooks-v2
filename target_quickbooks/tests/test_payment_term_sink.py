@@ -11,7 +11,7 @@ def mock_payment_term_sink(mock_target):
         with patch.object(QuickbooksSink, "get_reference_data"):
             sink = PaymentTermSink(
                 target=mock_target,
-                stream_name="PaymentTerms",
+                stream_name="PaymentTerm",
                 schema={"properties": {}},
                 key_properties=None,
             )

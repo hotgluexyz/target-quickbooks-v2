@@ -333,7 +333,7 @@ class PaymentMethodSink(QuickbooksSink):
 
 
 class PaymentTermSink(QuickbooksSink):
-    name = "PaymentTerms"
+    name = "PaymentTerm"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):

@@ -14,7 +14,7 @@ class TestClientReferenceData:
             with patch.object(QuickbooksSink, "get_reference_data"):
                 sink = QuickbooksSink(
                     target=mock_target,
-                    stream_name="PaymentTerms",
+                    stream_name="PaymentTerm",
                     schema={"properties": {}},
                     key_properties=None,
                 )
