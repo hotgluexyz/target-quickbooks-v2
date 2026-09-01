@@ -693,7 +693,35 @@ def payment_method_from_unified(record):
 
 
 def payment_term_from_unified(record):
-    payment_term = record
+    if not record.get("name"):
+        raise ValueError("Payment term name is required")
+
+    mapp = {
+        "name": "Name",
+        "active": "Active",
+        "discountPercent": "DiscountPercent",
+        "discountDays": "DiscountDays",
+        "dayOfMonthDue": "DayOfMonthDue",
+        "dueNextMonthDays": "DueNextMonthDays",
+        "dueDays": "DueDays",
+        "discountDayOfMonth": "DiscountDayOfMonth",
+    }
+
+    payment_term = {
+        mapp[key]: record[key]
+        for key in mapp
+        if key in record and record[key] is not None
+    }
+
+    for field in (
+        "DiscountDays",
+        "DayOfMonthDue",
+        "DueNextMonthDays",
+        "DueDays",
+        "DiscountDayOfMonth",
+    ):
+        if field in payment_term:
+            payment_term[field] = int(payment_term[field])
 
     return payment_term
 

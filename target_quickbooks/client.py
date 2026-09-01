@@ -114,10 +114,15 @@ class QuickbooksSink(HotglueBatchSink):
         self.currency = self.get_entities("Currency", key="Code")
         self.exchange_rates = self.get_entities("ExchangeRate", key="SourceCurrencyCode", check_active=False, where_filter="asofdate=CURRENT_DATE")
         self.vendors = self.get_entities("Vendor", key="DisplayName")
-        self.terms = self.get_entities("Term", key="Name")
+        self.all_terms_by_name = self.get_entities("Term", key="Name", check_active=False)
+        self.terms = {
+            name: term
+            for name, term in self.all_terms_by_name.items()
+            if term.get("Active")
+        }
+        self.sales_terms = self.terms
         self.customer_type = self.get_entities("CustomerType", key="Name")
         self.payment_methods = self.get_entities("PaymentMethod", key="Name")
-        self.sales_terms = self.get_entities("Term")
         self.categories = self.get_entities("Item", where_filter="Type='Category'")
 
     def update_access_token(self):
@@ -402,7 +407,8 @@ class QuickbooksSink(HotglueBatchSink):
             "Bill",
             "SalesReceipt",
             "Deposits",
-            "BillPayment"
+            "BillPayment",
+            "Term",
         ]
 
         for ri in response_items:

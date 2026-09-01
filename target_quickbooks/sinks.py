@@ -333,14 +333,43 @@ class PaymentMethodSink(QuickbooksSink):
 
 
 class PaymentTermSink(QuickbooksSink):
-    name = "PaymentTerm"
+    name = "PaymentTerms"
 
     def process_record(self, record: dict, context: dict) -> None:
         if not context.get("records"):
             context["records"] = []
 
-        payment_terms = payment_term_from_unified(record)
-        entry = ["Term", payment_terms, "create"]
+        payment_term = payment_term_from_unified(record)
+
+        if record.get("id"):
+            term_details = self.get_entities(
+                "Term",
+                key="Id",
+                check_active=False,
+                fallback_key="Id",
+                where_filter=f" id ='{record.get('id')}'",
+            )
+            if str(record.get("id")) in term_details:
+                old_term = term_details[str(record.get("id"))]
+                payment_term.update(
+                    {
+                        "Id": old_term["Id"],
+                        "sparse": True,
+                        "SyncToken": old_term["SyncToken"],
+                    }
+                )
+                entry = ["Term", payment_term, "update"]
+            else:
+                print(f"Payment term {record.get('id')} not found. Skipping...")
+                return
+        elif payment_term.get("Name") in self.all_terms_by_name:
+            old_term = self.all_terms_by_name[payment_term["Name"]]
+            payment_term["Id"] = old_term["Id"]
+            payment_term["SyncToken"] = old_term["SyncToken"]
+            payment_term["sparse"] = True
+            entry = ["Term", payment_term, "update"]
+        else:
+            entry = ["Term", payment_term, "create"]
 
         context["records"].append(entry)
 
