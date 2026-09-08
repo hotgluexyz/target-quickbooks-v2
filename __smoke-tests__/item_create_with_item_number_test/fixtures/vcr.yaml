@@ -1,0 +1,1151 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+    method: GET
+    uri: https://developer.intuit.com/.well-known/openid_sandbox_configuration/
+  response:
+    body:
+      string: "\r\n{  \r\n   \"issuer\":\"https://oauth.platform.intuit.com/op/v1\",\r\n
+        \  \"authorization_endpoint\":\"https://appcenter.intuit.com/connect/oauth2\",\r\n
+        \  \"token_endpoint\":\"https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer\",\r\n
+        \  \"userinfo_endpoint\":\"https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo\",\r\n
+        \  \"revocation_endpoint\":\"https://developer.api.intuit.com/v2/oauth2/tokens/revoke\",\r\n
+        \  \"jwks_uri\":\"https://oauth.platform.intuit.com/op/v1/jwks\",\r\n   \"response_types_supported\":[
+        \ \r\n      \"code\"\r\n   ],\r\n   \"subject_types_supported\":[  \r\n      \"public\"\r\n
+        \  ],\r\n   \"id_token_signing_alg_values_supported\":[  \r\n      \"RS256\"\r\n
+        \  ],\r\n   \"scopes_supported\":[  \r\n      \"openid\",\r\n      \"email\",\r\n
+        \     \"profile\",\r\n      \"address\",\r\n      \"phone\"\r\n   ],\r\n   \"token_endpoint_auth_methods_supported\":[
+        \ \r\n      \"client_secret_post\",\r\n      \"client_secret_basic\"\r\n   ],\r\n
+        \  \"claims_supported\":[  \r\n      \"aud\",\r\n      \"exp\",\r\n      \"iat\",\r\n
+        \     \"iss\",\r\n      \"realmid\",\r\n      \"sub\"\r\n   ]\r\n}\r\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '258822'
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1006'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:31 GMT
+      ETag:
+      - '"665940ee6c04a65f93fc17b219716c4e"'
+      Last-Modified:
+      - Wed, 18 Mar 2020 03:21:12 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      Via:
+      - 1.1 c705ee033a363383cd13caf9803ae766.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - FpGYzdyJ1m1hSYQOlocUj7Ybge2G7sdnwKYoN7IXDjdnQ2yYFb1_VA==
+      X-Amz-Cf-Pop:
+      - HIO52-P3
+      X-Cache:
+      - Hit from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      intuit_tid:
+      - 1-68b1a997-3855f2be6509a2f46c8690c2
+      x-amz-version-id:
+      - _xvn_QQfrEn7kCmtCPMTn2sEfdRqhpyB
+      x-amzn-trace-id:
+      - Root=1-68b1a997-3855f2be6509a2f46c8690c2
+      x-envoy-upstream-service-time:
+      - '30'
+      x-request-id:
+      - 1-68b1a997-3855f2be6509a2f46c8690c2
+      x-spanid:
+      - 9bafdd96-e777-5a60-e0ee-9572263658c3
+    status:
+      code: 200
+      message: OK
+- request:
+    body: grant_type=refresh_token
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '79'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - Intuit-OAuthClient-1.2.6-Python-3.10.18 Darwin 24.5.0 arm64
+    method: POST
+    uri: https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer
+  response:
+    body:
+      string: '{"expires_in": 3600, "token_type": "bearer", "x_refresh_token_expires_in":
+        8725447, "refresh_token": "refresh_token", "access_token": "access_token"}'
+    headers:
+      Cache-Control:
+      - no-cache, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '149'
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 29 Aug 2025 13:22:33 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+      intuit_tid:
+      - 1-68b1a999-1b1a177755a1458166316dc5
+      x-amzn-trace-id:
+      - Root=1-68b1a999-1b1a177755a1458166316dc5
+      x-envoy-upstream-service-time:
+      - '128'
+      x-request-id:
+      - 1-68b1a999-1b1a177755a1458166316dc5
+      x-spanid:
+      - b69cafbd-5e53-2f78-1a79-6c61574223c5
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Account STARTPOSITION 0
+      MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '104'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"Account":[{"Name":"Accounts
+        Payable (A/P)","SubAccount":false,"Description":"Description for myself","FullyQualifiedName":"Accounts
+        Payable (A/P)","Active":true,"Classification":"Liability","AccountType":"Accounts
+        Payable","AccountSubType":"AccountsPayable","CurrentBalance":-45626.55,"CurrentBalanceWithSubAccounts":-45626.55,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"33","SyncToken":"1","MetaData":{"CreateTime":"2021-02-11T10:12:02-08:00","LastUpdatedTime":"2025-08-28T13:02:42-07:00"}},{"Name":"Accounts
+        Payable (A/P) - EUR","SubAccount":false,"FullyQualifiedName":"Accounts Payable
+        (A/P) - EUR","Active":true,"Classification":"Liability","AccountType":"Accounts
+        Payable","AccountSubType":"AccountsPayable","CurrentBalance":100.00,"CurrentBalanceWithSubAccounts":100.00,"CurrencyRef":{"value":"EUR","name":"Euro"},"domain":"QBO","sparse":false,"Id":"109","SyncToken":"0","MetaData":{"CreateTime":"2025-06-26T05:52:50-07:00","LastUpdatedTime":"2025-06-26T05:52:50-07:00"}},{"Name":"Accounts
+        Receivable (A/R)","SubAccount":false,"FullyQualifiedName":"Accounts Receivable
+        (A/R)","Active":true,"Classification":"Asset","AccountType":"Accounts Receivable","AccountSubType":"AccountsReceivable","AcctNum":"1234","CurrentBalance":-40486872.02,"CurrentBalanceWithSubAccounts":-40486872.02,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"84","SyncToken":"1","MetaData":{"CreateTime":"2021-02-15T14:49:29-08:00","LastUpdatedTime":"2025-08-22T05:08:47-07:00"}},{"Name":"Azmat
+        Ali","SubAccount":true,"ParentRef":{"value":"84"},"Description":"Azmat''s
+        Account Receiveable","FullyQualifiedName":"Accounts Receivable (A/R):Azmat
+        Ali","Active":true,"Classification":"Asset","AccountType":"Accounts Receivable","AccountSubType":"AccountsReceivable","AcctNum":"167","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"1150040004","SyncToken":"0","MetaData":{"CreateTime":"2025-07-08T06:21:35-07:00","LastUpdatedTime":"2025-07-08T06:21:35-07:00"}},{"Name":"Accounts
+        Receivable (A/R) - CAD","SubAccount":false,"FullyQualifiedName":"Accounts
+        Receivable (A/R) - CAD","Active":true,"Classification":"Asset","AccountType":"Accounts
+        Receivable","AccountSubType":"AccountsReceivable","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"CAD","name":"Canadian
+        Dollar"},"domain":"QBO","sparse":false,"Id":"105","SyncToken":"0","MetaData":{"CreateTime":"2025-05-30T08:52:51-07:00","LastUpdatedTime":"2025-05-30T08:52:51-07:00"}},{"Name":"Accounts
+        Receivable (A/R) - EUR","SubAccount":false,"FullyQualifiedName":"Accounts
+        Receivable (A/R) - EUR","Active":true,"Classification":"Asset","AccountType":"Accounts
+        Receivable","AccountSubType":"AccountsReceivable","CurrentBalance":4616.60,"CurrentBalanceWithSubAccounts":4616.60,"CurrencyRef":{"value":"EUR","name":"Euro"},"domain":"QBO","sparse":false,"Id":"101","SyncToken":"0","MetaData":{"CreateTime":"2025-05-30T08:46:57-07:00","LastUpdatedTime":"2025-06-20T13:09:17-07:00"}},{"Name":"Accounts
+        Receivable (A/R) - GBP","SubAccount":false,"FullyQualifiedName":"Accounts
+        Receivable (A/R) - GBP","Active":true,"Classification":"Asset","AccountType":"Accounts
+        Receivable","AccountSubType":"AccountsReceivable","CurrentBalance":119.60,"CurrentBalanceWithSubAccounts":119.60,"CurrencyRef":{"value":"GBP","name":"British
+        Pound Sterling"},"domain":"QBO","sparse":false,"Id":"98","SyncToken":"0","MetaData":{"CreateTime":"2025-05-30T07:45:21-07:00","LastUpdatedTime":"2025-06-12T10:10:46-07:00"}},{"Name":"Advertising-BK","SubAccount":false,"FullyQualifiedName":"Advertising-BK","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"AdvertisingPromotional","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"7","SyncToken":"1","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2025-08-11T14:18:38-07:00"}},{"Name":"AreebTest","SubAccount":false,"FullyQualifiedName":"AreebTest","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","AcctNum":"2","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"1150040006","SyncToken":"0","MetaData":{"CreateTime":"2025-07-15T11:13:20-07:00","LastUpdatedTime":"2025-07-15T11:13:20-07:00"}},{"Name":"Arizona
+        Dept. of Revenue Payable","SubAccount":false,"FullyQualifiedName":"Arizona
+        Dept. of Revenue Payable","Active":true,"Classification":"Liability","AccountType":"Other
+        Current Liability","AccountSubType":"GlobalTaxPayable","CurrentBalance":-1258.14,"CurrentBalanceWithSubAccounts":-1258.14,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"89","SyncToken":"0","MetaData":{"CreateTime":"2021-02-17T12:17:04-08:00","LastUpdatedTime":"2025-07-25T12:34:35-07:00"}},{"Name":"Automobile","SubAccount":false,"FullyQualifiedName":"Automobile","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"Auto","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"55","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:15:53-08:00","LastUpdatedTime":"2021-02-15T10:16:05-08:00"}},{"Name":"Fuel","SubAccount":true,"ParentRef":{"value":"55"},"FullyQualifiedName":"Automobile:Fuel","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"Auto","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"56","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:16:05-08:00","LastUpdatedTime":"2021-02-15T10:16:05-08:00"}},{"Name":"Azmat
+        Duplicate Check","SubAccount":false,"Description":"Creating this account to
+        Duplicates in GLRs (Update)","FullyQualifiedName":"Azmat Duplicate Check","Active":true,"Classification":"Expense","AccountType":"Cost
+        of Goods Sold","AccountSubType":"SuppliesMaterialsCogs","AcctNum":"AZMAT-DUP-CHECK","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"1150040007","SyncToken":"3","MetaData":{"CreateTime":"2025-08-13T08:08:16-07:00","LastUpdatedTime":"2025-08-14T05:22:27-07:00"}},{"Name":"Bank
+        Charges","SubAccount":false,"FullyQualifiedName":"Bank Charges","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"BankCharges","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"8","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Billable
+        Expense Income","SubAccount":false,"FullyQualifiedName":"Billable Expense
+        Income","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"ServiceFeeIncome","AcctNum":"1212","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"85","SyncToken":"1","MetaData":{"CreateTime":"2021-02-15T14:54:12-08:00","LastUpdatedTime":"2024-02-05T05:22:06-08:00"}},{"Name":"Board
+        of Equalization Payable","SubAccount":false,"FullyQualifiedName":"Board of
+        Equalization Payable","Active":true,"Classification":"Liability","AccountType":"Other
+        Current Liability","AccountSubType":"GlobalTaxPayable","AcctNum":"5432","CurrentBalance":-414.52,"CurrentBalanceWithSubAccounts":-414.52,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"90","SyncToken":"1","MetaData":{"CreateTime":"2021-02-17T12:17:04-08:00","LastUpdatedTime":"2024-04-22T20:07:19-07:00"}},{"Name":"California
+        Department of Tax and Fee Administration Payable","SubAccount":false,"FullyQualifiedName":"California
+        Department of Tax and Fee Administration Payable","Active":true,"Classification":"Liability","AccountType":"Other
+        Current Liability","AccountSubType":"GlobalTaxPayable","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"95","SyncToken":"0","MetaData":{"CreateTime":"2023-08-24T15:32:18-07:00","LastUpdatedTime":"2025-08-18T14:51:59-07:00"}},{"Name":"Checking","SubAccount":false,"FullyQualifiedName":"Checking","Active":true,"Classification":"Asset","AccountType":"Bank","AccountSubType":"Checking","CurrentBalance":16908.91,"CurrentBalanceWithSubAccounts":16908.91,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"35","SyncToken":"0","MetaData":{"CreateTime":"2021-02-14T12:08:20-08:00","LastUpdatedTime":"2025-08-13T07:15:33-07:00"}},{"Name":"Commissions
+        & fees","SubAccount":false,"FullyQualifiedName":"Commissions & fees","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OtherMiscellaneousServiceCost","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"9","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Cost
+        of Goods Sold","SubAccount":false,"FullyQualifiedName":"Cost of Goods Sold","Active":true,"Classification":"Expense","AccountType":"Cost
+        of Goods Sold","AccountSubType":"SuppliesMaterialsCogs","AcctNum":"605100","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"80","SyncToken":"1","MetaData":{"CreateTime":"2021-02-15T10:36:04-08:00","LastUpdatedTime":"2022-09-09T12:29:55-07:00"}},{"Name":"Deferred
+        Revenue","SubAccount":false,"FullyQualifiedName":"Deferred Revenue","Active":true,"Classification":"Asset","AccountType":"Accounts
+        Receivable","AccountSubType":"AccountsReceivable","AcctNum":"2400","CurrentBalance":125424.36,"CurrentBalanceWithSubAccounts":125424.36,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"91","SyncToken":"0","MetaData":{"CreateTime":"2022-06-26T20:56:05-07:00","LastUpdatedTime":"2025-05-28T12:50:07-07:00"}},{"Name":"Depreciation","SubAccount":false,"FullyQualifiedName":"Depreciation","Active":true,"Classification":"Expense","AccountType":"Other
+        Expense","AccountSubType":"Depreciation","AcctNum":"2939","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"40","SyncToken":"1","MetaData":{"CreateTime":"2021-02-14T12:11:07-08:00","LastUpdatedTime":"2023-03-03T11:46:53-08:00"}},{"Name":"Design
+        income","SubAccount":false,"FullyQualifiedName":"Design income","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"82","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:40:45-08:00","LastUpdatedTime":"2021-02-15T10:40:45-08:00"}},{"Name":"Discounts
+        given","SubAccount":false,"FullyQualifiedName":"Discounts given","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"DiscountsRefundsGiven","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"86","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T14:54:12-08:00","LastUpdatedTime":"2021-02-15T14:54:12-08:00"}},{"Name":"Disposal
+        Fees","SubAccount":false,"FullyQualifiedName":"Disposal Fees","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OtherMiscellaneousServiceCost","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"28","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Dues
+        & Subscriptions","SubAccount":false,"FullyQualifiedName":"Dues & Subscriptions","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"DuesSubscriptions","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"10","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Equipment
+        Rental","SubAccount":false,"FullyQualifiedName":"Equipment Rental","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"EquipmentRental","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"29","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Exchange
+        Gain or Loss","SubAccount":false,"FullyQualifiedName":"Exchange Gain or Loss","Active":true,"Classification":"Expense","AccountType":"Other
+        Expense","AccountSubType":"ExchangeGainOrLoss","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"107","SyncToken":"0","MetaData":{"CreateTime":"2025-05-30T09:17:05-07:00","LastUpdatedTime":"2025-05-30T09:17:05-07:00"}},{"Name":"Fees
+        Billed","SubAccount":false,"FullyQualifiedName":"Fees Billed","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"ServiceFeeIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"5","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Hyphen
+        Wallet","SubAccount":false,"FullyQualifiedName":"Hyphen Wallet","Active":true,"Classification":"Asset","AccountType":"Bank","AccountSubType":"Checking","AcctNum":"1234556434","CurrentBalance":-89052.02,"CurrentBalanceWithSubAccounts":-89052.02,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"1150040000","SyncToken":"1","MetaData":{"CreateTime":"2025-05-14T09:45:40-07:00","LastUpdatedTime":"2025-08-13T08:29:07-07:00"}},{"Name":"Insurance","SubAccount":false,"FullyQualifiedName":"Insurance","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"Insurance","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"11","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-15T10:17:24-08:00"}},{"Name":"Workers
+        Compensation","SubAccount":true,"ParentRef":{"value":"11"},"FullyQualifiedName":"Insurance:Workers
+        Compensation","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"Insurance","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"57","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:17:24-08:00","LastUpdatedTime":"2021-02-15T10:17:24-08:00"}},{"Name":"Interest
+        Earned","SubAccount":false,"FullyQualifiedName":"Interest Earned","Active":true,"Classification":"Revenue","AccountType":"Other
+        Income","AccountSubType":"InterestEarned","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"25","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Inventory
+        Asset","SubAccount":false,"FullyQualifiedName":"Inventory Asset","Active":true,"Classification":"Asset","AccountType":"Other
+        Current Asset","AccountSubType":"Inventory","CurrentBalance":42949678843.25,"CurrentBalanceWithSubAccounts":42949678843.25,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"81","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:36:05-08:00","LastUpdatedTime":"2025-08-29T06:18:45-07:00"}},{"Name":"Inventory
+        Shrinkage","SubAccount":false,"FullyQualifiedName":"Inventory Shrinkage","Active":true,"Classification":"Expense","AccountType":"Cost
+        of Goods Sold","AccountSubType":"SuppliesMaterialsCogs","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"93","SyncToken":"0","MetaData":{"CreateTime":"2023-02-10T23:12:36-08:00","LastUpdatedTime":"2023-02-10T23:12:36-08:00"}},{"Name":"Job
+        Expenses","SubAccount":false,"FullyQualifiedName":"Job Expenses","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OtherMiscellaneousServiceCost","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"58","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:18:01-08:00","LastUpdatedTime":"2021-02-15T10:24:32-08:00"}},{"Name":"Cost
+        of Labor","SubAccount":true,"ParentRef":{"value":"58"},"FullyQualifiedName":"Job
+        Expenses:Cost of Labor","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OtherMiscellaneousServiceCost","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"59","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:18:46-08:00","LastUpdatedTime":"2021-02-15T10:19:26-08:00"}},{"Name":"Installation","SubAccount":true,"ParentRef":{"value":"59"},"FullyQualifiedName":"Job
+        Expenses:Cost of Labor:Installation","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OtherMiscellaneousServiceCost","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"60","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:19:07-08:00","LastUpdatedTime":"2021-02-15T10:19:07-08:00"}},{"Name":"Maintenance
+        and Repairs","SubAccount":true,"ParentRef":{"value":"59"},"FullyQualifiedName":"Job
+        Expenses:Cost of Labor:Maintenance and Repairs","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OtherMiscellaneousServiceCost","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"61","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:19:26-08:00","LastUpdatedTime":"2021-02-15T10:19:26-08:00"}},{"Name":"Equipment
+        Rental","SubAccount":true,"ParentRef":{"value":"58"},"FullyQualifiedName":"Job
+        Expenses:Equipment Rental","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"EquipmentRental","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"62","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:19:52-08:00","LastUpdatedTime":"2021-02-15T10:19:52-08:00"}},{"Name":"Job
+        Materials","SubAccount":true,"ParentRef":{"value":"58"},"FullyQualifiedName":"Job
+        Expenses:Job Materials","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"SuppliesMaterials","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"63","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:20:21-08:00","LastUpdatedTime":"2021-02-15T10:23:30-08:00"}},{"Name":"Decks
+        and Patios","SubAccount":true,"ParentRef":{"value":"63"},"FullyQualifiedName":"Job
+        Expenses:Job Materials:Decks and Patios","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"SuppliesMaterials","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"64","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:22:18-08:00","LastUpdatedTime":"2021-02-15T10:22:18-08:00"}},{"Name":"Fountain
+        and Garden Lighting","SubAccount":true,"ParentRef":{"value":"63"},"FullyQualifiedName":"Job
+        Expenses:Job Materials:Fountain and Garden Lighting","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"SuppliesMaterials","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"65","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:22:40-08:00","LastUpdatedTime":"2021-02-15T10:22:40-08:00"}},{"Name":"Plants
+        and Soil","SubAccount":true,"ParentRef":{"value":"63"},"FullyQualifiedName":"Job
+        Expenses:Job Materials:Plants and Soil","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"SuppliesMaterials","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"66","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:23:04-08:00","LastUpdatedTime":"2021-02-15T10:23:04-08:00"}},{"Name":"Sprinklers
+        and Drip Systems","SubAccount":true,"ParentRef":{"value":"63"},"FullyQualifiedName":"Job
+        Expenses:Job Materials:Sprinklers and Drip Systems","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"SuppliesMaterials","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"67","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:23:30-08:00","LastUpdatedTime":"2021-02-15T10:23:30-08:00"}},{"Name":"Permits","SubAccount":true,"ParentRef":{"value":"58"},"FullyQualifiedName":"Job
+        Expenses:Permits","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OtherMiscellaneousServiceCost","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"68","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:24:32-08:00","LastUpdatedTime":"2021-02-15T10:24:32-08:00"}},{"Name":"Landscaping
+        Services","SubAccount":false,"FullyQualifiedName":"Landscaping Services","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"45","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:05:43-08:00","LastUpdatedTime":"2021-02-15T10:08:54-08:00"}},{"Name":"Job
+        Materials","SubAccount":true,"ParentRef":{"value":"45"},"FullyQualifiedName":"Landscaping
+        Services:Job Materials","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"46","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:06:12-08:00","LastUpdatedTime":"2021-02-15T10:08:06-08:00"}},{"Name":"Decks
+        and Patios","SubAccount":true,"ParentRef":{"value":"46"},"FullyQualifiedName":"Landscaping
+        Services:Job Materials:Decks and Patios","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"47","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:06:54-08:00","LastUpdatedTime":"2021-02-15T10:06:54-08:00"}},{"Name":"Fountains
+        and Garden Lighting","SubAccount":true,"ParentRef":{"value":"46"},"FullyQualifiedName":"Landscaping
+        Services:Job Materials:Fountains and Garden Lighting","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"48","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:07:22-08:00","LastUpdatedTime":"2021-02-15T10:07:22-08:00"}},{"Name":"Plants
+        and Soil","SubAccount":true,"ParentRef":{"value":"46"},"FullyQualifiedName":"Landscaping
+        Services:Job Materials:Plants and Soil","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","AcctNum":"7500","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"49","SyncToken":"1","MetaData":{"CreateTime":"2021-02-15T10:07:40-08:00","LastUpdatedTime":"2022-09-09T12:08:05-07:00"}},{"Name":"Sprinklers
+        and Drip Systems","SubAccount":true,"ParentRef":{"value":"46"},"FullyQualifiedName":"Landscaping
+        Services:Job Materials:Sprinklers and Drip Systems","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"50","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:08:06-08:00","LastUpdatedTime":"2021-02-15T10:08:06-08:00"}},{"Name":"Labor","SubAccount":true,"ParentRef":{"value":"45"},"FullyQualifiedName":"Landscaping
+        Services:Labor","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"51","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:08:54-08:00","LastUpdatedTime":"2021-02-15T10:12:11-08:00"}},{"Name":"Installation","SubAccount":true,"ParentRef":{"value":"51"},"FullyQualifiedName":"Landscaping
+        Services:Labor:Installation","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"52","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:09:35-08:00","LastUpdatedTime":"2021-02-15T10:09:35-08:00"}},{"Name":"Maintenance
+        and Repair","SubAccount":true,"ParentRef":{"value":"51"},"FullyQualifiedName":"Landscaping
+        Services:Labor:Maintenance and Repair","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"53","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:12:11-08:00","LastUpdatedTime":"2021-02-15T10:12:11-08:00"}},{"Name":"Legal
+        & Professional Fees","SubAccount":false,"FullyQualifiedName":"Legal & Professional
+        Fees","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"LegalProfessionalFees","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"12","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-15T10:26:24-08:00"}},{"Name":"Accounting","SubAccount":true,"ParentRef":{"value":"12"},"Description":"Test
+        Description","FullyQualifiedName":"Legal & Professional Fees:Accounting","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"LegalProfessionalFees","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"69","SyncToken":"1","MetaData":{"CreateTime":"2021-02-15T10:25:02-08:00","LastUpdatedTime":"2025-06-04T07:20:17-07:00"}},{"Name":"Bookkeeper","SubAccount":true,"ParentRef":{"value":"12"},"FullyQualifiedName":"Legal
+        & Professional Fees:Bookkeeper","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"LegalProfessionalFees","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"70","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:25:30-08:00","LastUpdatedTime":"2021-02-15T10:25:30-08:00"}},{"Name":"Lawyer","SubAccount":true,"ParentRef":{"value":"12"},"FullyQualifiedName":"Legal
+        & Professional Fees:Lawyer","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"LegalProfessionalFees","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"71","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:26:24-08:00","LastUpdatedTime":"2021-02-15T10:26:24-08:00"}},{"Name":"Loan
+        Payable","SubAccount":false,"FullyQualifiedName":"Loan Payable","Active":true,"Classification":"Liability","AccountType":"Other
+        Current Liability","AccountSubType":"OtherCurrentLiabilities","CurrentBalance":-4000.00,"CurrentBalanceWithSubAccounts":-4000.00,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"43","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:03:25-08:00","LastUpdatedTime":"2021-02-15T10:03:25-08:00"}},{"Name":"Maintenance
+        and Repair","SubAccount":false,"FullyQualifiedName":"Maintenance and Repair","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"RepairMaintenance","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"72","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:26:55-08:00","LastUpdatedTime":"2021-02-15T10:29:17-08:00"}},{"Name":"Building
+        Repairs","SubAccount":true,"ParentRef":{"value":"72"},"FullyQualifiedName":"Maintenance
+        and Repair:Building Repairs","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"RepairMaintenance","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"73","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:27:37-08:00","LastUpdatedTime":"2021-02-15T10:27:37-08:00"}},{"Name":"Computer
+        Repairs","SubAccount":true,"ParentRef":{"value":"72"},"FullyQualifiedName":"Maintenance
+        and Repair:Computer Repairs","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"RepairMaintenance","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"74","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:28:49-08:00","LastUpdatedTime":"2021-02-15T10:28:49-08:00"}},{"Name":"Equipment
+        Repairs","SubAccount":true,"ParentRef":{"value":"72"},"FullyQualifiedName":"Maintenance
+        and Repair:Equipment Repairs","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"RepairMaintenance","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"75","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:29:17-08:00","LastUpdatedTime":"2021-02-15T10:29:17-08:00"}},{"Name":"Mastercard","SubAccount":false,"FullyQualifiedName":"Mastercard","Active":true,"Classification":"Liability","AccountType":"Credit
+        Card","AccountSubType":"CreditCard","CurrentBalance":-326.22,"CurrentBalanceWithSubAccounts":-326.22,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"41","SyncToken":"1","MetaData":{"CreateTime":"2021-02-15T09:59:08-08:00","LastUpdatedTime":"2025-07-24T11:06:36-07:00"}},{"Name":"Meals
+        and Entertainment","SubAccount":false,"FullyQualifiedName":"Meals and Entertainment","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"EntertainmentMeals","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"13","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Miscellaneous","SubAccount":false,"FullyQualifiedName":"Miscellaneous","Active":true,"Classification":"Expense","AccountType":"Other
+        Expense","AccountSubType":"OtherMiscellaneousExpense","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"14","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Notes
+        Payable","SubAccount":false,"FullyQualifiedName":"Notes Payable","Active":true,"Classification":"Liability","AccountType":"Long
+        Term Liability","AccountSubType":"OtherLongTermLiabilities","CurrentBalance":-25000.00,"CurrentBalanceWithSubAccounts":-25000.00,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"44","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:04:24-08:00","LastUpdatedTime":"2021-02-15T10:04:24-08:00"}},{"Name":"Office
+        Expenses","SubAccount":false,"FullyQualifiedName":"Office Expenses","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OfficeGeneralAdministrativeExpenses","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"15","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Opening
+        Balance Equity","SubAccount":false,"FullyQualifiedName":"Opening Balance Equity","Active":true,"Classification":"Equity","AccountType":"Equity","AccountSubType":"OpeningBalanceEquity","CurrentBalance":-139635.49,"CurrentBalanceWithSubAccounts":-139635.49,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"34","SyncToken":"0","MetaData":{"CreateTime":"2021-02-14T12:08:20-08:00","LastUpdatedTime":"2025-08-29T06:18:45-07:00"}},{"Name":"Other
+        Income","SubAccount":false,"FullyQualifiedName":"Other Income","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","AcctNum":"111","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"83","SyncToken":"1","MetaData":{"CreateTime":"2021-02-15T10:48:53-08:00","LastUpdatedTime":"2024-02-05T05:42:53-08:00"}},{"Name":"Other
+        Portfolio Income","SubAccount":false,"FullyQualifiedName":"Other Portfolio
+        Income","Active":true,"Classification":"Revenue","AccountType":"Other Income","AccountSubType":"OtherMiscellaneousIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"26","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Out
+        Of Scope Agency Payable","SubAccount":false,"FullyQualifiedName":"Out Of Scope
+        Agency Payable","Active":true,"Classification":"Liability","AccountType":"Other
+        Current Liability","AccountSubType":"GlobalTaxPayable","CurrentBalance":-28.73,"CurrentBalanceWithSubAccounts":-28.73,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"96","SyncToken":"0","MetaData":{"CreateTime":"2023-08-24T15:32:19-07:00","LastUpdatedTime":"2025-08-18T14:51:59-07:00"}},{"Name":"Penalties
+        & Settlements","SubAccount":false,"FullyQualifiedName":"Penalties & Settlements","Active":true,"Classification":"Expense","AccountType":"Other
+        Expense","AccountSubType":"PenaltiesSettlements","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"27","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Pest
+        Control Services","SubAccount":false,"FullyQualifiedName":"Pest Control Services","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"OtherPrimaryIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"54","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:14:56-08:00","LastUpdatedTime":"2021-02-15T10:14:56-08:00"}},{"Name":"Prepaid
+        Expenses","SubAccount":false,"FullyQualifiedName":"Prepaid Expenses","Active":true,"Classification":"Asset","AccountType":"Other
+        Current Asset","AccountSubType":"PrepaidExpenses","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"3","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Promotional","SubAccount":false,"FullyQualifiedName":"Promotional","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"AdvertisingPromotional","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"16","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Purchases","SubAccount":false,"FullyQualifiedName":"Purchases","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"SuppliesMaterials","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"78","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:36:03-08:00","LastUpdatedTime":"2021-02-15T10:36:03-08:00"}},{"Name":"Recurring","SubAccount":false,"FullyQualifiedName":"Recurring","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"SalesOfProductIncome","AcctNum":"4100","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"92","SyncToken":"0","MetaData":{"CreateTime":"2022-06-26T20:56:32-07:00","LastUpdatedTime":"2022-06-26T20:56:32-07:00"}},{"Name":"Refunds-Allowances","SubAccount":false,"FullyQualifiedName":"Refunds-Allowances","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"DiscountsRefundsGiven","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"6","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Rent
+        or Lease","SubAccount":false,"FullyQualifiedName":"Rent or Lease","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"RentOrLeaseOfBuildings","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"17","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Retained
+        Earnings","SubAccount":false,"FullyQualifiedName":"Retained Earnings","Active":true,"Classification":"Equity","AccountType":"Equity","AccountSubType":"RetainedEarnings","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"2","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:05-08:00","LastUpdatedTime":"2021-02-10T14:42:05-08:00"}},{"Name":"Sales
+        of Product Income","SubAccount":false,"FullyQualifiedName":"Sales of Product
+        Income","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"SalesOfProductIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"79","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:36:03-08:00","LastUpdatedTime":"2021-02-15T10:36:03-08:00"}},{"Name":"Savings","SubAccount":false,"FullyQualifiedName":"Savings","Active":true,"Classification":"Asset","AccountType":"Bank","AccountSubType":"Savings","CurrentBalance":800.00,"CurrentBalanceWithSubAccounts":800.00,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"36","SyncToken":"0","MetaData":{"CreateTime":"2021-02-14T12:09:00-08:00","LastUpdatedTime":"2022-10-27T11:43:50-07:00"}},{"Name":"Services","SubAccount":false,"FullyQualifiedName":"Services","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"ServiceFeeIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"1","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:05-08:00","LastUpdatedTime":"2021-02-10T14:42:05-08:00"}},{"Name":"Shipping
+        Income","SubAccount":false,"FullyQualifiedName":"Shipping Income","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"ServiceFeeIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"94","SyncToken":"0","MetaData":{"CreateTime":"2023-02-28T23:52:35-08:00","LastUpdatedTime":"2023-02-28T23:52:35-08:00"}},{"Name":"Stationery
+        & Printing","SubAccount":false,"FullyQualifiedName":"Stationery & Printing","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OfficeGeneralAdministrativeExpenses","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"19","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Supplies","SubAccount":false,"FullyQualifiedName":"Supplies","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"SuppliesMaterials","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"20","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Taxes
+        & Licenses","SubAccount":false,"FullyQualifiedName":"Taxes & Licenses","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"TaxesPaid","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"21","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Test
+        Acc N 1117","SubAccount":false,"Description":"Test Account Number 1117","FullyQualifiedName":"Test
+        Acc N 1117","Active":true,"Classification":"Revenue","AccountType":"Other
+        Income","AccountSubType":"OtherMiscellaneousIncome","AcctNum":"Acc 1117","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"1150040003","SyncToken":"0","MetaData":{"CreateTime":"2025-06-20T13:39:10-07:00","LastUpdatedTime":"2025-06-20T13:39:10-07:00"}},{"Name":"Travel","SubAccount":false,"FullyQualifiedName":"Travel","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"Travel","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"22","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Travel
+        Meals","SubAccount":false,"FullyQualifiedName":"Travel Meals","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"TravelMeals","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"23","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-10T14:42:07-08:00"}},{"Name":"Truck","SubAccount":false,"FullyQualifiedName":"Truck","Active":true,"Classification":"Asset","AccountType":"Fixed
+        Asset","AccountSubType":"Vehicles","AcctNum":"1825","CurrentBalance":-440.00,"CurrentBalanceWithSubAccounts":12455.00,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"37","SyncToken":"1","MetaData":{"CreateTime":"2021-02-14T12:11:06-08:00","LastUpdatedTime":"2025-06-16T08:57:18-07:00"}},{"Name":"Depreciation","SubAccount":true,"ParentRef":{"value":"37"},"FullyQualifiedName":"Truck:Depreciation","Active":true,"Classification":"Asset","AccountType":"Fixed
+        Asset","AccountSubType":"AccumulatedDepreciation","AcctNum":"2938","CurrentBalance":-600.00,"CurrentBalanceWithSubAccounts":-600.00,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"39","SyncToken":"1","MetaData":{"CreateTime":"2021-02-14T12:11:07-08:00","LastUpdatedTime":"2023-03-15T09:55:48-07:00"}},{"Name":"Original
+        Cost","SubAccount":true,"ParentRef":{"value":"37"},"FullyQualifiedName":"Truck:Original
+        Cost","Active":true,"Classification":"Asset","AccountType":"Fixed Asset","AccountSubType":"Vehicles","CurrentBalance":13495.00,"CurrentBalanceWithSubAccounts":13495.00,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"38","SyncToken":"0","MetaData":{"CreateTime":"2021-02-14T12:11:06-08:00","LastUpdatedTime":"2023-03-15T09:55:48-07:00"}},{"Name":"Unapplied
+        Cash Bill Payment Expense","SubAccount":false,"FullyQualifiedName":"Unapplied
+        Cash Bill Payment Expense","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"UnappliedCashBillPaymentExpense","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"88","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T15:28:48-08:00","LastUpdatedTime":"2021-02-15T15:28:48-08:00"}},{"Name":"Unapplied
+        Cash Payment Income","SubAccount":false,"FullyQualifiedName":"Unapplied Cash
+        Payment Income","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"UnappliedCashPaymentIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"87","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T15:08:16-08:00","LastUpdatedTime":"2021-02-15T15:08:16-08:00"}},{"Name":"Uncategorized
+        Asset","SubAccount":false,"FullyQualifiedName":"Uncategorized Asset","Active":true,"Classification":"Asset","AccountType":"Other
+        Current Asset","AccountSubType":"OtherCurrentAssets","CurrentBalance":1.50,"CurrentBalanceWithSubAccounts":1.50,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"32","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:46:30-08:00","LastUpdatedTime":"2025-05-30T08:36:41-07:00"}},{"Name":"Uncategorized
+        Expense","SubAccount":false,"FullyQualifiedName":"Uncategorized Expense","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"OtherMiscellaneousServiceCost","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"31","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:46:30-08:00","LastUpdatedTime":"2021-02-10T14:46:30-08:00"}},{"Name":"Uncategorized
+        Income","SubAccount":false,"FullyQualifiedName":"Uncategorized Income","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"ServiceFeeIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"30","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:46:30-08:00","LastUpdatedTime":"2021-02-10T14:46:30-08:00"}}],"startPosition":1,"maxResults":100},"bId":"bid1"}],"time":"2025-08-29T06:22:35.382-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '48771'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:35 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '48771'
+      intuit_tid:
+      - 1-68b1a99b-43837eec2bbc2af61ee7966f
+      x-amzn-trace-id:
+      - Root=1-68b1a99b-43837eec2bbc2af61ee7966f
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '201'
+      x-request-id:
+      - 1-68b1a99b-43837eec2bbc2af61ee7966f
+      x-spanid:
+      - b494a019-0beb-7946-e213-a1573fa873d7
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Account STARTPOSITION 100
+      MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '106'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"Account":[{"Name":"Uncategorized
+        Income","SubAccount":false,"FullyQualifiedName":"Uncategorized Income","Active":true,"Classification":"Revenue","AccountType":"Income","AccountSubType":"ServiceFeeIncome","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"30","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:46:30-08:00","LastUpdatedTime":"2021-02-10T14:46:30-08:00"}},{"Name":"Undeposited
+        Funds","SubAccount":false,"Description":"Areeb memo","FullyQualifiedName":"Undeposited
+        Funds","Active":true,"Classification":"Asset","AccountType":"Other Current
+        Asset","AccountSubType":"UndepositedFunds","CurrentBalance":43515510.71,"CurrentBalanceWithSubAccounts":43515510.71,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"4","SyncToken":"1","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2025-08-22T05:03:36-07:00"}},{"Name":"Utilities","SubAccount":false,"FullyQualifiedName":"Utilities","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"Utilities","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"24","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:07-08:00","LastUpdatedTime":"2021-02-15T10:30:53-08:00"}},{"Name":"Gas
+        and Electric","SubAccount":true,"ParentRef":{"value":"24"},"FullyQualifiedName":"Utilities:Gas
+        and Electric","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"Utilities","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"76","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:30:29-08:00","LastUpdatedTime":"2021-02-15T10:30:29-08:00"}},{"Name":"Telephone","SubAccount":true,"ParentRef":{"value":"24"},"FullyQualifiedName":"Utilities:Telephone","Active":true,"Classification":"Expense","AccountType":"Expense","AccountSubType":"Utilities","CurrentBalance":0,"CurrentBalanceWithSubAccounts":0,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"77","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:30:53-08:00","LastUpdatedTime":"2021-02-15T10:30:53-08:00"}},{"Name":"ViniTest","SubAccount":false,"FullyQualifiedName":"ViniTest","Active":true,"Classification":"Asset","AccountType":"Bank","AccountSubType":"Checking","CurrentBalance":10000.00,"CurrentBalanceWithSubAccounts":10000.00,"CurrencyRef":{"value":"CAD","name":"Canadian
+        Dollar"},"domain":"QBO","sparse":false,"Id":"1150040001","SyncToken":"0","MetaData":{"CreateTime":"2025-05-30T09:07:41-07:00","LastUpdatedTime":"2025-05-30T09:07:41-07:00"}},{"Name":"ViniTestEUR","SubAccount":false,"FullyQualifiedName":"ViniTestEUR","Active":true,"Classification":"Asset","AccountType":"Bank","AccountSubType":"Checking","CurrentBalance":100003.00,"CurrentBalanceWithSubAccounts":100003.00,"CurrencyRef":{"value":"EUR","name":"Euro"},"domain":"QBO","sparse":false,"Id":"1150040002","SyncToken":"0","MetaData":{"CreateTime":"2025-05-30T09:12:37-07:00","LastUpdatedTime":"2025-05-30T09:17:05-07:00"}},{"Name":"Visa","SubAccount":false,"FullyQualifiedName":"Visa","Active":true,"Classification":"Liability","AccountType":"Credit
+        Card","AccountSubType":"CreditCard","CurrentBalance":-5.00,"CurrentBalanceWithSubAccounts":-5.00,"CurrencyRef":{"value":"USD","name":"United
+        States Dollar"},"domain":"QBO","sparse":false,"Id":"42","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T10:00:09-08:00","LastUpdatedTime":"2025-04-18T06:30:13-07:00"}}],"startPosition":100,"maxResults":8},"bId":"bid1"}],"time":"2025-08-29T06:22:36.713-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3843'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:36 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '3843'
+      intuit_tid:
+      - 1-68b1a99c-6b55086c71da602a4777c8fc
+      x-amzn-trace-id:
+      - Root=1-68b1a99c-6b55086c71da602a4777c8fc
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '198'
+      x-request-id:
+      - 1-68b1a99c-6b55086c71da602a4777c8fc
+      x-spanid:
+      - a992ac6a-8824-17d3-90de-0f0099031e62
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Department STARTPOSITION
+      0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '107'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"Department":[{"Name":"A happy
+        department","SubDepartment":false,"FullyQualifiedName":"A happy department","Active":true,"domain":"QBO","sparse":false,"Id":"4","SyncToken":"0","MetaData":{"CreateTime":"2023-03-14T17:48:59-07:00","LastUpdatedTime":"2025-06-18T10:24:33-07:00"}},{"Name":"Child
+        of Happy Department","SubDepartment":true,"ParentRef":{"value":"4"},"FullyQualifiedName":"A
+        happy department:Child of Happy Department","Active":true,"domain":"QBO","sparse":false,"Id":"6","SyncToken":"0","MetaData":{"CreateTime":"2025-06-18T10:24:33-07:00","LastUpdatedTime":"2025-06-18T10:24:33-07:00"}},{"Name":"A
+        new department","SubDepartment":false,"FullyQualifiedName":"A new department","Active":true,"domain":"QBO","sparse":false,"Id":"3","SyncToken":"0","MetaData":{"CreateTime":"2023-03-14T17:29:35-07:00","LastUpdatedTime":"2023-03-14T17:29:35-07:00"}},{"Name":"Department-BK","SubDepartment":false,"FullyQualifiedName":"Department-BK","Active":true,"domain":"QBO","sparse":false,"Id":"7","SyncToken":"1","MetaData":{"CreateTime":"2025-06-24T07:08:41-07:00","LastUpdatedTime":"2025-08-11T14:28:18-07:00"}},{"Name":"location1","SubDepartment":false,"FullyQualifiedName":"location1","Active":true,"domain":"QBO","sparse":false,"Id":"1","SyncToken":"0","MetaData":{"CreateTime":"2022-10-27T11:41:20-07:00","LastUpdatedTime":"2022-10-27T11:41:20-07:00"}},{"Name":"location3
+        test","SubDepartment":false,"FullyQualifiedName":"location3 test","Active":true,"domain":"QBO","sparse":false,"Id":"2","SyncToken":"0","MetaData":{"CreateTime":"2023-03-09T07:16:17-08:00","LastUpdatedTime":"2023-03-09T07:16:17-08:00"}},{"Name":"location3
+        test2","SubDepartment":false,"FullyQualifiedName":"location3 test2","Active":true,"domain":"QBO","sparse":false,"Id":"5","SyncToken":"0","MetaData":{"CreateTime":"2023-04-11T09:29:37-07:00","LastUpdatedTime":"2023-04-11T09:29:37-07:00"}}],"startPosition":1,"maxResults":7},"bId":"bid1"}],"time":"2025-08-29T06:22:38.070-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1996'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:38 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '1996'
+      intuit_tid:
+      - 1-68b1a99d-473c29be2d4dd1f9013ccda1
+      x-amzn-trace-id:
+      - Root=1-68b1a99d-473c29be2d4dd1f9013ccda1
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '199'
+      x-request-id:
+      - 1-68b1a99d-473c29be2d4dd1f9013ccda1
+      x-spanid:
+      - 044f5df4-85f8-3cde-7753-2e15760bd66b
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from PaymentMethod STARTPOSITION
+      0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '110'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"PaymentMethod":[{"Name":"American
+        Express","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"6","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:05-08:00","LastUpdatedTime":"2021-02-10T14:42:05-08:00"}},{"Name":"Apple
+        Card","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"14","SyncToken":"0","MetaData":{"CreateTime":"2023-03-14T17:48:07-07:00","LastUpdatedTime":"2023-03-14T17:48:07-07:00"}},{"Name":"Cash","Active":true,"Type":"NON_CREDIT_CARD","domain":"QBO","sparse":false,"Id":"1","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:05-08:00","LastUpdatedTime":"2021-02-10T14:42:05-08:00"}},{"Name":"Cash
+        test","Active":true,"Type":"NON_CREDIT_CARD","domain":"QBO","sparse":false,"Id":"8","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:30:45-08:00","LastUpdatedTime":"2023-03-08T14:30:45-08:00"}},{"Name":"Check","Active":true,"Type":"NON_CREDIT_CARD","domain":"QBO","sparse":false,"Id":"2","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:05-08:00","LastUpdatedTime":"2021-02-10T14:42:05-08:00"}},{"Name":"Check
+        test","Active":true,"Type":"NON_CREDIT_CARD","domain":"QBO","sparse":false,"Id":"9","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:30:45-08:00","LastUpdatedTime":"2023-03-08T14:30:45-08:00"}},{"Name":"Diners
+        Club","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"7","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:05-08:00","LastUpdatedTime":"2021-02-10T14:42:05-08:00"}},{"Name":"Diners
+        Club test","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"10","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:30:45-08:00","LastUpdatedTime":"2023-03-08T14:30:45-08:00"}},{"Name":"Discover","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"5","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:05-08:00","LastUpdatedTime":"2021-02-10T14:42:05-08:00"}},{"Name":"Discover
+        test","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"11","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:30:45-08:00","LastUpdatedTime":"2023-03-08T14:30:45-08:00"}},{"Name":"MasterCard","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"4","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:05-08:00","LastUpdatedTime":"2021-02-10T14:42:05-08:00"}},{"Name":"MasterCard
+        test","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"12","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:30:45-08:00","LastUpdatedTime":"2023-03-08T14:30:45-08:00"}},{"Name":"Visa","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"3","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:42:05-08:00","LastUpdatedTime":"2021-02-10T14:42:05-08:00"}},{"Name":"Visa
+        test","Active":true,"Type":"CREDIT_CARD","domain":"QBO","sparse":false,"Id":"13","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:30:45-08:00","LastUpdatedTime":"2023-03-08T14:30:45-08:00"}}],"startPosition":1,"maxResults":14},"bId":"bid1"}],"time":"2025-08-29T06:22:39.428-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3136'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:39 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '3136'
+      intuit_tid:
+      - 1-68b1a99f-7bc6721219fc84da62357be8
+      x-amzn-trace-id:
+      - Root=1-68b1a99f-7bc6721219fc84da62357be8
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '230'
+      x-request-id:
+      - 1-68b1a99f-7bc6721219fc84da62357be8
+      x-spanid:
+      - b457896a-c021-c3c6-a475-f0c28706003a
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from CustomerType STARTPOSITION
+      0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '109'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"CustomerType":[{"Name":"Enterprise","Active":true,"domain":"QBO","sparse":false,"Id":"5000000000000054673","SyncToken":"0","MetaData":{"CreateTime":"2023-02-28T23:33:10-08:00","LastUpdatedTime":"2023-02-28T23:33:10-08:00"}},{"Name":"Recurring","Active":true,"domain":"QBO","sparse":false,"Id":"5000000000000054672","SyncToken":"0","MetaData":{"CreateTime":"2023-02-28T23:01:49-08:00","LastUpdatedTime":"2023-02-28T23:01:49-08:00"}}],"startPosition":1,"maxResults":2},"bId":"bid1"}],"time":"2025-08-29T06:22:40.781-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '562'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:40 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '562'
+      intuit_tid:
+      - 1-68b1a9a0-1596bb584ceb320d5e09fa21
+      x-amzn-trace-id:
+      - Root=1-68b1a9a0-1596bb584ceb320d5e09fa21
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '201'
+      x-request-id:
+      - 1-68b1a9a0-1596bb584ceb320d5e09fa21
+      x-spanid:
+      - e5746f59-5414-b740-0623-760c7bafd070
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from TaxCode STARTPOSITION 0
+      MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '104'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"TaxCode":[{"Name":"TAX","Description":"TAX","Taxable":true,"TaxGroup":false,"Id":"TAX","MetaData":{"CreateTime":"2021-03-16T08:04:06-07:00","LastUpdatedTime":"2021-03-16T08:04:06-07:00"}},{"Name":"NON","Description":"NON","Taxable":false,"TaxGroup":false,"Id":"NON","MetaData":{"CreateTime":"2021-03-16T08:04:06-07:00","LastUpdatedTime":"2021-03-16T08:04:06-07:00"}},{"Name":"CustomSalesTax","Description":"CustomSalesTax","Taxable":true,"TaxGroup":true,"Id":"CustomSalesTax","MetaData":{"CreateTime":"2021-03-16T08:04:06-07:00","LastUpdatedTime":"2021-03-16T08:04:06-07:00"}},{"Name":"Atax","Description":"Atax","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"5","name":"myNewTaxRateName2"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"5","SyncToken":"0","MetaData":{"CreateTime":"2023-04-11T09:22:33-07:00","LastUpdatedTime":"2023-04-11T09:22:33-07:00"}},{"Name":"Atax
+        test","Description":"Atax test","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"7","name":"myNewTaxRateName2
+        test"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"8","SyncToken":"0","MetaData":{"CreateTime":"2023-04-11T09:27:37-07:00","LastUpdatedTime":"2023-04-11T09:27:37-07:00"}},{"Name":"Atax
+        test 2","Description":"Atax test 2","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"8","name":"myNewTaxRateName2
+        test4"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"9","SyncToken":"0","MetaData":{"CreateTime":"2023-04-11T09:28:50-07:00","LastUpdatedTime":"2023-04-11T09:28:50-07:00"}},{"Name":"cal
+        State tax","Description":"cal State tax","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"4","name":"jdkaks"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"4","SyncToken":"0","MetaData":{"CreateTime":"2023-04-11T09:13:08-07:00","LastUpdatedTime":"2023-04-11T09:13:08-07:00"}},{"Name":"cal
+        State tax test","Description":"cal State tax test","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"6","name":"myNewTaxRateName"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"7","SyncToken":"0","MetaData":{"CreateTime":"2023-04-11T09:26:51-07:00","LastUpdatedTime":"2023-04-11T09:26:51-07:00"}},{"Name":"cal
+        State tax test 3","Description":"cal State tax test 3","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"9","name":"myNewTaxRateName
+        test3"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"10","SyncToken":"0","MetaData":{"CreateTime":"2023-04-11T09:28:59-07:00","LastUpdatedTime":"2023-04-11T09:28:59-07:00"}},{"Name":"cal
+        State tax test sd3","Description":"cal State tax test sd3","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"11","name":"myNewTaxRatddeName
+        test3"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"12","SyncToken":"0","MetaData":{"CreateTime":"2023-04-11T09:30:40-07:00","LastUpdatedTime":"2023-04-11T09:30:40-07:00"}},{"Name":"California","Description":"California","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"3","name":"California"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"2","SyncToken":"0","MetaData":{"CreateTime":"2021-02-17T12:17:04-08:00","LastUpdatedTime":"2021-02-17T12:17:04-08:00"}},{"Name":"CA-Contra
+        Costa-Contra Costa-San Pablo","Description":"CA-Contra Costa-Contra Costa-San
+        Pablo","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"15","name":"California
+        State"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0},{"TaxRateRef":{"value":"16","name":"California,
+        Contra Costa County"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0},{"TaxRateRef":{"value":"17","name":"California,
+        Contra Costa County District"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0},{"TaxRateRef":{"value":"18","name":"California,
+        San Pablo City District"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"SYSTEM_GENERATED","domain":"QBO","sparse":false,"Id":"15","SyncToken":"0","MetaData":{"CreateTime":"2023-08-24T15:32:19-07:00","LastUpdatedTime":"2023-08-24T15:32:19-07:00"}},{"Name":"Example100percent","Description":"Example100percent","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"12","name":"Example
+        100 percent tax"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"13","SyncToken":"0","MetaData":{"CreateTime":"2023-04-16T22:17:43-07:00","LastUpdatedTime":"2023-04-16T22:17:43-07:00"}},{"Name":"myNewTaxRateName2sdds
+        test","Description":"myNewTaxRateName2sdds test","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"10","name":"myNewTaxRateName2sdds
+        test"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"11","SyncToken":"1","MetaData":{"CreateTime":"2023-04-11T09:30:36-07:00","LastUpdatedTime":"2023-08-24T15:51:47-07:00"}},{"Name":"Out
+        of scope","Description":"Out of scope","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"13","name":"NO
+        TAX SALES"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"14","name":"NO
+        TAX PURCHASE"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"TaxCodeConfigType":"SYSTEM_GENERATED","domain":"QBO","sparse":false,"Id":"14","SyncToken":"0","MetaData":{"CreateTime":"2023-08-24T15:32:19-07:00","LastUpdatedTime":"2023-08-24T15:32:19-07:00"}},{"Name":"Tucson","Description":"Tucson","Active":true,"Hidden":false,"Taxable":true,"TaxGroup":true,"SalesTaxRateList":{"TaxRateDetail":[{"TaxRateRef":{"value":"1","name":"AZ
+        State tax"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0},{"TaxRateRef":{"value":"2","name":"Tucson
+        City"},"TaxTypeApplicable":"TaxOnAmount","TaxOrder":0}]},"PurchaseTaxRateList":{"TaxRateDetail":[]},"TaxCodeConfigType":"USER_DEFINED","domain":"QBO","sparse":false,"Id":"3","SyncToken":"0","MetaData":{"CreateTime":"2021-02-17T12:17:04-08:00","LastUpdatedTime":"2021-02-17T12:17:04-08:00"}}],"startPosition":1,"maxResults":16,"totalCount":16},"bId":"bid1"}],"time":"2025-08-29T06:22:42.182-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '7760'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:42 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '7760'
+      intuit_tid:
+      - 1-68b1a9a1-65a536d227dbb6645d50cb83
+      x-amzn-trace-id:
+      - Root=1-68b1a9a1-65a536d227dbb6645d50cb83
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '219'
+      x-request-id:
+      - 1-68b1a9a1-65a536d227dbb6645d50cb83
+      x-spanid:
+      - e9486078-fb61-0c23-f15f-eb4eb0c886b7
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Currency STARTPOSITION 0
+      MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '105'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"CompanyCurrency":[{"Code":"GBP","Name":"British
+        Pound Sterling","Active":true,"domain":"QBO","sparse":false,"Id":"3","SyncToken":"0","MetaData":{"CreateTime":"2025-05-29T05:39:53-07:00","LastUpdatedTime":"2025-05-29T05:39:53-07:00"}},{"Code":"EUR","Name":"Euro","Active":true,"domain":"QBO","sparse":false,"Id":"2","SyncToken":"0","MetaData":{"CreateTime":"2025-05-22T19:25:15-07:00","LastUpdatedTime":"2025-05-22T19:25:15-07:00"}},{"Code":"CAD","Name":"Canadian
+        Dollar","Active":true,"domain":"QBO","sparse":false,"Id":"1","SyncToken":"0","MetaData":{"CreateTime":"2025-05-22T19:25:14-07:00","LastUpdatedTime":"2025-05-22T19:25:14-07:00"}}],"startPosition":1,"maxResults":3,"totalCount":3},"bId":"bid1"}],"time":"2025-08-29T06:22:43.515-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '786'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:43 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '786'
+      intuit_tid:
+      - 1-68b1a9a3-71c8c65868a54bcf2b2dab9b
+      x-amzn-trace-id:
+      - Root=1-68b1a9a3-71c8c65868a54bcf2b2dab9b
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '165'
+      x-request-id:
+      - 1-68b1a9a3-71c8c65868a54bcf2b2dab9b
+      x-spanid:
+      - aca3c062-c1ca-8b80-e37f-e2caa35f0419
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Class STARTPOSITION 0 MAXRESULTS
+      100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '102'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"Class":[{"Name":"A sub-class-BK","SubClass":true,"ParentRef":{"value":"5000000000000275720"},"FullyQualifiedName":"Test
+        class:A sub-class-BK","Active":true,"domain":"QBO","sparse":false,"Id":"5000000000000275722","SyncToken":"1","MetaData":{"CreateTime":"2023-03-15T09:56:55-07:00","LastUpdatedTime":"2025-08-11T14:19:28-07:00"}},{"Name":"Another
+        class","SubClass":false,"FullyQualifiedName":"Another class","Active":true,"domain":"QBO","sparse":false,"Id":"5000000000000275721","SyncToken":"0","MetaData":{"CreateTime":"2023-03-15T09:56:46-07:00","LastUpdatedTime":"2023-03-15T09:56:46-07:00"}},{"Name":"BK
+        Class","SubClass":false,"FullyQualifiedName":"BK Class","Active":true,"domain":"QBO","sparse":false,"Id":"572500","SyncToken":"0","MetaData":{"CreateTime":"2025-06-24T06:25:47-07:00","LastUpdatedTime":"2025-06-24T06:26:09-07:00"}},{"Name":"BK
+        Sub Class","SubClass":true,"ParentRef":{"value":"572500"},"FullyQualifiedName":"BK
+        Class:BK Sub Class","Active":true,"domain":"QBO","sparse":false,"Id":"572501","SyncToken":"0","MetaData":{"CreateTime":"2025-06-24T06:26:09-07:00","LastUpdatedTime":"2025-06-24T06:26:09-07:00"}},{"Name":"Marketing","SubClass":false,"FullyQualifiedName":"Marketing","Active":true,"domain":"QBO","sparse":false,"Id":"572503","SyncToken":"0","MetaData":{"CreateTime":"2025-06-24T06:30:56-07:00","LastUpdatedTime":"2025-06-24T06:30:56-07:00"}},{"Name":"Sales","SubClass":false,"FullyQualifiedName":"Sales","Active":true,"domain":"QBO","sparse":false,"Id":"572502","SyncToken":"0","MetaData":{"CreateTime":"2025-06-24T06:30:12-07:00","LastUpdatedTime":"2025-06-24T06:30:12-07:00"}},{"Name":"Test
+        class","SubClass":false,"FullyQualifiedName":"Test class","Active":true,"domain":"QBO","sparse":false,"Id":"5000000000000275720","SyncToken":"0","MetaData":{"CreateTime":"2023-03-15T09:53:34-07:00","LastUpdatedTime":"2023-03-15T09:56:55-07:00"}}],"startPosition":1,"maxResults":7,"totalCount":7},"bId":"bid1"}],"time":"2025-08-29T06:22:44.864-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2016'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:44 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '2016'
+      intuit_tid:
+      - 1-68b1a9a4-3aa68c016372936a66703a2c
+      x-amzn-trace-id:
+      - Root=1-68b1a9a4-3aa68c016372936a66703a2c
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '225'
+      x-request-id:
+      - 1-68b1a9a4-3aa68c016372936a66703a2c
+      x-spanid:
+      - 15cdfaef-7c1c-2d41-2e5c-12fb0f06e831
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Term STARTPOSITION 0 MAXRESULTS
+      100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '101'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"Term":[{"Name":"Due on receipt","Active":true,"Type":"STANDARD","DueDays":0,"DiscountDays":0,"domain":"QBO","sparse":false,"Id":"1","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:41:49-08:00","LastUpdatedTime":"2021-02-10T14:41:49-08:00"}},{"Name":"Due
+        on receipt test","Active":true,"Type":"STANDARD","DueDays":0,"DiscountDays":0,"domain":"QBO","sparse":false,"Id":"7","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:43:46-08:00","LastUpdatedTime":"2023-03-08T14:43:46-08:00"}},{"Name":"Net
+        10","Active":true,"Type":"STANDARD","DueDays":10,"domain":"QBO","sparse":false,"Id":"5","SyncToken":"0","MetaData":{"CreateTime":"2021-02-15T15:24:26-08:00","LastUpdatedTime":"2021-02-15T15:24:26-08:00"}},{"Name":"Net
+        10 test","Active":true,"Type":"DATE_DRIVEN","DayOfMonthDue":24,"domain":"QBO","sparse":false,"Id":"8","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:43:46-08:00","LastUpdatedTime":"2023-03-08T14:43:46-08:00"}},{"Name":"Net
+        15","Active":true,"Type":"STANDARD","DueDays":15,"DiscountDays":0,"domain":"QBO","sparse":false,"Id":"2","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:41:49-08:00","LastUpdatedTime":"2021-02-10T14:41:49-08:00"}},{"Name":"Net
+        15 test","Active":true,"Type":"DATE_DRIVEN","DayOfMonthDue":30,"domain":"QBO","sparse":false,"Id":"9","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:43:46-08:00","LastUpdatedTime":"2023-03-08T14:43:46-08:00"}},{"Name":"Net
+        30","Active":true,"Type":"STANDARD","DueDays":30,"DiscountDays":0,"domain":"QBO","sparse":false,"Id":"3","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:41:49-08:00","LastUpdatedTime":"2021-02-10T14:41:49-08:00"}},{"Name":"Net
+        30 test","Active":true,"Type":"DATE_DRIVEN","DayOfMonthDue":10,"domain":"QBO","sparse":false,"Id":"10","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:43:46-08:00","LastUpdatedTime":"2023-03-08T14:43:46-08:00"}},{"Name":"Net
+        31","Active":true,"Type":"DATE_DRIVEN","DayOfMonthDue":2,"domain":"QBO","sparse":false,"Id":"12","SyncToken":"0","MetaData":{"CreateTime":"2023-03-14T17:47:34-07:00","LastUpdatedTime":"2023-03-14T17:47:34-07:00"}},{"Name":"Net
+        60","Active":true,"Type":"STANDARD","DueDays":60,"DiscountDays":0,"domain":"QBO","sparse":false,"Id":"4","SyncToken":"0","MetaData":{"CreateTime":"2021-02-10T14:41:49-08:00","LastUpdatedTime":"2021-02-10T14:41:49-08:00"}},{"Name":"Net
+        60 test","Active":true,"Type":"DATE_DRIVEN","DayOfMonthDue":2,"domain":"QBO","sparse":false,"Id":"11","SyncToken":"0","MetaData":{"CreateTime":"2023-03-08T14:43:46-08:00","LastUpdatedTime":"2023-03-08T14:43:46-08:00"}}],"startPosition":1,"maxResults":11},"bId":"bid1"}],"time":"2025-08-29T06:22:46.205-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2706'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:46 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '2706'
+      intuit_tid:
+      - 1-68b1a9a6-0c4396985f4f97d95c5b9cd5
+      x-amzn-trace-id:
+      - Root=1-68b1a9a6-0c4396985f4f97d95c5b9cd5
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '174'
+      x-request-id:
+      - 1-68b1a9a6-0c4396985f4f97d95c5b9cd5
+      x-spanid:
+      - 3468371e-3823-a6a6-f145-e9a3da409e83
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Item where Type=''Category''
+      STARTPOSITION 0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '123'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"Item":[{"Name":"Buds","Active":true,"FullyQualifiedName":"Buds","Type":"Category","domain":"QBO","sparse":false,"Id":"55","SyncToken":"0","MetaData":{"CreateTime":"2025-08-13T08:17:02-07:00","LastUpdatedTime":"2025-08-13T08:18:50-07:00"}},{"Name":"Test
+        Cat","Active":true,"FullyQualifiedName":"Test Cat","Type":"Category","domain":"QBO","sparse":false,"Id":"31","SyncToken":"0","MetaData":{"CreateTime":"2023-05-16T05:20:04-07:00","LastUpdatedTime":"2024-03-14T10:21:45-07:00"}}],"startPosition":1,"maxResults":2},"bId":"bid1"}],"time":"2025-08-29T06:22:47.547-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '609'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:47 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '609'
+      intuit_tid:
+      - 1-68b1a9a7-6ca115a665b5c1a001c29ce5
+      x-amzn-trace-id:
+      - Root=1-68b1a9a7-6ca115a665b5c1a001c29ce5
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '177'
+      x-request-id:
+      - 1-68b1a9a7-6ca115a665b5c1a001c29ce5
+      x-spanid:
+      - cd045171-e3ee-053d-9ef6-9c28334496d8
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select Id, Name, SyncToken from Item where
+      Name in (''Areeb Test SKU Item'') STARTPOSITION 0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '157'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{},"bId":"bid1"}],"time":"2025-08-29T06:22:48.870-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:48 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '96'
+      intuit_tid:
+      - 1-68b1a9a8-63df1ae322a37fd559751758
+      x-amzn-trace-id:
+      - Root=1-68b1a9a8-63df1ae322a37fd559751758
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '168'
+      x-request-id:
+      - 1-68b1a9a8-63df1ae322a37fd559751758
+      x-spanid:
+      - e07cd779-81ee-df1c-b99f-de3609303168
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select Id, DisplayName from Vendor where
+      DisplayName in (''Azmat Vendor'') STARTPOSITION 0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '155'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"QueryResponse":{"Vendor":[{"sparse":true,"Id":"141","DisplayName":"Azmat
+        Vendor"}],"startPosition":1,"maxResults":1},"bId":"bid1"}],"time":"2025-08-29T06:22:50.164-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '195'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:50 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '195'
+      intuit_tid:
+      - 1-68b1a9a9-5aa19d6d4b27de104837e1bf
+      x-amzn-trace-id:
+      - Root=1-68b1a9a9-5aa19d6d4b27de104837e1bf
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '178'
+      x-request-id:
+      - 1-68b1a9a9-5aa19d6d4b27de104837e1bf
+      x-spanid:
+      - b0dec1c4-8339-5b0f-2f0c-3e1f3432c6fe
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"bId": "0", "operation": "create", "Item": {"PrefVendorRef":
+      {"value": "141", "name": "Azmat Vendor"}, "IncomeAccountRef": {"value": "79",
+      "name": "Sales of Product Income"}, "ExpenseAccountRef": {"value": "80", "name":
+      "Cost of Goods Sold"}, "AssetAccountRef": {"value": "81", "name": "Inventory
+      Asset"}, "TrackQtyOnHand": true, "InvStartDate": "2025-08-29T00:00:00", "Active":
+      true, "Sku": "N--Areeb-SKU", "Name": "Areeb Test SKU Item", "Type": "Inventory",
+      "QtyOnHand": 10.0}}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '504'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.5
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse":[{"Item":{"Name":"Areeb Test SKU Item","Sku":"N--Areeb-SKU","Active":true,"FullyQualifiedName":"Areeb
+        Test SKU Item","Taxable":false,"UnitPrice":0,"Type":"Inventory","IncomeAccountRef":{"value":"79","name":"Sales
+        of Product Income"},"PurchaseCost":0,"ExpenseAccountRef":{"value":"80","name":"Cost
+        of Goods Sold"},"AssetAccountRef":{"value":"81","name":"Inventory Asset"},"PrefVendorRef":{"value":"141","name":"Azmat
+        Vendor"},"TrackQtyOnHand":true,"QtyOnHand":10,"InvStartDate":"2025-08-29","DeferredRevenue":false,"domain":"QBO","sparse":false,"Id":"60","SyncToken":"0","MetaData":{"CreateTime":"2025-08-29T06:22:52-07:00","LastUpdatedTime":"2025-08-29T06:22:52-07:00"}},"bId":"0"}],"time":"2025-08-29T06:22:51.995-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '743'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 Aug 2025 13:22:52 GMT
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      content-length:
+      - '743'
+      intuit_tid:
+      - 1-68b1a9ab-57e4685753ae530f4d320b8c
+      x-amzn-trace-id:
+      - Root=1-68b1a9ab-57e4685753ae530f4d320b8c
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '562'
+      x-request-id:
+      - 1-68b1a9ab-57e4685753ae530f4d320b8c
+      x-spanid:
+      - 347d59d2-e5e6-6097-8c40-6000f0411a7d
+    status:
+      code: 200
+      message: OK
+version: 1

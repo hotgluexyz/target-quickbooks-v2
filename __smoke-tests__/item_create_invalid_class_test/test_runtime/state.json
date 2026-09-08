@@ -1,0 +1,1 @@
+{"bookmarks": {"Items": [{"success": false, "error": "A Class with Id=None / Name=INVALID_CLASS_NAME could not be found in QBO", "hg_error_class": "InvalidPayloadError", "externalId": "EXT-ITEM-1100"}]}, "summary": {"Items": {"success": 0, "fail": 1, "existing": 0, "updated": 0}}}

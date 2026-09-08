@@ -1,0 +1,18 @@
+{
+    "client_id": "client_id",
+    "client_secret": "client_secret",
+    "refresh_token": "refresh_token",
+    "access_token": "access_token",
+    "expires_in": 3600,
+    "start_date": "2005-01-01T00:00:00Z",
+    "redirect_uri": "https://hotglue.xyz/callback",
+    "api_type": "BULK",
+    "select_fields_by_default": true,
+    "api_key": "api_key",
+    "bgColor": "#ecf0f1",
+    "domain": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzJ3ejdlb2dpYTV6YWUzdnU4dXQ1dWwwcnpuaW01cmN3NzJkdms2NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/swhRkVYLJDrCE/giphy.gif",
+    "hideText": true,
+    "realmId": "4620816365164029070",
+    "is_sandbox": true,
+    "last_update": 1755734400
+}
