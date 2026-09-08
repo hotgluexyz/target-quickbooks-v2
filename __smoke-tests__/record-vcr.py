@@ -1,7 +1,5 @@
-import json
 
 import vcr
-
 from hotglue_smoke_test.vcr.target import VCRTargetTestRunner
 
 
