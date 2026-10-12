@@ -1,0 +1,20 @@
+{
+  "bookmarks": {
+    "JournalEntries": [
+      {
+        "success": false,
+        "error": "Account could not be found in QBO with Id=None / Name=-Fallback-scrubbed-OrOQupSFVYiltJG",
+        "hg_error_class": "InvalidPayloadError",
+        "externalId": "-Fallback-scrubbed-aIqZIQnttsCUqKqe"
+      }
+    ]
+  },
+  "summary": {
+    "JournalEntries": {
+      "success": 0,
+      "fail": 1,
+      "existing": 0,
+      "updated": 0
+    }
+  }
+}

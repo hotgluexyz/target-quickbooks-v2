@@ -1,0 +1,10 @@
+{
+    "access_token": "eyJ***",
+    "refresh_token": "RT1***",
+    "client_id": "ABE***",
+    "client_secret": "Luc***",
+    "redirect_uri": "https://hotglue.xyz/callback",
+    "realmId": "4620816365164029070",
+    "last_update": 1755475200,
+    "is_sandbox": true
+}

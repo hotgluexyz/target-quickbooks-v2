@@ -1,0 +1,20 @@
+{
+  "bookmarks": {
+    "InvoicePayments": [
+      {
+        "success": false,
+        "error": "Customer could not be found in QBO with Id=None / Name=-Fallback-scrubbed-SyJXzSmmbBeEDimD",
+        "hg_error_class": "InvalidPayloadError",
+        "externalId": "-Fallback-scrubbed-rvaxzxqZQOerVAvrd"
+      }
+    ]
+  },
+  "summary": {
+    "InvoicePayments": {
+      "success": 0,
+      "fail": 1,
+      "existing": 0,
+      "updated": 0
+    }
+  }
+}
