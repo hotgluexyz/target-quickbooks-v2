@@ -45,6 +45,8 @@ class TargetQuickBooksTestRunner(VCRTargetTestRunner):
         # cassette, then replay sends the real enum values from the mapper.
         "Bill",
         "Check",
+        # Bank bill payments: account *name* "Checking" must not scrub AccountSubType.
+        "Checking",
         "CreditCard",
         "Invoice",
         "Customer",

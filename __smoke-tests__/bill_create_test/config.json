@@ -1,7 +1,7 @@
 {
     "access_token": "eyJ***",
     "refresh_token": "RT1***",
-    "api_key": "1oK***",
+    "api_key": "api***",
     "client_id": "ABE***",
     "client_secret": "Luc***",
     "redirect_uri": "https://qa.hotglue.xyz/callback",

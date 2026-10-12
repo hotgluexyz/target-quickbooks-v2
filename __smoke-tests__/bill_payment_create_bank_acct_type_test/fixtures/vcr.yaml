@@ -33,7 +33,7 @@ interactions:
       Accept-Ranges:
       - bytes
       Age:
-      - '227344'
+      - '243437'
       Alt-Svc:
       - h3=":443"; ma=86400
       Connection:
@@ -43,7 +43,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:07:47 GMT
+      - Mon, 12 Oct 2026 20:36:00 GMT
       ETag:
       - '"665940ee6c04a65f93fc17b219716c4e"'
       Last-Modified:
@@ -51,31 +51,31 @@ interactions:
       Server:
       - istio-envoy
       Via:
-      - 1.1 2d69093e294db929b26be80ccee94472.cloudfront.net (CloudFront)
+      - 1.1 42eb5dfcc641e959ebaf60f01fc7d582.cloudfront.net (CloudFront)
       X-Amz-Cf-Id:
-      - H2RmVChFztlwrqLdPl0hOVBfDx3jk4JGte80NLB22JOPNbJ_rDGz8Q==
+      - LZ079cmdwibeqXlJd5fczfPIWs-4COSD3oShUcw9uHZeVV3OiTm0UA==
       X-Amz-Cf-Pop:
       - HIO52-P4
       X-Cache:
       - Hit from cloudfront
       intuit_tid:
-      - 1-6acd05d3-08765ed10665c8266001cacf
+      - 1-6acd44b0-7e82919830d4857b23573d5e
       strict-transport-security:
       - max-age=15552000
       x-amz-version-id:
       - _xvn_QQfrEn7kCmtCPMTn2sEfdRqhpyB
       x-amzn-trace-id:
-      - Root=1-6acd05d3-08765ed10665c8266001cacf
+      - Root=1-6acd44b0-7e82919830d4857b23573d5e
       x-content-type-options:
       - nosniff
       x-envoy-upstream-service-time:
-      - '7'
+      - '8'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05d3-08765ed10665c8266001cacf
+      - 1-6acd44b0-7e82919830d4857b23573d5e
       x-spanid:
-      - feed2995-6f8c-559a-1774-aab82f09ea76
+      - c7965465-9002-9564-c1d0-402b8e301144
     status:
       code: 200
       message: OK
@@ -98,7 +98,7 @@ interactions:
     uri: https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer
   response:
     body:
-      string: '{"expires_in": 3600, "x_refresh_token_expires_in": 8708986, "refresh_token":
+      string: '{"expires_in": 3600, "x_refresh_token_expires_in": 8692893, "refresh_token":
         "RT1***", "access_token": "eyJ***", "token_type": "bearer"}'
     headers:
       Cache-Control:
@@ -110,7 +110,7 @@ interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 12 Oct 2026 16:07:49 GMT
+      - Mon, 12 Oct 2026 20:36:02 GMT
       Pragma:
       - no-cache
       Server:
@@ -124,17 +124,17 @@ interactions:
       X-XSS-Protection:
       - 1; mode=block
       intuit_tid:
-      - 1-6acd05d5-14066079665937b5279b0a8f
+      - 1-6acd44b2-68b891f66d6a564b406aeb7a
       x-amzn-trace-id:
-      - Root=1-6acd05d5-14066079665937b5279b0a8f
+      - Root=1-6acd44b2-68b891f66d6a564b406aeb7a
       x-envoy-upstream-service-time:
-      - '85'
+      - '98'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05d5-14066079665937b5279b0a8f
+      - 1-6acd44b2-68b891f66d6a564b406aeb7a
       x-spanid:
-      - 751c08b1-998e-fcb8-5041-1470933887dd
+      - 90de6b0e-bc63-bba1-680d-7a071d7b2ca9
     status:
       code: 200
       message: OK
@@ -162,10 +162,10 @@ interactions:
         Ingram", "SubAccount": false, "Description": "-Fallback-scrubbed-rkujkYWPoMXQZQhSYWkntv",
         "FullyQualifiedName": "Fake-Amanda Ingram", "Active": true, "Classification":
         "Liability", "AccountType": "Accounts Payable", "AccountSubType": "AccountsPayable",
-        "CurrentBalance": -75233.65, "CurrentBalanceWithSubAccounts": -75233.65, "CurrencyRef":
+        "CurrentBalance": -75635.65, "CurrentBalanceWithSubAccounts": -75635.65, "CurrencyRef":
         {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
         false, "Id": "33", "SyncToken": "1", "MetaData": {"CreateTime": "2021-02-11T10:12:02-08:00",
-        "LastUpdatedTime": "2026-10-12T06:04:37-07:00"}}, {"Name": "Fake-James Gibson",
+        "LastUpdatedTime": "2026-10-12T13:11:33-07:00"}}, {"Name": "Fake-James Gibson",
         "SubAccount": false, "FullyQualifiedName": "Fake-James Gibson", "Active":
         true, "Classification": "Liability", "AccountType": "Accounts Payable", "AccountSubType":
         "AccountsPayable", "CurrentBalance": 100.0, "CurrentBalanceWithSubAccounts":
@@ -182,10 +182,10 @@ interactions:
         Smith Jr.", "SubAccount": false, "FullyQualifiedName": "Fake-Mr. Antonio Smith
         Jr.", "Active": true, "Classification": "Asset", "AccountType": "Accounts
         Receivable", "AccountSubType": "AccountsReceivable", "AcctNum": "1234", "CurrentBalance":
-        -40468114.3, "CurrentBalanceWithSubAccounts": -40468114.3, "CurrencyRef":
+        -40467847.7, "CurrentBalanceWithSubAccounts": -40467847.7, "CurrencyRef":
         {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
         false, "Id": "84", "SyncToken": "1", "MetaData": {"CreateTime": "2021-02-15T14:49:29-08:00",
-        "LastUpdatedTime": "2026-09-25T13:44:34-07:00"}}, {"Name": "Fake-Brian Williamson",
+        "LastUpdatedTime": "2026-10-12T11:29:47-07:00"}}, {"Name": "Fake-Brian Williamson",
         "SubAccount": true, "ParentRef": {"value": "84"}, "Description": "-Fallback-scrubbed-kVsIUFTHEGGJJUbhkQavBsByVjN",
         "FullyQualifiedName": "-Fallback-scrubbed-SRNpYwhUGtRgKMVYebZcrTNdihjDdYkVoVM",
         "Active": true, "Classification": "Asset", "AccountType": "Accounts Receivable",
@@ -229,10 +229,10 @@ interactions:
         "2025-08-11T14:18:38-07:00"}}, {"Name": "Fake-Nancy Martin", "SubAccount":
         false, "FullyQualifiedName": "Fake-Nancy Martin", "Active": true, "Classification":
         "Liability", "AccountType": "Other Current Liability", "AccountSubType": "GlobalTaxPayable",
-        "CurrentBalance": -1285.97, "CurrentBalanceWithSubAccounts": -1285.97, "CurrencyRef":
+        "CurrentBalance": -1295.57, "CurrentBalanceWithSubAccounts": -1295.57, "CurrencyRef":
         {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
         false, "Id": "89", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-17T12:17:04-08:00",
-        "LastUpdatedTime": "2025-12-08T08:32:12-08:00"}}, {"Name": "Fake-Rita Wallace",
+        "LastUpdatedTime": "2026-10-12T10:23:10-07:00"}}, {"Name": "Fake-Rita Wallace",
         "SubAccount": false, "FullyQualifiedName": "Fake-Rita Wallace", "Active":
         true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
         "Auto", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
@@ -353,12 +353,12 @@ interactions:
         "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
         "QBO", "sparse": false, "Id": "1150040057", "SyncToken": "0", "MetaData":
         {"CreateTime": "2026-09-25T11:00:55-07:00", "LastUpdatedTime": "2026-09-25T11:00:55-07:00"}},
-        {"Name": "Fake-Shawna Cunningham", "SubAccount": false, "FullyQualifiedName":
-        "Fake-Shawna Cunningham", "Active": true, "Classification": "Asset", "AccountType":
-        "Bank", "AccountSubType": "Checking", "CurrentBalance": 16255.99, "CurrentBalanceWithSubAccounts":
-        16255.99, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
-        "domain": "QBO", "sparse": false, "Id": "35", "SyncToken": "0", "MetaData":
-        {"CreateTime": "2021-02-14T12:08:20-08:00", "LastUpdatedTime": "2026-10-12T08:56:37-07:00"}},
+        {"Name": "Checking", "SubAccount": false, "FullyQualifiedName": "Checking",
+        "Active": true, "Classification": "Asset", "AccountType": "Bank", "AccountSubType":
+        "Checking", "CurrentBalance": 16250.99, "CurrentBalanceWithSubAccounts": 16250.99,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "35", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-14T12:08:20-08:00", "LastUpdatedTime": "2026-10-12T13:33:38-07:00"}},
         {"Name": "Fake-Stacey Freeman", "SubAccount": false, "FullyQualifiedName":
         "Fake-Stacey Freeman", "Active": true, "Classification": "Expense", "AccountType":
         "Expense", "AccountSubType": "OtherMiscellaneousServiceCost", "CurrentBalance":
@@ -680,10 +680,10 @@ interactions:
         "LastUpdatedTime": "2026-08-17T10:31:42-07:00"}}, {"Name": "Fake-Nicole Mendoza",
         "SubAccount": false, "FullyQualifiedName": "Fake-Nicole Mendoza", "Active":
         true, "Classification": "Asset", "AccountType": "Bank", "AccountSubType":
-        "Checking", "AcctNum": "1234556434", "CurrentBalance": -88664.52, "CurrentBalanceWithSubAccounts":
-        -88664.52, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "Checking", "AcctNum": "1234556434", "CurrentBalance": -88661.52, "CurrentBalanceWithSubAccounts":
+        -88661.52, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
         "domain": "QBO", "sparse": false, "Id": "1150040000", "SyncToken": "1", "MetaData":
-        {"CreateTime": "2025-05-14T09:45:40-07:00", "LastUpdatedTime": "2026-10-12T08:56:37-07:00"}},
+        {"CreateTime": "2025-05-14T09:45:40-07:00", "LastUpdatedTime": "2026-10-12T13:33:38-07:00"}},
         {"Name": "Fake-Jade Christensen", "SubAccount": false, "FullyQualifiedName":
         "Fake-Jade Christensen", "Active": true, "Classification": "Expense", "AccountType":
         "Expense", "AccountSubType": "Insurance", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
@@ -712,10 +712,10 @@ interactions:
         "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
         {"Name": "Fake-Joseph Scott", "SubAccount": false, "FullyQualifiedName": "Fake-Joseph
         Scott", "Active": true, "Classification": "Asset", "AccountType": "Other Current
-        Asset", "AccountSubType": "Inventory", "CurrentBalance": 42949685941.74, "CurrentBalanceWithSubAccounts":
-        42949685941.74, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        Asset", "AccountSubType": "Inventory", "CurrentBalance": 42949685906.74, "CurrentBalanceWithSubAccounts":
+        42949685906.74, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
         "domain": "QBO", "sparse": false, "Id": "81", "SyncToken": "0", "MetaData":
-        {"CreateTime": "2021-02-15T10:36:05-08:00", "LastUpdatedTime": "2026-10-12T08:29:53-07:00"}},
+        {"CreateTime": "2021-02-15T10:36:05-08:00", "LastUpdatedTime": "2026-10-12T13:11:33-07:00"}},
         {"Name": "Fake-Andres Dixon", "SubAccount": false, "FullyQualifiedName": "Fake-Andres
         Dixon", "Active": true, "Classification": "Expense", "AccountType": "Cost
         of Goods Sold", "AccountSubType": "SuppliesMaterialsCogs", "CurrentBalance":
@@ -839,36 +839,36 @@ interactions:
         0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
         "QBO", "sparse": false, "Id": "46", "SyncToken": "0", "MetaData": {"CreateTime":
         "2021-02-15T10:06:12-08:00", "LastUpdatedTime": "2021-02-15T10:08:06-08:00"}}],
-        "startPosition": 1, "maxResults": 100}, "bId": "bid1"}], "time": "2026-10-12T09:07:51.231-07:00"}'
+        "startPosition": 1, "maxResults": 100}, "bId": "bid1"}], "time": "2026-10-12T13:36:03.953-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:07:51 GMT
+      - Mon, 12 Oct 2026 20:36:03 GMT
       content-length:
       - '52123'
       intuit_tid:
-      - 1-6acd05d6-685fdaaf11327dae6774faa5
+      - 1-6acd44b3-43767bf248a6218975db924e
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05d6-685fdaaf11327dae6774faa5
+      - Root=1-6acd44b3-43767bf248a6218975db924e
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '251'
+      - '255'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05d6-685fdaaf11327dae6774faa5
+      - 1-6acd44b3-43767bf248a6218975db924e
       x-spanid:
-      - e5907346-2370-5d13-9dee-901ef2507165
+      - 0f237984-f57b-f142-efa9-b891079792e8
     status:
       code: 200
       message: OK
@@ -1047,10 +1047,10 @@ interactions:
         "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Vincent Rodriguez",
         "SubAccount": false, "FullyQualifiedName": "Fake-Vincent Rodriguez", "Active":
         true, "Classification": "Liability", "AccountType": "Credit Card", "AccountSubType":
-        "CreditCard", "CurrentBalance": -331.22, "CurrentBalanceWithSubAccounts":
-        -331.22, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "CreditCard", "CurrentBalance": -349.22, "CurrentBalanceWithSubAccounts":
+        -349.22, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
         "domain": "QBO", "sparse": false, "Id": "41", "SyncToken": "1", "MetaData":
-        {"CreateTime": "2021-02-15T09:59:08-08:00", "LastUpdatedTime": "2025-11-25T06:21:28-08:00"}},
+        {"CreateTime": "2021-02-15T09:59:08-08:00", "LastUpdatedTime": "2026-10-12T09:33:22-07:00"}},
         {"Name": "Fake-Perry Brown", "SubAccount": false, "FullyQualifiedName": "Fake-Perry
         Brown", "Active": true, "Classification": "Expense", "AccountType": "Expense",
         "AccountSubType": "EntertainmentMeals", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
@@ -1088,7 +1088,7 @@ interactions:
         "OpeningBalanceEquity", "CurrentBalance": -244085.89, "CurrentBalanceWithSubAccounts":
         -244085.89, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
         "domain": "QBO", "sparse": false, "Id": "34", "SyncToken": "0", "MetaData":
-        {"CreateTime": "2021-02-14T12:08:20-08:00", "LastUpdatedTime": "2026-10-09T09:03:26-07:00"}},
+        {"CreateTime": "2021-02-14T12:08:20-08:00", "LastUpdatedTime": "2026-10-12T11:18:03-07:00"}},
         {"Name": "Fake-Paige Torres", "SubAccount": false, "Description": "-Fallback-scrubbed-rZieRXyAALtgNLAkfMpEjPZskhvMNN",
         "FullyQualifiedName": "Fake-Paige Torres", "Active": true, "Classification":
         "Asset", "AccountType": "Bank", "AccountSubType": "CashOnHand", "AcctNum":
@@ -1431,36 +1431,36 @@ interactions:
         {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
         false, "Id": "1150040074", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
         "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}], "startPosition": 100, "maxResults":
-        82}, "bId": "bid1"}], "time": "2026-10-12T09:07:52.941-07:00"}'
+        82}, "bId": "bid1"}], "time": "2026-10-12T13:36:05.442-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:07:52 GMT
+      - Mon, 12 Oct 2026 20:36:05 GMT
       content-length:
       - '40849'
       intuit_tid:
-      - 1-6acd05d8-482bbb0d0e9bd550318d8c32
+      - 1-6acd44b5-676f59d7525109c763cc476a
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05d8-482bbb0d0e9bd550318d8c32
+      - Root=1-6acd44b5-676f59d7525109c763cc476a
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '208'
+      - '218'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05d8-482bbb0d0e9bd550318d8c32
+      - 1-6acd44b5-676f59d7525109c763cc476a
       x-spanid:
-      - ac39566a-dd3c-e4b7-30ca-446291d293c4
+      - eff80c63-4fcd-c178-ed7b-843ea2dec71d
     status:
       code: 200
       message: OK
@@ -1510,36 +1510,36 @@ interactions:
         "SubDepartment": false, "FullyQualifiedName": "Fake-Wayne Adams", "Active":
         true, "domain": "QBO", "sparse": false, "Id": "5", "SyncToken": "0", "MetaData":
         {"CreateTime": "2023-04-11T09:29:37-07:00", "LastUpdatedTime": "2023-04-11T09:29:37-07:00"}}],
-        "startPosition": 1, "maxResults": 7}, "bId": "bid1"}], "time": "2026-10-12T09:07:54.547-07:00"}'
+        "startPosition": 1, "maxResults": 7}, "bId": "bid1"}], "time": "2026-10-12T13:36:06.914-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:07:54 GMT
+      - Mon, 12 Oct 2026 20:36:06 GMT
       content-length:
       - '1996'
       intuit_tid:
-      - 1-6acd05da-45c9da62758c07222a1b7c9b
+      - 1-6acd44b6-62afa0d629076a8f3c6fb841
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05da-45c9da62758c07222a1b7c9b
+      - Root=1-6acd44b6-62afa0d629076a8f3c6fb841
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '190'
+      - '188'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05da-45c9da62758c07222a1b7c9b
+      - 1-6acd44b6-62afa0d629076a8f3c6fb841
       x-spanid:
-      - c78fd18c-4521-9159-0aec-9e0a9eb16d12
+      - 5860e27a-8529-b1a4-17d6-b3945922389a
     status:
       code: 200
       message: OK
@@ -1606,36 +1606,36 @@ interactions:
         {"Name": "Fake-Kyle Williams", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
         "domain": "QBO", "sparse": false, "Id": "13", "SyncToken": "0", "MetaData":
         {"CreateTime": "2023-03-08T14:30:45-08:00", "LastUpdatedTime": "2023-03-08T14:30:45-08:00"}}],
-        "startPosition": 1, "maxResults": 14}, "bId": "bid1"}], "time": "2026-10-12T09:07:56.056-07:00"}'
+        "startPosition": 1, "maxResults": 14}, "bId": "bid1"}], "time": "2026-10-12T13:36:08.335-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:07:56 GMT
+      - Mon, 12 Oct 2026 20:36:08 GMT
       content-length:
       - '3136'
       intuit_tid:
-      - 1-6acd05db-1e44b4e3725932ad1e5f69ac
+      - 1-6acd44b8-75841f156e57d6572bf2add4
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05db-1e44b4e3725932ad1e5f69ac
+      - Root=1-6acd44b8-75841f156e57d6572bf2add4
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '206'
+      - '207'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05db-1e44b4e3725932ad1e5f69ac
+      - 1-6acd44b8-75841f156e57d6572bf2add4
       x-spanid:
-      - 0848d392-938f-5a8e-079b-098b5c3f2990
+      - c6150f2d-c464-6655-eacf-3132300a034b
     status:
       code: 200
       message: OK
@@ -1666,36 +1666,36 @@ interactions:
         Shelton", "Active": true, "domain": "QBO", "sparse": false, "Id": "5000000000000054672",
         "SyncToken": "0", "MetaData": {"CreateTime": "2023-02-28T23:01:49-08:00",
         "LastUpdatedTime": "2023-02-28T23:01:49-08:00"}}], "startPosition": 1, "maxResults":
-        2}, "bId": "bid1"}], "time": "2026-10-12T09:07:57.485-07:00"}'
+        2}, "bId": "bid1"}], "time": "2026-10-12T13:36:09.783-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:07:57 GMT
+      - Mon, 12 Oct 2026 20:36:09 GMT
       content-length:
       - '562'
       intuit_tid:
-      - 1-6acd05dd-59a64df61e918fc2604d6ffd
+      - 1-6acd44b9-51a2a6377ac9aec93bd508d8
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05dd-59a64df61e918fc2604d6ffd
+      - Root=1-6acd44b9-51a2a6377ac9aec93bd508d8
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '141'
+      - '121'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05dd-59a64df61e918fc2604d6ffd
+      - 1-6acd44b9-51a2a6377ac9aec93bd508d8
       x-spanid:
-      - 22c1aced-c017-9c35-ac13-77d568a2c9a3
+      - db6189d6-92ff-736c-511f-2f8ff92a738e
     status:
       code: 200
       message: OK
@@ -1828,36 +1828,36 @@ interactions:
         "domain": "QBO", "sparse": false, "Id": "3", "SyncToken": "0", "MetaData":
         {"CreateTime": "2021-02-17T12:17:04-08:00", "LastUpdatedTime": "2021-02-17T12:17:04-08:00"}}],
         "startPosition": 1, "maxResults": 16, "totalCount": 16}, "bId": "bid1"}],
-        "time": "2026-10-12T09:07:59.004-07:00"}'
+        "time": "2026-10-12T13:36:11.367-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:07:59 GMT
+      - Mon, 12 Oct 2026 20:36:11 GMT
       content-length:
       - '7760'
       intuit_tid:
-      - 1-6acd05de-1f2bc13516b57d6430e78c92
+      - 1-6acd44bb-527cba3143729e704328c2a2
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05de-1f2bc13516b57d6430e78c92
+      - Root=1-6acd44bb-527cba3143729e704328c2a2
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '234'
+      - '276'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05de-1f2bc13516b57d6430e78c92
+      - 1-6acd44bb-527cba3143729e704328c2a2
       x-spanid:
-      - bcb95312-889a-af39-dfc9-a5ccbf121285
+      - f4055ab4-770f-62b5-b3ba-95b62e40cd64
     status:
       code: 200
       message: OK
@@ -1891,36 +1891,36 @@ interactions:
         "Fake-Elizabeth Pitts DVM", "Active": true, "domain": "QBO", "sparse": false,
         "Id": "1", "SyncToken": "0", "MetaData": {"CreateTime": "2025-05-22T19:25:14-07:00",
         "LastUpdatedTime": "2025-05-22T19:25:14-07:00"}}], "startPosition": 1, "maxResults":
-        3, "totalCount": 3}, "bId": "bid1"}], "time": "2026-10-12T09:08:00.603-07:00"}'
+        3, "totalCount": 3}, "bId": "bid1"}], "time": "2026-10-12T13:36:12.886-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:08:00 GMT
+      - Mon, 12 Oct 2026 20:36:12 GMT
       content-length:
       - '786'
       intuit_tid:
-      - 1-6acd05e0-1257c7c2575a94644a8c9f27
+      - 1-6acd44bc-5afa1b692165a18511844ae0
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05e0-1257c7c2575a94644a8c9f27
+      - Root=1-6acd44bc-5afa1b692165a18511844ae0
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '189'
+      - '228'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05e0-1257c7c2575a94644a8c9f27
+      - 1-6acd44bc-5afa1b692165a18511844ae0
       x-spanid:
-      - 5d657efb-5d72-2b35-4e28-ca3e0a47feb5
+      - c8958899-b2e5-c1d8-f76e-fadf6196e3f5
     status:
       code: 200
       message: OK
@@ -2025,36 +2025,36 @@ interactions:
         true, "domain": "QBO", "sparse": false, "Id": "690867", "SyncToken": "0",
         "MetaData": {"CreateTime": "2026-07-21T09:37:00-07:00", "LastUpdatedTime":
         "2026-07-21T09:38:39-07:00"}}], "startPosition": 1, "maxResults": 21, "totalCount":
-        21}, "bId": "bid1"}], "time": "2026-10-12T09:08:02.101-07:00"}'
+        21}, "bId": "bid1"}], "time": "2026-10-12T13:36:14.331-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:08:02 GMT
+      - Mon, 12 Oct 2026 20:36:14 GMT
       content-length:
       - '5935'
       intuit_tid:
-      - 1-6acd05e1-6da1fb4f56804bab1e503816
+      - 1-6acd44be-3de4b7753f3235587a2fc654
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05e1-6da1fb4f56804bab1e503816
+      - Root=1-6acd44be-3de4b7753f3235587a2fc654
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '199'
+      - '221'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05e1-6da1fb4f56804bab1e503816
+      - 1-6acd44be-3de4b7753f3235587a2fc654
       x-spanid:
-      - 20788b82-6dcb-5ce4-5aba-8cc9c64dfb61
+      - 56591931-7132-487b-d7c5-e649e1d34cb9
     status:
       code: 200
       message: OK
@@ -2153,36 +2153,36 @@ interactions:
         "DayOfMonthDue": 2, "domain": "QBO", "sparse": false, "Id": "11", "SyncToken":
         "0", "MetaData": {"CreateTime": "2023-03-08T14:43:46-08:00", "LastModifiedByRef":
         {"value": "9130350302168886"}, "LastUpdatedTime": "2023-03-08T14:43:46-08:00"}}],
-        "startPosition": 1, "maxResults": 18}, "bId": "bid1"}], "time": "2026-10-12T09:08:03.523-07:00"}'
+        "startPosition": 1, "maxResults": 18}, "bId": "bid1"}], "time": "2026-10-12T13:36:15.734-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:08:03 GMT
+      - Mon, 12 Oct 2026 20:36:15 GMT
       content-length:
       - '5387'
       intuit_tid:
-      - 1-6acd05e3-51f32ed62492b87c4e956867
+      - 1-6acd44bf-4850036566f4babe36d2c396
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05e3-51f32ed62492b87c4e956867
+      - Root=1-6acd44bf-4850036566f4babe36d2c396
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '119'
+      - '113'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05e3-51f32ed62492b87c4e956867
+      - 1-6acd44bf-4850036566f4babe36d2c396
       x-spanid:
-      - 457d3a47-52d5-d92f-fcaf-b5eb75e27197
+      - 42a878f7-1b04-e24d-bb95-31c9ab92a3a5
     status:
       code: 200
       message: OK
@@ -2214,42 +2214,42 @@ interactions:
         "Active": true, "FullyQualifiedName": "Fake-Greg Myers", "Type": "-Fallback-scrubbed-czKxiVDH",
         "domain": "QBO", "sparse": false, "Id": "31", "SyncToken": "0", "MetaData":
         {"CreateTime": "2023-05-16T05:20:04-07:00", "LastUpdatedTime": "2024-03-14T10:21:45-07:00"}}],
-        "startPosition": 1, "maxResults": 2}, "bId": "bid1"}], "time": "2026-10-12T09:08:05.044-07:00"}'
+        "startPosition": 1, "maxResults": 2}, "bId": "bid1"}], "time": "2026-10-12T13:36:17.247-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:08:05 GMT
+      - Mon, 12 Oct 2026 20:36:17 GMT
       content-length:
       - '609'
       intuit_tid:
-      - 1-6acd05e4-0c2863e6244632293ea7d159
+      - 1-6acd44c1-281a7393463598de27b8e140
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05e4-0c2863e6244632293ea7d159
+      - Root=1-6acd44c1-281a7393463598de27b8e140
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '209'
+      - '201'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05e4-0c2863e6244632293ea7d159
+      - 1-6acd44c1-281a7393463598de27b8e140
       x-spanid:
-      - 786de9fc-634c-ee4a-970f-97822f11181d
+      - 54991b14-8064-77e1-e9d7-8abdc5f5506e
     status:
       code: 200
       message: OK
 - request:
     body: '{"BatchItemRequest": [{"Query": "select Id, DocNumber, SyncToken from BillPayment
-      where DocNumber in (''-Fallback-scrubbed-updcegwYEStRYtKkflsLH'') STARTPOSITION
+      where DocNumber in (''-Fallback-scrubbed-axsYlVaubKUqHaQBOEAdf'') STARTPOSITION
       0 MAXRESULTS 100", "bId": "bid1"}]}'
     headers:
       Accept:
@@ -2269,36 +2269,36 @@ interactions:
   response:
     body:
       string: '{"BatchItemResponse": [{"QueryResponse": {}, "bId": "bid1"}], "time":
-        "2026-10-12T09:08:06.655-07:00"}'
+        "2026-10-12T13:36:18.773-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:08:06 GMT
+      - Mon, 12 Oct 2026 20:36:18 GMT
       content-length:
       - '96'
       intuit_tid:
-      - 1-6acd05e6-2f54e8774ab9082f0c8d9e70
+      - 1-6acd44c2-69dee43d6798b6da59c06516
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05e6-2f54e8774ab9082f0c8d9e70
+      - Root=1-6acd44c2-69dee43d6798b6da59c06516
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '222'
+      - '191'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05e6-2f54e8774ab9082f0c8d9e70
+      - 1-6acd44c2-69dee43d6798b6da59c06516
       x-spanid:
-      - 1d2a4812-79df-b8ae-75f2-a5f94739082b
+      - 9714041a-7104-4214-b392-65c19683c30e
     status:
       code: 200
       message: OK
@@ -2324,38 +2324,38 @@ interactions:
   response:
     body:
       string: '{"BatchItemResponse": [{"QueryResponse": {"Bill": [{"sparse": true,
-        "Id": "681", "SyncToken": "17", "DocNumber": "-Fallback-scrubbed-XHOXcYAziQlrGpyh",
+        "Id": "681", "SyncToken": "22", "DocNumber": "-Fallback-scrubbed-XHOXcYAziQlrGpyh",
         "Line": []}], "startPosition": 1, "maxResults": 1, "totalCount": 1}, "bId":
-        "bid1"}], "time": "2026-10-12T09:08:08.274-07:00"}'
+        "bid1"}], "time": "2026-10-12T13:36:20.466-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:08:08 GMT
+      - Mon, 12 Oct 2026 20:36:20 GMT
       content-length:
       - '237'
       intuit_tid:
-      - 1-6acd05e7-454351ca01f5d4c20735788d
+      - 1-6acd44c4-67d23ccf2dff65e93b5c5f97
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05e7-454351ca01f5d4c20735788d
+      - Root=1-6acd44c4-67d23ccf2dff65e93b5c5f97
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '273'
+      - '260'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05e7-454351ca01f5d4c20735788d
+      - 1-6acd44c4-67d23ccf2dff65e93b5c5f97
       x-spanid:
-      - 384c46c2-e61e-ff42-0574-deb12e0d3a34
+      - 97881e97-8bd7-df24-adc4-de47b0b854c0
     status:
       code: 200
       message: OK
@@ -2382,36 +2382,36 @@ interactions:
     body:
       string: '{"BatchItemResponse": [{"QueryResponse": {"Vendor": [{"sparse": true,
         "Id": "51", "SyncToken": "1", "DisplayName": "Fake-Charles Rivas"}], "startPosition":
-        1, "maxResults": 1}, "bId": "bid1"}], "time": "2026-10-12T09:08:09.781-07:00"}'
+        1, "maxResults": 1}, "bId": "bid1"}], "time": "2026-10-12T13:36:21.951-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:08:09 GMT
+      - Mon, 12 Oct 2026 20:36:21 GMT
       content-length:
       - '216'
       intuit_tid:
-      - 1-6acd05e9-3283e5672bea743635972cbf
+      - 1-6acd44c5-3fdf0a35173ae3d91e33f482
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05e9-3283e5672bea743635972cbf
+      - Root=1-6acd44c5-3fdf0a35173ae3d91e33f482
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '233'
+      - '205'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05e9-3283e5672bea743635972cbf
+      - 1-6acd44c5-3fdf0a35173ae3d91e33f482
       x-spanid:
-      - eb206307-e437-0a04-7677-25011499fe0a
+      - ed79a6b9-0a2c-08a4-e064-a29107f66b9a
     status:
       code: 200
       message: OK
@@ -2420,7 +2420,7 @@ interactions:
       {"Line": [{"Amount": 5.0, "LinkedTxn": [{"TxnId": "681", "TxnType": "Bill"}]}],
       "VendorRef": {"value": "51", "name": "Fake-Charles Rivas"}, "PayType": "Check",
       "CheckPayment": {"BankAccountRef": {"value": "1150040000", "name": "Fake-Nicole
-      Mendoza"}}, "DocNumber": "-Fallback-scrubbed-updcegwYEStRYtKkflsLH", "TxnDate":
+      Mendoza"}}, "DocNumber": "-Fallback-scrubbed-axsYlVaubKUqHaQBOEAdf", "TxnDate":
       "2025-06-11T00:00:00", "TotalAmt": 5.0}}]}'
     headers:
       Accept:
@@ -2442,42 +2442,42 @@ interactions:
       string: '{"BatchItemResponse": [{"BillPayment": {"VendorRef": {"value": "51",
         "name": "Fake-Charles Rivas"}, "PayType": "Check", "CheckPayment": {"BankAccountRef":
         {"value": "1150040000", "name": "Fake-Nicole Mendoza"}, "PrintStatus": "-Fallback-scrubbed-RAIIZvVLokT"},
-        "TotalAmt": 5.0, "domain": "QBO", "sparse": false, "Id": "30224", "SyncToken":
-        "0", "MetaData": {"CreateTime": "2026-10-12T09:08:12-07:00", "LastUpdatedTime":
-        "2026-10-12T09:08:12-07:00"}, "DocNumber": "-Fallback-scrubbed-updcegwYEStRYtKkflsLH",
+        "TotalAmt": 5.0, "domain": "QBO", "sparse": false, "Id": "30240", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-10-12T13:36:23-07:00", "LastUpdatedTime":
+        "2026-10-12T13:36:23-07:00"}, "DocNumber": "-Fallback-scrubbed-axsYlVaubKUqHaQBOEAdf",
         "TxnDate": "2025-06-11", "DepartmentRef": {"value": "4"}, "CurrencyRef": {"value":
         "USD", "name": "Fake-James Rodriguez"}, "ExchangeRate": 1, "Line": [{"Amount":
         5.0, "LinkedTxn": [{"TxnId": "681", "TxnType": "Bill"}]}]}, "bId": "0"}],
-        "time": "2026-10-12T09:08:12.026-07:00"}'
+        "time": "2026-10-12T13:36:23.962-07:00"}'
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json
       Date:
-      - Mon, 12 Oct 2026 16:08:12 GMT
+      - Mon, 12 Oct 2026 20:36:23 GMT
       content-length:
       - '684'
       intuit_tid:
-      - 1-6acd05eb-62d8b0be13faeb9734b7484e
+      - 1-6acd44c7-25f0710c2eb27aac70685ca4
       server:
       - istio-envoy
       strict-transport-security:
       - max-age=31536000
       x-amzn-trace-id:
-      - Root=1-6acd05eb-62d8b0be13faeb9734b7484e
+      - Root=1-6acd44c7-25f0710c2eb27aac70685ca4
       x-content-type-options:
       - nosniff
       x-envoy-decorator-operation:
       - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
       x-envoy-upstream-service-time:
-      - '965'
+      - '794'
       x-intuit-upstream-locality-region:
       - us-west-2
       x-request-id:
-      - 1-6acd05eb-62d8b0be13faeb9734b7484e
+      - 1-6acd44c7-25f0710c2eb27aac70685ca4
       x-spanid:
-      - 3051a3e8-f951-dd5c-d6d5-d26b4bc48d69
+      - 289353e3-6054-7c07-b95f-f862346da95e
     status:
       code: 200
       message: OK
