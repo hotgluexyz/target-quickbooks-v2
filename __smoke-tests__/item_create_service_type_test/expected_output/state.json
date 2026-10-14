@@ -1,0 +1,19 @@
+{
+  "bookmarks": {
+    "Items": [
+      {
+        "id": "113",
+        "externalId": "-Fallback-scrubbed-ZvXiFXTitRXQJQ",
+        "success": true
+      }
+    ]
+  },
+  "summary": {
+    "Items": {
+      "success": 1,
+      "fail": 0,
+      "existing": 0,
+      "updated": 0
+    }
+  }
+}

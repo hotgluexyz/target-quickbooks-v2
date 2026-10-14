@@ -1,0 +1,20 @@
+{
+  "bookmarks": {
+    "VendorCredits": [
+      {
+        "success": false,
+        "error": "An item with Id=None / Name=-Fallback-scrubbed-oVqzPgFiLXDf could not be found in QBO",
+        "hg_error_class": "InvalidPayloadError",
+        "externalId": "-Fallback-scrubbed-DuQEtmUUzTGc"
+      }
+    ]
+  },
+  "summary": {
+    "VendorCredits": {
+      "success": 0,
+      "fail": 1,
+      "existing": 0,
+      "updated": 0
+    }
+  }
+}

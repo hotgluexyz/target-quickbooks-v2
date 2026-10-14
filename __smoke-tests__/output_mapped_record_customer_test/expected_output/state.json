@@ -1,0 +1,87 @@
+{
+  "bookmarks": {
+    "Customers": [
+      {
+        "id": "136",
+        "externalId": "-Fallback-scrubbed-DLmHhoHGThpBbMvnxM",
+        "success": true,
+        "mapped_record": {
+          "bId": "0",
+          "operation": "update",
+          "Customer": {
+            "Id": "136",
+            "SyncToken": "3",
+            "sparse": true,
+            "PrimaryEmailAddr": {
+              "Address": "Fake-5545 Shawn Bypass Suite 099"
+            },
+            "WebAddr": {
+              "URI": "https://www.example.com"
+            },
+            "CurrencyRef": {
+              "value": "EUR",
+              "name": "Fake-Sharon Williams"
+            },
+            "PrimaryPhone": {
+              "FreeFormNumber": "+14444660000"
+            },
+            "AlternatePhone": {
+              "FreeFormNumber": "+14444660001"
+            },
+            "Fax": {
+              "FreeFormNumber": "+14444660002"
+            },
+            "Mobile": {
+              "FreeFormNumber": "+14444660003"
+            },
+            "BillAddr": {
+              "Line1": "-Fallback-scrubbed-QFKbVeUYTiuwsDihx",
+              "Line2": "-Fallback-scrubbed-ylexX",
+              "Line3": "-Fallback-scrubbed-iqWd",
+              "City": "Fake-Tracyburgh",
+              "CountrySubDivisionCode": "-Fallback-scrubbed-LC",
+              "PostalCode": "19123",
+              "Country": "-Fallback-scrubbed-vG"
+            },
+            "ShipAddr": {
+              "Line1": "-Fallback-scrubbed-DoMQRrUFFYkGoxnakO",
+              "Line2": "-Fallback-scrubbed-ylexX",
+              "Line3": "-Fallback-scrubbed-iqWd",
+              "City": "Fake-Tracyburgh",
+              "CountrySubDivisionCode": "-Fallback-scrubbed-LC",
+              "PostalCode": "19123",
+              "Country": "-Fallback-scrubbed-vG"
+            },
+            "PaymentMethodRef": {
+              "value": "6",
+              "name": "Fake-Timothy Johnson"
+            },
+            "Taxable": true,
+            "CustomerTypeRef": {
+              "value": "5000000000000054673"
+            },
+            "Active": true,
+            "externalId": "-Fallback-scrubbed-DLmHhoHGThpBbMvnxM",
+            "CompanyName": "Fake-Cunningham PLC",
+            "DisplayName": "Fake-Holly Murray",
+            "GivenName": "Fake-Stephanie",
+            "MiddleName": "-Fallback-scrubbed-nsdpUg",
+            "FamilyName": "Fake-Jordan",
+            "Suffix": "-Fallback-scrubbed-Tqc",
+            "Title": "-Fallback-scrubbed-ssfYo",
+            "PrintOnCheckName": "-Fallback-scrubbed-QQdoOcieas",
+            "Notes": "-Fallback-scrubbed-mWzUBFGMIxrxL"
+          }
+        }
+      }
+    ]
+  },
+  "summary": {
+    "Customers": {
+      "success": 0,
+      "fail": 0,
+      "existing": 0,
+      "updated": 1
+    }
+  }
+}

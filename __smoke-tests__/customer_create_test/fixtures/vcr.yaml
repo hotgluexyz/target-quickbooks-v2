@@ -1,0 +1,2395 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+    method: GET
+    uri: https://developer.intuit.com/.well-known/openid_sandbox_configuration/
+  response:
+    body:
+      string: "\r\n{  \r\n   \"issuer\":\"https://oauth.platform.intuit.com/op/v1\"\
+        ,\r\n   \"authorization_endpoint\":\"https://appcenter.intuit.com/connect/oauth2\"\
+        ,\r\n   \"token_endpoint\":\"https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer\"\
+        ,\r\n   \"userinfo_endpoint\":\"https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo\"\
+        ,\r\n   \"revocation_endpoint\":\"https://developer.api.intuit.com/v2/oauth2/tokens/revoke\"\
+        ,\r\n   \"jwks_uri\":\"https://oauth.platform.intuit.com/op/v1/jwks\",\r\n\
+        \   \"response_types_supported\":[  \r\n      \"code\"\r\n   ],\r\n   \"subject_types_supported\"\
+        :[  \r\n      \"public\"\r\n   ],\r\n   \"id_token_signing_alg_values_supported\"\
+        :[  \r\n      \"RS256\"\r\n   ],\r\n   \"scopes_supported\":[  \r\n      \"\
+        openid\",\r\n      \"email\",\r\n      \"profile\",\r\n      \"address\",\r\
+        \n      \"phone\"\r\n   ],\r\n   \"token_endpoint_auth_methods_supported\"\
+        :[  \r\n      \"client_secret_post\",\r\n      \"client_secret_basic\"\r\n\
+        \   ],\r\n   \"claims_supported\":[  \r\n      \"aud\",\r\n      \"exp\",\r\
+        \n      \"iat\",\r\n      \"iss\",\r\n      \"realmid\",\r\n      \"sub\"\r\
+        \n   ]\r\n}\r\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '229684'
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1006'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:46:47 GMT
+      ETag:
+      - '"665940ee6c04a65f93fc17b219716c4e"'
+      Last-Modified:
+      - Wed, 18 Mar 2020 03:21:12 GMT
+      Server:
+      - istio-envoy
+      Via:
+      - 1.1 8af7e76489ae9222af2304e63d2c0520.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - iBGKbL_oCCPkS5wwScJFa97qpeCyZa26Hf3Dq9arNxhHSPIQZiYJfw==
+      X-Amz-Cf-Pop:
+      - HIO52-P4
+      X-Cache:
+      - Hit from cloudfront
+      intuit_tid:
+      - 1-6acd0ef7-6268174848a2f1547d20c456
+      strict-transport-security:
+      - max-age=15552000
+      x-amz-version-id:
+      - _xvn_QQfrEn7kCmtCPMTn2sEfdRqhpyB
+      x-amzn-trace-id:
+      - Root=1-6acd0ef7-6268174848a2f1547d20c456
+      x-content-type-options:
+      - nosniff
+      x-envoy-upstream-service-time:
+      - '7'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0ef7-6268174848a2f1547d20c456
+      x-spanid:
+      - bbbd85d7-0542-6f93-ddba-235a54ac8beb
+    status:
+      code: 200
+      message: OK
+- request:
+    body: grant_type=refresh_token
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '80'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - Intuit-OAuthClient-1.2.6-Python-3.10.16 Darwin 25.5.0 arm64
+    method: POST
+    uri: https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer
+  response:
+    body:
+      string: '{"x_refresh_token_expires_in": 8706647, "refresh_token": "RT1***",
+        "access_token": "eyJ***", "token_type": "bearer", "expires_in": 3600}'
+    headers:
+      Cache-Control:
+      - no-cache, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '136'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 12 Oct 2026 16:46:48 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - istio-envoy
+      Strict-Transport-Security:
+      - max-age=15552000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+      intuit_tid:
+      - 1-6acd0ef8-65a12c0379d0ca660511d100
+      x-amzn-trace-id:
+      - Root=1-6acd0ef8-65a12c0379d0ca660511d100
+      x-envoy-upstream-service-time:
+      - '87'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0ef8-65a12c0379d0ca660511d100
+      x-spanid:
+      - 58955d44-e1d3-8158-c684-166b53eed36d
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Account STARTPOSITION 0
+      MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '104'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"Account": [{"Name": "Fake-Amanda
+        Ingram", "SubAccount": false, "Description": "-Fallback-scrubbed-rkujkYWPoMXQZQhSYWkntv",
+        "FullyQualifiedName": "Fake-Amanda Ingram", "Active": true, "Classification":
+        "Liability", "AccountType": "Accounts Payable", "AccountSubType": "AccountsPayable",
+        "CurrentBalance": -75210.65, "CurrentBalanceWithSubAccounts": -75210.65, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "33", "SyncToken": "1", "MetaData": {"CreateTime": "2021-02-11T10:12:02-08:00",
+        "LastUpdatedTime": "2026-10-12T09:33:22-07:00"}}, {"Name": "Fake-James Gibson",
+        "SubAccount": false, "FullyQualifiedName": "Fake-James Gibson", "Active":
+        true, "Classification": "Liability", "AccountType": "Accounts Payable", "AccountSubType":
+        "AccountsPayable", "CurrentBalance": 100.0, "CurrentBalanceWithSubAccounts":
+        100.0, "CurrencyRef": {"value": "CAD", "name": "Fake-Elizabeth Pitts DVM"},
+        "domain": "QBO", "sparse": false, "Id": "111", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2025-09-30T07:24:32-07:00", "LastUpdatedTime": "2025-09-30T14:07:13-07:00"}},
+        {"Name": "Fake-Rebecca Nichols", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Rebecca Nichols", "Active": true, "Classification": "Liability", "AccountType":
+        "Accounts Payable", "AccountSubType": "AccountsPayable", "CurrentBalance":
+        -10.0, "CurrentBalanceWithSubAccounts": -10.0, "CurrencyRef": {"value": "EUR",
+        "name": "Fake-Sharon Williams"}, "domain": "QBO", "sparse": false, "Id": "109",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2025-06-26T05:52:50-07:00",
+        "LastUpdatedTime": "2026-08-07T07:29:39-07:00"}}, {"Name": "Fake-Mr. Antonio
+        Smith Jr.", "SubAccount": false, "FullyQualifiedName": "Fake-Mr. Antonio Smith
+        Jr.", "Active": true, "Classification": "Asset", "AccountType": "Accounts
+        Receivable", "AccountSubType": "AccountsReceivable", "AcctNum": "1234", "CurrentBalance":
+        -40468114.3, "CurrentBalanceWithSubAccounts": -40468114.3, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "84", "SyncToken": "1", "MetaData": {"CreateTime": "2021-02-15T14:49:29-08:00",
+        "LastUpdatedTime": "2026-09-25T13:44:34-07:00"}}, {"Name": "Fake-Brian Williamson",
+        "SubAccount": true, "ParentRef": {"value": "84"}, "Description": "-Fallback-scrubbed-kVsIUFTHEGGJJUbhkQavBsByVjN",
+        "FullyQualifiedName": "-Fallback-scrubbed-SRNpYwhUGtRgKMVYebZcrTNdihjDdYkVoVM",
+        "Active": true, "Classification": "Asset", "AccountType": "Accounts Receivable",
+        "AccountSubType": "AccountsReceivable", "AcctNum": "167", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "1150040004",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2025-07-08T06:21:35-07:00",
+        "LastUpdatedTime": "2025-07-08T06:21:35-07:00"}}, {"Name": "Fake-Michelle
+        Thomas", "SubAccount": false, "FullyQualifiedName": "Fake-Michelle Thomas",
+        "Active": true, "Classification": "Asset", "AccountType": "Accounts Receivable",
+        "AccountSubType": "AccountsReceivable", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "CAD", "name": "Fake-Elizabeth Pitts DVM"}, "domain":
+        "QBO", "sparse": false, "Id": "105", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2025-05-30T08:52:51-07:00", "LastUpdatedTime": "2025-05-30T08:52:51-07:00"}},
+        {"Name": "Fake-Daniel Mendoza", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Daniel Mendoza", "Active": true, "Classification": "Asset", "AccountType":
+        "Accounts Receivable", "AccountSubType": "AccountsReceivable", "CurrentBalance":
+        4616.6, "CurrentBalanceWithSubAccounts": 4616.6, "CurrencyRef": {"value":
+        "EUR", "name": "Fake-Sharon Williams"}, "domain": "QBO", "sparse": false,
+        "Id": "101", "SyncToken": "0", "MetaData": {"CreateTime": "2025-05-30T08:46:57-07:00",
+        "LastUpdatedTime": "2025-06-20T13:09:17-07:00"}}, {"Name": "Fake-Yolanda Newton",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Yolanda Newton", "Active":
+        true, "Classification": "Asset", "AccountType": "Accounts Receivable", "AccountSubType":
+        "AccountsReceivable", "CurrentBalance": 119.6, "CurrentBalanceWithSubAccounts":
+        119.6, "CurrencyRef": {"value": "GBP", "name": "Fake-Gary Chavez"}, "domain":
+        "QBO", "sparse": false, "Id": "98", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2025-05-30T07:45:21-07:00", "LastUpdatedTime": "2025-06-12T10:10:46-07:00"}},
+        {"Name": "Fake-Ricardo Simmons", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Ricardo Simmons", "Active": true, "Classification": "Liability", "AccountType":
+        "Other Current Liability", "AccountSubType": "DeferredRevenue", "AcctNum":
+        "787878", "CurrentBalance": -12954.58, "CurrentBalanceWithSubAccounts": -12954.58,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040016", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-01-16T12:25:46-08:00", "LastUpdatedTime": "2026-10-07T07:53:21-07:00"}},
+        {"Name": "Fake-Anthony Henderson", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Anthony Henderson", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "AdvertisingPromotional", "CurrentBalance": 0,
+        "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "7", "SyncToken":
+        "1", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00", "LastUpdatedTime":
+        "2025-08-11T14:18:38-07:00"}}, {"Name": "Fake-Nancy Martin", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Nancy Martin", "Active": true, "Classification":
+        "Liability", "AccountType": "Other Current Liability", "AccountSubType": "GlobalTaxPayable",
+        "CurrentBalance": -1285.97, "CurrentBalanceWithSubAccounts": -1285.97, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "89", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-17T12:17:04-08:00",
+        "LastUpdatedTime": "2025-12-08T08:32:12-08:00"}}, {"Name": "Fake-Rita Wallace",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Rita Wallace", "Active":
+        true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Auto", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "55", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:15:53-08:00",
+        "LastUpdatedTime": "2021-02-15T10:16:05-08:00"}}, {"Name": "Fake-Michael Olson",
+        "SubAccount": true, "ParentRef": {"value": "55"}, "FullyQualifiedName": "-Fallback-scrubbed-pZkhRTtHZJqGLXy",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Auto", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "56", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:16:05-08:00",
+        "LastUpdatedTime": "2021-02-15T10:16:05-08:00"}}, {"Name": "Fake-Gregory Young",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-QgIqALQsRjQOWOwjjtveJhPlWJtegSVORK",
+        "FullyQualifiedName": "Fake-Gregory Young", "Active": true, "Classification":
+        "Liability", "AccountType": "Other Current Liability", "AccountSubType": "OtherCurrentLiabilities",
+        "AcctNum": "-Fallback-scrubbed-NMgyNOFRZ", "CurrentBalance": -52224.8, "CurrentBalanceWithSubAccounts":
+        -52224.8, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "1150040009", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2025-08-29T08:22:48-07:00", "LastUpdatedTime": "2026-10-07T07:53:43-07:00"}},
+        {"Name": "Fake-Kevin Saunders", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Kevin Saunders", "Active": true, "Classification": "Asset", "AccountType":
+        "Other Current Asset", "AccountSubType": "AllowanceForBadDebts", "AcctNum":
+        "-Fallback-scrubbed-SowieClkFNdJ", "CurrentBalance": 650.0, "CurrentBalanceWithSubAccounts":
+        650.0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040012", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2025-12-12T08:12:30-08:00", "LastUpdatedTime": "2025-12-12T08:19:33-08:00"}},
+        {"Name": "Fake-Roger Bush", "SubAccount": false, "Description": "-Fallback-scrubbed-QaqBjrZeoaNLWzCCqpTaoCmecDVIlqdbikQwgXbPQTHojFpyjFmU",
+        "FullyQualifiedName": "Fake-Roger Bush", "Active": true, "Classification":
+        "Expense", "AccountType": "Cost of Goods Sold", "AccountSubType": "SuppliesMaterialsCogs",
+        "AcctNum": "-Fallback-scrubbed-NMInFpcVgIeBHZS", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040007", "SyncToken": "4", "MetaData":
+        {"CreateTime": "2025-08-13T08:08:16-07:00", "LastUpdatedTime": "2025-08-29T08:19:14-07:00"}},
+        {"Name": "Fake-Louis Hernandez", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Louis Hernandez", "Active": true, "Classification": "Asset", "AccountType":
+        "Bank", "AccountSubType": "CashOnHand", "AcctNum": "-Fallback-scrubbed-uUswSAiA",
+        "CurrentBalance": 1200.0, "CurrentBalanceWithSubAccounts": 1200.0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040013", "SyncToken": "0", "MetaData": {"CreateTime": "2025-12-12T08:40:18-08:00",
+        "LastUpdatedTime": "2025-12-12T08:40:18-08:00"}}, {"Name": "Fake-Brittany
+        Miller", "SubAccount": false, "FullyQualifiedName": "Fake-Brittany Miller",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "BankCharges", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "8", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00",
+        "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}}, {"Name": "Fake-Luis Ryan",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-WwLVGbNvaXFsNrxgcZmDgDkZUqMpv",
+        "FullyQualifiedName": "Fake-Luis Ryan", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6170", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040079", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:58-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:58-07:00"}}, {"Name": "Fake-Anne Fisher",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-fkinzsRrgKRHzhbtDXdRWjLAhxDuPNrdbpB",
+        "FullyQualifiedName": "Fake-Anne Fisher", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "OtherPrimaryIncome",
+        "AcctNum": "4030", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040058", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:00:55-07:00", "LastUpdatedTime": "2026-09-25T11:00:55-07:00"}},
+        {"Name": "Fake-Danielle Clark", "SubAccount": false, "Description": "-Fallback-scrubbed-rTdgGeqPoeYHjppTTwssQi",
+        "FullyQualifiedName": "Fake-Danielle Clark", "Active": true, "Classification":
+        "Expense", "AccountType": "Cost of Goods Sold", "AccountSubType": "CostOfLaborCos",
+        "AcctNum": "5010", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040059", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:00:56-07:00", "LastUpdatedTime": "2026-09-25T11:00:56-07:00"}},
+        {"Name": "Fake-Christopher Henry", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Christopher Henry", "Active": true, "Classification": "Revenue", "AccountType":
+        "Income", "AccountSubType": "ServiceFeeIncome", "AcctNum": "1212", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "85", "SyncToken":
+        "1", "MetaData": {"CreateTime": "2021-02-15T14:54:12-08:00", "LastUpdatedTime":
+        "2024-02-05T05:22:06-08:00"}}, {"Name": "Fake-Jeffery Williams", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Jeffery Williams", "Active": true, "Classification":
+        "Liability", "AccountType": "Other Current Liability", "AccountSubType": "GlobalTaxPayable",
+        "AcctNum": "5432", "CurrentBalance": -414.52, "CurrentBalanceWithSubAccounts":
+        -414.52, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "90", "SyncToken": "1", "MetaData":
+        {"CreateTime": "2021-02-17T12:17:04-08:00", "LastUpdatedTime": "2024-04-22T20:07:19-07:00"}},
+        {"Name": "Fake-Joseph Campbell", "SubAccount": false, "Description": "-Fallback-scrubbed-vgyhrJZEHhwPVPslHeNwqxFagGyospXRDCpcpkAe",
+        "FullyQualifiedName": "Fake-Joseph Campbell", "Active": true, "Classification":
+        "Liability", "AccountType": "Credit Card", "AccountSubType": "CreditCard",
+        "AcctNum": "2000", "CurrentBalance": -213707.29, "CurrentBalanceWithSubAccounts":
+        -213707.29, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "1150040082", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T12:10:41-07:00", "LastUpdatedTime": "2026-09-25T13:54:07-07:00"}},
+        {"Name": "Fake-Kimberly Morris", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Kimberly Morris", "Active": true, "Classification": "Liability", "AccountType":
+        "Other Current Liability", "AccountSubType": "GlobalTaxPayable", "CurrentBalance":
+        -14.43, "CurrentBalanceWithSubAccounts": -14.43, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "95", "SyncToken": "0", "MetaData": {"CreateTime": "2023-08-24T15:32:18-07:00",
+        "LastUpdatedTime": "2026-09-25T13:36:29-07:00"}}, {"Name": "Fake-Phillip Mathis",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Phillip Mathis", "Active":
+        true, "Classification": "Asset", "AccountType": "Bank", "AccountSubType":
+        "Checking", "CurrentBalance": 99800.0, "CurrentBalanceWithSubAccounts": 99800.0,
+        "CurrencyRef": {"value": "CAD", "name": "Fake-Elizabeth Pitts DVM"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040010", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2025-09-30T09:19:48-07:00", "LastUpdatedTime": "2025-09-30T09:25:35-07:00"}},
+        {"Name": "Fake-Natasha Miller", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Natasha Miller", "Active": true, "Classification": "Asset", "AccountType":
+        "Other Asset", "AccountSubType": "OrganizationalCosts", "CurrentBalance":
+        600.0, "CurrentBalanceWithSubAccounts": 600.0, "CurrencyRef": {"value": "CAD",
+        "name": "Fake-Elizabeth Pitts DVM"}, "domain": "QBO", "sparse": false, "Id":
+        "1150040011", "SyncToken": "0", "MetaData": {"CreateTime": "2025-09-30T09:22:17-07:00",
+        "LastUpdatedTime": "2025-09-30T14:06:06-07:00"}}, {"Name": "Fake-Mrs. Taylor
+        Williams DVM", "SubAccount": false, "FullyQualifiedName": "Fake-Mrs. Taylor
+        Williams DVM", "Active": true, "Classification": "Asset", "AccountType": "Bank",
+        "AccountSubType": "CashOnHand", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040086", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-10-09T13:49:45-07:00", "LastUpdatedTime": "2026-10-09T13:49:45-07:00"}},
+        {"Name": "Fake-Donald Barnes", "SubAccount": false, "Description": "-Fallback-scrubbed-HLUKCYzvDlvZBVaHObOtRPHCMQGOJZu",
+        "FullyQualifiedName": "Fake-Donald Barnes", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "OtherPrimaryIncome",
+        "AcctNum": "4020", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040057", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:00:55-07:00", "LastUpdatedTime": "2026-09-25T11:00:55-07:00"}},
+        {"Name": "Fake-Shawna Cunningham", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Shawna Cunningham", "Active": true, "Classification": "Asset", "AccountType":
+        "Bank", "AccountSubType": "Checking", "CurrentBalance": 16255.99, "CurrentBalanceWithSubAccounts":
+        16255.99, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "35", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-14T12:08:20-08:00", "LastUpdatedTime": "2026-10-12T08:56:37-07:00"}},
+        {"Name": "Fake-Stacey Freeman", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Stacey Freeman", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "OtherMiscellaneousServiceCost", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "9", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00", "LastUpdatedTime":
+        "2021-02-10T14:42:07-08:00"}}, {"Name": "Fake-Jeff Oconnell", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Jeff Oconnell", "Active": true, "Classification":
+        "Expense", "AccountType": "Cost of Goods Sold", "AccountSubType": "SuppliesMaterialsCogs",
+        "AcctNum": "605100", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "80", "SyncToken": "1", "MetaData": {"CreateTime":
+        "2021-02-15T10:36:04-08:00", "LastUpdatedTime": "2022-09-09T12:29:55-07:00"}},
+        {"Name": "Fake-Jennifer Avery", "SubAccount": false, "Description": "-Fallback-scrubbed-PsgpcyguHfuPpDXPKKaMXRRE",
+        "FullyQualifiedName": "Fake-Jennifer Avery", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6100", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040073", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Brad Davis",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Brad Davis", "Active": true,
+        "Classification": "Asset", "AccountType": "Accounts Receivable", "AccountSubType":
+        "AccountsReceivable", "AcctNum": "2400", "CurrentBalance": 125424.36, "CurrentBalanceWithSubAccounts":
+        125424.36, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "91", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2022-06-26T20:56:05-07:00", "LastUpdatedTime": "2025-05-28T12:50:07-07:00"}},
+        {"Name": "Fake-Jennifer Williams", "SubAccount": false, "Description": "-Fallback-scrubbed-ZBOEgoVkYCYZwRtDxOhPjKIwChVoTpKYYUzxYEoBOaSeuKYIweI",
+        "FullyQualifiedName": "Fake-Jennifer Williams", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "OtherPrimaryIncome",
+        "AcctNum": "4040", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040053", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:00:55-07:00", "LastUpdatedTime": "2026-09-25T11:00:55-07:00"}},
+        {"Name": "Fake-Sherry Garcia", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Sherry Garcia", "Active": true, "Classification": "Expense", "AccountType":
+        "Other Expense", "AccountSubType": "Depreciation", "AcctNum": "2939", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "40", "SyncToken":
+        "1", "MetaData": {"CreateTime": "2021-02-14T12:11:07-08:00", "LastUpdatedTime":
+        "2023-03-03T11:46:53-08:00"}}, {"Name": "Fake-Samantha Burke", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Samantha Burke", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "OtherPrimaryIncome",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "82", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:40:45-08:00",
+        "LastUpdatedTime": "2021-02-15T10:40:45-08:00"}}, {"Name": "Fake-Phillip Garza",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-ooWiHwDvaNadtxUHuDtkCHWwzqoshyVkS",
+        "FullyQualifiedName": "Fake-Phillip Garza", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "OtherPrimaryIncome",
+        "AcctNum": "4000", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040055", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:00:55-07:00", "LastUpdatedTime": "2026-09-25T11:00:55-07:00"}},
+        {"Name": "Fake-Carol Martinez", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Carol Martinez", "Active": true, "Classification": "Revenue", "AccountType":
+        "Income", "AccountSubType": "DiscountsRefundsGiven", "CurrentBalance": 0,
+        "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "86", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2021-02-15T14:54:12-08:00", "LastUpdatedTime":
+        "2021-02-15T14:54:12-08:00"}}, {"Name": "Fake-Ann Randall", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Ann Randall", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "OtherMiscellaneousServiceCost",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "28", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00",
+        "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}}, {"Name": "Fake-Courtney
+        Garcia", "SubAccount": false, "FullyQualifiedName": "Fake-Courtney Garcia",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "DuesSubscriptions", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "10", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Joseph Marshall", "SubAccount": false, "Description": "-Fallback-scrubbed-zhQfYfzkFivMRNQmvbxJVXdeqiBFXsvzXA",
+        "FullyQualifiedName": "Fake-Joseph Marshall", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6030", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040062", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:56-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:56-07:00"}}, {"Name": "Fake-Courtney
+        Martinez", "SubAccount": false, "FullyQualifiedName": "Fake-Courtney Martinez",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "EquipmentRental", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "29", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Valerie Mills DDS", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Valerie Mills DDS", "Active": true, "Classification": "Expense", "AccountType":
+        "Other Expense", "AccountSubType": "ExchangeGainOrLoss", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "107", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2025-05-30T09:17:05-07:00", "LastUpdatedTime":
+        "2025-05-30T09:17:05-07:00"}}, {"Name": "Fake-Crystal Ellis", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Crystal Ellis", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "ServiceFeeIncome",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "5", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00",
+        "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}}, {"Name": "Fake-Brittany
+        Todd", "SubAccount": false, "Description": "-Fallback-scrubbed-CLFEzWTFgtnzXlmMuEoHycJpvzBSQXwCuSi",
+        "FullyQualifiedName": "Fake-Brittany Todd", "Active": true, "Classification":
+        "Asset", "AccountType": "Other Current Asset", "AccountSubType": "EmployeeCashAdvances",
+        "AcctNum": "1200", "CurrentBalance": -11921.62, "CurrentBalanceWithSubAccounts":
+        -11921.62, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "1150040078", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:00:58-07:00", "LastUpdatedTime": "2026-09-25T13:54:07-07:00"}},
+        {"Name": "Fake-Andrew Roberts", "SubAccount": false, "Description": "-Fallback-scrubbed-xvTxGNEXGuoiSJDOinqdaHHALZPXb",
+        "FullyQualifiedName": "Fake-Andrew Roberts", "Active": true, "Classification":
+        "Expense", "AccountType": "Cost of Goods Sold", "AccountSubType": "CostOfLaborCos",
+        "AcctNum": "5000", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040054", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:00:55-07:00", "LastUpdatedTime": "2026-09-25T11:00:55-07:00"}},
+        {"Name": "Fake-Roger Davis", "SubAccount": false, "Description": "-Fallback-scrubbed-gkgpWNUMJRLKjmOQqdSAPkzCOcyBohzkZh",
+        "FullyQualifiedName": "Fake-Roger Davis", "Active": true, "Classification":
+        "Asset", "AccountType": "Other Asset", "AccountSubType": "Licenses", "AcctNum":
+        "1510", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040080", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:18:36-07:00",
+        "LastUpdatedTime": "2026-09-25T11:18:36-07:00"}}, {"Name": "Fake-Jessica Roy",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Jessica Roy", "Active": true,
+        "Classification": "Liability", "AccountType": "Other Current Liability", "AccountSubType":
+        "OtherCurrentLiabilities", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040085", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-10-09T13:47:25-07:00", "LastUpdatedTime": "2026-10-09T13:47:25-07:00"}},
+        {"Name": "Fake-Kristi Simmons", "SubAccount": false, "Description": "-Fallback-scrubbed-jnVGrbUxKguuLTyYRYCqQTmOYOuSlbVxWFQpghRVygCWNKrHMSKtodMPYrFsFfC",
+        "FullyQualifiedName": "Fake-Kristi Simmons", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "1150040020",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T10:31:08-07:00",
+        "LastUpdatedTime": "2026-08-17T10:31:08-07:00"}}, {"Name": "Fake-Derek Gordon",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Derek Gordon", "Active":
+        true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040017", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T10:05:57-07:00",
+        "LastUpdatedTime": "2026-08-17T10:05:57-07:00"}}, {"Name": "Fake-David Cohen",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-WpJpEgyKTybpjDWsmFKH",
+        "FullyQualifiedName": "Fake-David Cohen", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "1150040026",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T12:12:01-07:00",
+        "LastUpdatedTime": "2026-08-17T12:12:18-07:00"}}, {"Name": "Fake-Joseph House",
+        "SubAccount": true, "ParentRef": {"value": "1150040026"}, "Description": "-Fallback-scrubbed-WTeTkNecXQDJLhdQfgwfZtEoiIBvYFI",
+        "FullyQualifiedName": "-Fallback-scrubbed-sBJewWgLwKlZmqRqLfP", "Active":
+        true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040027", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T12:12:18-07:00",
+        "LastUpdatedTime": "2026-08-17T12:12:34-07:00"}}, {"Name": "Fake-Emily Stout",
+        "SubAccount": true, "ParentRef": {"value": "1150040027"}, "Description": "-Fallback-scrubbed-upxKOFUZstHZEJnORZxpaSFhmtEKAWwvnw",
+        "FullyQualifiedName": "-Fallback-scrubbed-CmvwRsRCZucFZHsQNtHMRojNmMKOa",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040028", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T12:12:34-07:00",
+        "LastUpdatedTime": "2026-08-17T12:12:51-07:00"}}, {"Name": "Fake-Bridget Briggs",
+        "SubAccount": true, "ParentRef": {"value": "1150040028"}, "Description": "-Fallback-scrubbed-wqsNkcjEoxPlqEFkpQhTGtDMrzrElvOgpx",
+        "FullyQualifiedName": "-Fallback-scrubbed-fipVrQnMXQkmLWPOxQnvojRPZixrxvMzLDZmEpb",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040029", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T12:12:51-07:00",
+        "LastUpdatedTime": "2026-08-17T12:13:07-07:00"}}, {"Name": "Fake-Robert Morse",
+        "SubAccount": true, "ParentRef": {"value": "1150040029"}, "Description": "-Fallback-scrubbed-wKUPymLvZzaoujqIyIfzAShVJCdOKINZQeQHDuEoHAWM",
+        "FullyQualifiedName": "-Fallback-scrubbed-nZbUgvUmiSpYbMhYfYQnasAEGOZzYzSLiFOdWbsIOVBQCYMIU",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040030", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T12:13:07-07:00",
+        "LastUpdatedTime": "2026-08-17T12:13:07-07:00"}}, {"Name": "Fake-Anthony Rodriguez",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-TIHCMyYfyVMWtTBshwuAOmUtxQfKSwNKxelFLumCoDYYfyjbuUTDdFGCXsLKHuMmpyqdFEZE",
+        "FullyQualifiedName": "Fake-Anthony Rodriguez", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6999", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040024", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T10:31:58-07:00",
+        "LastUpdatedTime": "2026-08-17T10:31:58-07:00"}}, {"Name": "Fake-Katie Wilson",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-PtIHqbSDqZMLwRZpEnWADvnWrVMFzWUVIHtalqTTVBX",
+        "FullyQualifiedName": "Fake-Katie Wilson", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "CAD", "name":
+        "Fake-Elizabeth Pitts DVM"}, "domain": "QBO", "sparse": false, "Id": "1150040033",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T12:40:40-07:00",
+        "LastUpdatedTime": "2026-08-17T12:40:40-07:00"}}, {"Name": "Fake-Mrs. Tracey
+        Hutchinson DDS", "SubAccount": false, "Description": "-Fallback-scrubbed-iJQnhJuXqiWMLyozEVFnffKxcZHIOeAEm",
+        "FullyQualifiedName": "Fake-Mrs. Tracey Hutchinson DDS", "Active": true, "Classification":
+        "Asset", "AccountType": "Bank", "AccountSubType": "CashOnHand", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "CAD", "name":
+        "Fake-Elizabeth Pitts DVM"}, "domain": "QBO", "sparse": false, "Id": "1150040018",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T10:28:55-07:00",
+        "LastUpdatedTime": "2026-08-17T10:28:55-07:00"}}, {"Name": "Fake-Dylan Price",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-WpJpEgyKTybpjDWsmFKH",
+        "FullyQualifiedName": "Fake-Dylan Price", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "1150040036",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-18T06:00:59-07:00",
+        "LastUpdatedTime": "2026-08-18T06:06:32-07:00"}}, {"Name": "Fake-Fred Moore",
+        "SubAccount": true, "ParentRef": {"value": "1150040036"}, "Description": "-Fallback-scrubbed-rMKOqqctNMhFbAywgdroNdeBXAKfwRoo",
+        "FullyQualifiedName": "-Fallback-scrubbed-LZmUGmSFFSKaxOTttVjMu", "Active":
+        true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040037", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-18T06:06:32-07:00",
+        "LastUpdatedTime": "2026-08-18T06:06:50-07:00"}}, {"Name": "Fake-Joseph Miller",
+        "SubAccount": true, "ParentRef": {"value": "1150040037"}, "Description": "-Fallback-scrubbed-upxKOFUZstHZEJnORZxpaSFhmtEKAWwvnw",
+        "FullyQualifiedName": "-Fallback-scrubbed-upKannfobsNxvxfjwxqdeuGNOdCTRGam",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040038", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-18T06:06:50-07:00",
+        "LastUpdatedTime": "2026-08-18T06:06:51-07:00"}}, {"Name": "Fake-Lauren Hamilton",
+        "SubAccount": true, "ParentRef": {"value": "1150040038"}, "Description": "-Fallback-scrubbed-wqsNkcjEoxPlqEFkpQhTGtDMrzrElvOgpx",
+        "FullyQualifiedName": "-Fallback-scrubbed-tTYYzBiqJxkQWhTlUyvnYeurFTWaZnYwgEYrnhGVQaW",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040039", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-18T06:06:51-07:00",
+        "LastUpdatedTime": "2026-08-18T06:06:53-07:00"}}, {"Name": "Fake-Frederick
+        Avila", "SubAccount": true, "ParentRef": {"value": "1150040039"}, "Description":
+        "-Fallback-scrubbed-VJSMYzOePHmaoqMjIBYIFvGoaFlNTSlYcigihnXXmi", "FullyQualifiedName":
+        "-Fallback-scrubbed-ECeFqUTjFaCdCAQdTZnupbGtJjKVRrEjVOYizMOgqgFWVIKLQBNwRi",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040040", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-18T06:06:53-07:00",
+        "LastUpdatedTime": "2026-08-18T06:06:53-07:00"}}, {"Name": "Fake-Matthew Perkins",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-YFDJMXcLEiGUIqUFXTEODQCrhRxbTnJsVCGtCYvsYIPy",
+        "FullyQualifiedName": "Fake-Matthew Perkins", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "CAD", "name":
+        "Fake-Elizabeth Pitts DVM"}, "domain": "QBO", "sparse": false, "Id": "1150040034",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T12:52:50-07:00",
+        "LastUpdatedTime": "2026-08-17T12:52:50-07:00"}}, {"Name": "Fake-John Torres",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-PtIHqbSDqZMLwRZpEnWADvnWrVMFzWUVIHtalqTTVBX",
+        "FullyQualifiedName": "Fake-John Torres", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "CAD", "name":
+        "Fake-Elizabeth Pitts DVM"}, "domain": "QBO", "sparse": false, "Id": "1150040035",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T12:52:50-07:00",
+        "LastUpdatedTime": "2026-08-17T12:52:50-07:00"}}, {"Name": "Fake-Jennifer
+        Williams", "SubAccount": false, "Description": "-Fallback-scrubbed-etdkTRKEntymhDAKbpIuoq",
+        "FullyQualifiedName": "Fake-Jennifer Williams", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "990101", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040042", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-18T13:20:26-07:00",
+        "LastUpdatedTime": "2026-08-18T15:03:38-07:00"}}, {"Name": "Fake-Richard Walton",
+        "SubAccount": true, "ParentRef": {"value": "1150040042"}, "Description": "-Fallback-scrubbed-mnCZUqpqqKZSNFnfmoswJFDC",
+        "FullyQualifiedName": "-Fallback-scrubbed-KrxcjcCUmkrrTsziiXbToqLGaHmEzMWSXskWG",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "AcctNum": "990102", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040044", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-08-18T13:20:27-07:00", "LastUpdatedTime": "2026-08-18T13:20:27-07:00"}},
+        {"Name": "Fake-Garrett Nelson", "SubAccount": false, "Description": "-Fallback-scrubbed-etdkTRKEntymhDAKbpIuoq",
+        "FullyQualifiedName": "Fake-Garrett Nelson", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "990101", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040043", "SyncToken": "3", "MetaData": {"CreateTime": "2026-08-18T13:20:26-07:00",
+        "LastUpdatedTime": "2026-09-08T02:53:06-07:00"}}, {"Name": "Fake-Taylor Peterson",
+        "SubAccount": true, "ParentRef": {"value": "1150040043"}, "Description": "-Fallback-scrubbed-jyoXFoWyvkqAqSUIapcJWnI",
+        "FullyQualifiedName": "-Fallback-scrubbed-xxKFEzoQLsSIUpIDhBbLFAAbsAYjOfpZXkobIfOorqPfFQCYaxVPXiEAbsogILGncjQ",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "AcctNum": "990102", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040045", "SyncToken": "4", "MetaData":
+        {"CreateTime": "2026-08-18T13:20:27-07:00", "LastUpdatedTime": "2026-09-22T03:21:25-07:00"}},
+        {"Name": "Fake-Beth Bell", "SubAccount": true, "ParentRef": {"value": "1150040045"},
+        "Description": "-Fallback-scrubbed-FweUeIXViOZulnoGEsvMXsnNUGwyx", "FullyQualifiedName":
+        "-Fallback-scrubbed-CIIFDShLlsoUKFVfYfMiWAIQiZdjHFDLdnhQUvpoDtVbJkvBDhggfssmOgxhDDmWqUFbAIArUBJFTcleDTzNim",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "AcctNum": "990103", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040046", "SyncToken": "3", "MetaData":
+        {"CreateTime": "2026-08-18T13:20:28-07:00", "LastUpdatedTime": "2026-10-02T11:25:36-07:00"}},
+        {"Name": "Fake-Terry Patton", "SubAccount": true, "ParentRef": {"value": "1150040045"},
+        "Description": "-Fallback-scrubbed-FweUeIXViOZulnoGEsvMXsnNUGwyx", "FullyQualifiedName":
+        "-Fallback-scrubbed-fPuUdhSBprMrrhSUVHutYHoOtPbNHmAsooOttfkZPAoozCXKCilfRKGZDjFsobgOIPphAtVytEmJRNUpmbWFyJnFFFVOWbxgZvzLL",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "AcctNum": "990103", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040047", "SyncToken": "5", "MetaData":
+        {"CreateTime": "2026-08-18T13:20:28-07:00", "LastUpdatedTime": "2026-10-02T11:25:36-07:00"}},
+        {"Name": "Fake-Kevin Brown", "SubAccount": true, "ParentRef": {"value": "1150040047"},
+        "Description": "-Fallback-scrubbed-erJFGYiHQuJZMuHYcu", "FullyQualifiedName":
+        "-Fallback-scrubbed-xJYvMDTAmeGLCHkHlTjuddaOmAUDtNSddLkDMwcjxyACSFzRWVywhQXWwtzBuuLavuNLLooNQNUwIYwPjnDuLfBYFhQKgiVIgRkpRsDDNJYdLmjyAZBGgjKG",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "AcctNum": "990104", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040048", "SyncToken": "5", "MetaData":
+        {"CreateTime": "2026-08-18T13:20:29-07:00", "LastUpdatedTime": "2026-10-04T11:46:40-07:00"}},
+        {"Name": "Fake-Jean Beasley", "SubAccount": true, "ParentRef": {"value": "1150040048"},
+        "Description": "-Fallback-scrubbed-IBpslOKPUMVCQrjvRKfdSCMqKOyuaeHhNer", "FullyQualifiedName":
+        "-Fallback-scrubbed-lWTfMtYvKVOjbnoImKZrehujgjaRNvcGkhmoqkMYOgcBXpGPUvXxiDmrheCDRQIaYTeVxQpDkmsvpGRprpBrtgsjfOcPdPEIkPWKFoGmkkYjPTtnHrheBiwdezMtAIiVrblcolOxvsw",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "AcctNum": "990105", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040050", "SyncToken": "4", "MetaData":
+        {"CreateTime": "2026-08-18T13:20:30-07:00", "LastUpdatedTime": "2026-10-06T09:48:11-07:00"}},
+        {"Name": "Fake-Gregory Diaz", "SubAccount": true, "ParentRef": {"value": "1150040048"},
+        "Description": "-Fallback-scrubbed-IBpslOKPUMVCQrjvRKfdSCMqKOyuaeHhNer", "FullyQualifiedName":
+        "-Fallback-scrubbed-vARZykULyrljAmisQiuGkmSDZHkwewBXVGjWlWgevBCliHfdIxxXGLxEnHiqfHeqyjIakCYsqaiTtgNEdqiOdbTnyDgGzsuZKmZwaPhFrjDsXiQmgPDqrzAyFYuGgubcGaDBVGjkoegKbwVEtTPPbNoLSu",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "AcctNum": "990105", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040051", "SyncToken": "7", "MetaData":
+        {"CreateTime": "2026-08-18T13:20:30-07:00", "LastUpdatedTime": "2026-10-06T09:48:11-07:00"}},
+        {"Name": "Fake-Mr. Dustin Garcia", "SubAccount": false, "Description": "-Fallback-scrubbed-yJCbSvRjPJkgLolEWclnemstldniXkIm",
+        "FullyQualifiedName": "Fake-Mr. Dustin Garcia", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "1150040023",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T10:31:42-07:00",
+        "LastUpdatedTime": "2026-08-17T10:31:42-07:00"}}, {"Name": "Fake-Nicole Mendoza",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Nicole Mendoza", "Active":
+        true, "Classification": "Asset", "AccountType": "Bank", "AccountSubType":
+        "Checking", "AcctNum": "1234556434", "CurrentBalance": -88669.52, "CurrentBalanceWithSubAccounts":
+        -88669.52, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "1150040000", "SyncToken": "1", "MetaData":
+        {"CreateTime": "2025-05-14T09:45:40-07:00", "LastUpdatedTime": "2026-10-12T09:08:12-07:00"}},
+        {"Name": "Fake-Jade Christensen", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Jade Christensen", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "Insurance", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "11", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-15T10:17:24-08:00"}},
+        {"Name": "Fake-Devon Yates", "SubAccount": true, "ParentRef": {"value": "11"},
+        "FullyQualifiedName": "-Fallback-scrubbed-wHtxehHNBDWgfzYovyzCldUXBUloYP",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Insurance", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "57", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:17:24-08:00",
+        "LastUpdatedTime": "2021-02-15T10:17:24-08:00"}}, {"Name": "Fake-Katherine
+        Atkinson", "SubAccount": false, "Description": "-Fallback-scrubbed-fEiHqMWnVYWLcnoUkMUAZAXTWpFQNnhKwxYyhsGD",
+        "FullyQualifiedName": "Fake-Katherine Atkinson", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6080", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040069", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Susan Miller",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Susan Miller", "Active":
+        true, "Classification": "Revenue", "AccountType": "Other Income", "AccountSubType":
+        "InterestEarned", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "25", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Joseph Scott", "SubAccount": false, "FullyQualifiedName": "Fake-Joseph
+        Scott", "Active": true, "Classification": "Asset", "AccountType": "Other Current
+        Asset", "AccountSubType": "Inventory", "CurrentBalance": 42949685941.74, "CurrentBalanceWithSubAccounts":
+        42949685941.74, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "81", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-15T10:36:05-08:00", "LastUpdatedTime": "2026-10-12T08:29:53-07:00"}},
+        {"Name": "Fake-Andres Dixon", "SubAccount": false, "FullyQualifiedName": "Fake-Andres
+        Dixon", "Active": true, "Classification": "Expense", "AccountType": "Cost
+        of Goods Sold", "AccountSubType": "SuppliesMaterialsCogs", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "93", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2023-02-10T23:12:36-08:00", "LastUpdatedTime":
+        "2023-02-10T23:12:36-08:00"}}, {"Name": "Fake-Jeffrey Thompson", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Jeffrey Thompson", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "OtherMiscellaneousServiceCost",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "58", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:18:01-08:00",
+        "LastUpdatedTime": "2021-02-15T10:24:32-08:00"}}, {"Name": "Fake-Joshua Day",
+        "SubAccount": true, "ParentRef": {"value": "58"}, "FullyQualifiedName": "-Fallback-scrubbed-TkaRaJGsoDENsemoZlLgOHkyxT",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "OtherMiscellaneousServiceCost", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "59", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:18:46-08:00", "LastUpdatedTime": "2021-02-15T10:19:26-08:00"}},
+        {"Name": "Fake-Kristin Anderson", "SubAccount": true, "ParentRef": {"value":
+        "59"}, "FullyQualifiedName": "-Fallback-scrubbed-KTFglbtdBmjaZjbsgxVeJAxYsMiuvQFeUoyxSuF",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "OtherMiscellaneousServiceCost", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "60", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:19:07-08:00", "LastUpdatedTime": "2021-02-15T10:19:07-08:00"}},
+        {"Name": "Fake-Melissa Tate", "SubAccount": true, "ParentRef": {"value": "59"},
+        "FullyQualifiedName": "-Fallback-scrubbed-LmCjxQANHVEIpJZNLtSbVkKypDaZVzeYwGNQpdtqfFRCpvtFMG",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "OtherMiscellaneousServiceCost", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "61", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:19:26-08:00", "LastUpdatedTime": "2021-02-15T10:19:26-08:00"}},
+        {"Name": "Fake-Courtney Martinez", "SubAccount": true, "ParentRef": {"value":
+        "58"}, "FullyQualifiedName": "-Fallback-scrubbed-WXSCkXwOKgHhlDaiLPkCMmdWINmYI",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "EquipmentRental", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "62", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:19:52-08:00", "LastUpdatedTime": "2021-02-15T10:19:52-08:00"}},
+        {"Name": "Fake-Christopher Brown", "SubAccount": true, "ParentRef": {"value":
+        "58"}, "FullyQualifiedName": "-Fallback-scrubbed-YqAWoogkWbXNrmeCmOhcTyqGEJ",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "SuppliesMaterials", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "63", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:20:21-08:00", "LastUpdatedTime": "2021-02-15T10:23:30-08:00"}},
+        {"Name": "Fake-Sonya Beltran", "SubAccount": true, "ParentRef": {"value":
+        "63"}, "FullyQualifiedName": "-Fallback-scrubbed-jkthdAJwFQwwlobxYZhgSmaNwzBGMsJPgFWqFSALXMU",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "SuppliesMaterials", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "64", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:22:18-08:00", "LastUpdatedTime": "2026-08-17T12:13:40-07:00"}},
+        {"Name": "Fake-Jamie Mendoza", "SubAccount": true, "ParentRef": {"value":
+        "64"}, "Description": "-Fallback-scrubbed-LyLNFsAjqGLmhXEGUpVYyemBzXxXZdoDaLdSFRTnxeXOPIWCU",
+        "FullyQualifiedName": "-Fallback-scrubbed-NxHidvUEjAJkbieBmnayEcXQvUUZHvmRYJhMRHOqOWZJZpEzBmpGdkBxAYaCZUQ",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040019", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T10:30:51-07:00",
+        "LastUpdatedTime": "2026-08-17T10:30:51-07:00"}}, {"Name": "Fake-Tyler Santiago",
+        "SubAccount": true, "ParentRef": {"value": "64"}, "Description": "-Fallback-scrubbed-UxqPaabtvVoNBGpUzWLxOlhciHFMZWwfXlyAahFwrjGzUdQXqZZZTvREmluiOTBVuXkXKhjinODT",
+        "FullyQualifiedName": "-Fallback-scrubbed-PohHIWVXuLFoeAehPWkaOjyKmXNpPvZkwqCfNTLIciuQsUCTGyGrbTmwADuLhzA",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040032", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T12:13:40-07:00",
+        "LastUpdatedTime": "2026-08-17T12:13:40-07:00"}}, {"Name": "Fake-Emily Smith",
+        "SubAccount": true, "ParentRef": {"value": "63"}, "FullyQualifiedName": "-Fallback-scrubbed-MFeixOWXKaVFZWgyVVwxDKeLMeusDtdJeZVquhQgwHtudQQfmOlogjs",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "SuppliesMaterials", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "65", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:22:40-08:00", "LastUpdatedTime": "2021-02-15T10:22:40-08:00"}},
+        {"Name": "Fake-Zachary Warner", "SubAccount": true, "ParentRef": {"value":
+        "63"}, "FullyQualifiedName": "-Fallback-scrubbed-bAlnqVROfqXjfLptbOjrMfTKOylYUZTwgEIOUIFIfs",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "SuppliesMaterials", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "66", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:23:04-08:00", "LastUpdatedTime": "2021-02-15T10:23:04-08:00"}},
+        {"Name": "Fake-Matthew Young", "SubAccount": true, "ParentRef": {"value":
+        "63"}, "FullyQualifiedName": "-Fallback-scrubbed-JVKzViyRhzVzfElvplIQBOzYmSYoiLESuIgHsUxBuhdDBHrYImaPcj",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "SuppliesMaterials", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "67", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:23:30-08:00", "LastUpdatedTime": "2021-02-15T10:23:30-08:00"}},
+        {"Name": "Fake-Matthew Hicks", "SubAccount": true, "ParentRef": {"value":
+        "58"}, "FullyQualifiedName": "-Fallback-scrubbed-uxHzhRiJkHXrEaBXikmZ", "Active":
+        true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "OtherMiscellaneousServiceCost", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "68", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:24:32-08:00", "LastUpdatedTime": "2021-02-15T10:24:32-08:00"}},
+        {"Name": "Fake-Terri Gomez", "SubAccount": false, "Description": "-Fallback-scrubbed-tnGtKFUTiwAnjshHHbHZQnStNQnpFfpXmMrip",
+        "FullyQualifiedName": "Fake-Terri Gomez", "Active": true, "Classification":
+        "Asset", "AccountType": "Other Asset", "AccountSubType": "Licenses", "AcctNum":
+        "1500", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040081", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:18:36-07:00",
+        "LastUpdatedTime": "2026-09-25T11:18:36-07:00"}}, {"Name": "Fake-Connor Curtis",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-QWEzfYwODGrqKoAKTQUNLsSghPuSBCTOXWSySiOElBOunRSqSJ",
+        "FullyQualifiedName": "Fake-Connor Curtis", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6060", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040067", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:56-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:56-07:00"}}, {"Name": "Fake-Jordan Wilson",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Jordan Wilson", "Active":
+        true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "45", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:05:43-08:00", "LastUpdatedTime": "2021-02-15T10:08:54-08:00"}},
+        {"Name": "Fake-Christopher Brown", "SubAccount": true, "ParentRef": {"value":
+        "45"}, "FullyQualifiedName": "-Fallback-scrubbed-fbpMaeUIMtUDpWHvelKevoJorxojzNVvXP",
+        "Active": true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "46", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:06:12-08:00", "LastUpdatedTime": "2021-02-15T10:08:06-08:00"}}],
+        "startPosition": 1, "maxResults": 100}, "bId": "bid1"}], "time": "2026-10-12T09:46:50.555-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:46:50 GMT
+      content-length:
+      - '52123'
+      intuit_tid:
+      - 1-6acd0efa-6bcf37c52407e8584df53b65
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0efa-6bcf37c52407e8584df53b65
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '245'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0efa-6bcf37c52407e8584df53b65
+      x-spanid:
+      - b83b047d-9117-dfb3-fd84-5bc7808d3527
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Account STARTPOSITION 100
+      MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '106'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"Account": [{"Name": "Fake-Christopher
+        Brown", "SubAccount": true, "ParentRef": {"value": "45"}, "FullyQualifiedName":
+        "-Fallback-scrubbed-fbpMaeUIMtUDpWHvelKevoJorxojzNVvXP", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "OtherPrimaryIncome",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "46", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:06:12-08:00",
+        "LastUpdatedTime": "2021-02-15T10:08:06-08:00"}}, {"Name": "Fake-Sonya Beltran",
+        "SubAccount": true, "ParentRef": {"value": "46"}, "FullyQualifiedName": "-Fallback-scrubbed-sCHJDVenOvtHxdrjmomICFtTupUefomSywRYIVkssnHBARzPbXn",
+        "Active": true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "47", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:06:54-08:00", "LastUpdatedTime": "2021-02-15T10:06:54-08:00"}},
+        {"Name": "Fake-Roy Vaughn", "SubAccount": true, "ParentRef": {"value": "46"},
+        "FullyQualifiedName": "-Fallback-scrubbed-LPrcGSTQEdtTmfdNhwToGVjSWcyhSPkxUPZoWdRrgcTzYjgEUirgYsiXrhYYSWne",
+        "Active": true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "48", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:07:22-08:00", "LastUpdatedTime": "2021-02-15T10:07:22-08:00"}},
+        {"Name": "Fake-Zachary Warner", "SubAccount": true, "ParentRef": {"value":
+        "46"}, "FullyQualifiedName": "-Fallback-scrubbed-SRxSfcVlkctsEsRhoQvtexRDLLJCZdrGRDeAexFsmKnynjLSKe",
+        "Active": true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "AcctNum": "7500", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "49", "SyncToken": "1", "MetaData": {"CreateTime":
+        "2021-02-15T10:07:40-08:00", "LastUpdatedTime": "2022-09-09T12:08:05-07:00"}},
+        {"Name": "Fake-Matthew Young", "SubAccount": true, "ParentRef": {"value":
+        "46"}, "FullyQualifiedName": "-Fallback-scrubbed-RUFPlorEdGarNbeKYdwidTRZOQbYIPnWbHUedlQtWKEKOWbsYbxaRHNpZuoJew",
+        "Active": true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "50", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:08:06-08:00", "LastUpdatedTime": "2021-02-15T10:08:06-08:00"}},
+        {"Name": "Fake-Traci Acevedo", "SubAccount": true, "ParentRef": {"value":
+        "45"}, "FullyQualifiedName": "-Fallback-scrubbed-ywqESLVfHBkZjNckoYudmDzmIK",
+        "Active": true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "51", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:08:54-08:00", "LastUpdatedTime": "2021-02-15T10:12:11-08:00"}},
+        {"Name": "Fake-Kristin Anderson", "SubAccount": true, "ParentRef": {"value":
+        "51"}, "FullyQualifiedName": "-Fallback-scrubbed-wWhavDLpHgwWiUBpxBLlbqujfewLSfoBvpvmbTb",
+        "Active": true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "52", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:09:35-08:00", "LastUpdatedTime": "2021-02-15T10:09:35-08:00"}},
+        {"Name": "Fake-Jennifer Nielsen", "SubAccount": true, "ParentRef": {"value":
+        "51"}, "FullyQualifiedName": "-Fallback-scrubbed-HdKMoHGHfhGsYAZPYWKpxjkVkTkSPDsYYiKoSdJaGfuBPFyhx",
+        "Active": true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "53", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:12:11-08:00", "LastUpdatedTime": "2021-02-15T10:12:11-08:00"}},
+        {"Name": "Fake-Alicia Nielsen", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Alicia Nielsen", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "LegalProfessionalFees", "CurrentBalance": 0,
+        "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "12", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00", "LastUpdatedTime":
+        "2026-08-17T10:31:42-07:00"}}, {"Name": "Fake-Robert Smith", "SubAccount":
+        true, "ParentRef": {"value": "12"}, "Description": "-Fallback-scrubbed-mruggoigKtBHWVVPxOeCMZDjBskBkiRxlbeSZnFHVpFypvVNrcDUWgdOnhvxjQoF",
+        "FullyQualifiedName": "-Fallback-scrubbed-ulinZbAcsQwvyEdghqlKZKYYRMixTVYEaJve",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "LegalProfessionalFees", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "69", "SyncToken": "3", "MetaData": {"CreateTime":
+        "2021-02-15T10:25:02-08:00", "LastUpdatedTime": "2026-08-17T10:31:42-07:00"}},
+        {"Name": "Fake-Jerry Thompson", "SubAccount": true, "ParentRef": {"value":
+        "12"}, "FullyQualifiedName": "-Fallback-scrubbed-sGkGaLOCHRaDYUToUHDSzIRcYOXUqoPZxlqY",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "LegalProfessionalFees", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "70", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:25:30-08:00", "LastUpdatedTime": "2021-02-15T10:25:30-08:00"}},
+        {"Name": "Fake-Sonya Beltran", "SubAccount": true, "ParentRef": {"value":
+        "12"}, "Description": "-Fallback-scrubbed-evUpcmMvUFSVVZArnsICrpcVULgQfJIvRSyqSXaCtOaGPHEeXdcuTIRqTdSJgjXRPVPiUNYPaAhFraiPmQLyGFptBpIG",
+        "FullyQualifiedName": "-Fallback-scrubbed-VWvOuodOyNauAOEhccUQVumwIdylTUbGaJojppDAGQ",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040021", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T10:31:24-07:00",
+        "LastUpdatedTime": "2026-08-17T10:31:24-07:00"}}, {"Name": "Fake-Sandra Boyer",
+        "SubAccount": true, "ParentRef": {"value": "12"}, "Description": "-Fallback-scrubbed-CuJmoFWTCBiuSnsAvXcaioyunzyNUsePvoFtZpxAMZrpblYsIA",
+        "FullyQualifiedName": "-Fallback-scrubbed-PjILfxXxxVGjjTcVFWwZuToLijSwrZVajydliVDxvxDFLnJzI",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040022", "SyncToken": "0", "MetaData": {"CreateTime": "2026-08-17T10:31:42-07:00",
+        "LastUpdatedTime": "2026-08-17T10:31:42-07:00"}}, {"Name": "Fake-Aaron Lopez",
+        "SubAccount": true, "ParentRef": {"value": "12"}, "FullyQualifiedName": "-Fallback-scrubbed-AgAtctIuUMaCbMAeotdhXDSMahBtyetQ",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "LegalProfessionalFees", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "71", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:26:24-08:00", "LastUpdatedTime": "2021-02-15T10:26:24-08:00"}},
+        {"Name": "Fake-James Bautista", "SubAccount": false, "Description": "-Fallback-scrubbed-mqnbbnfVAUnZwVllWhHazzBOPFMZmwXTRLwMMsxxJ",
+        "FullyQualifiedName": "Fake-James Bautista", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6090", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040070", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Jesse Carroll",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-YAdgDqmPVgbqifKbunpbAYUesaHaImCHxeBGjL",
+        "FullyQualifiedName": "Fake-Jesse Carroll", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6110", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040071", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Kimberly
+        Benson", "SubAccount": false, "FullyQualifiedName": "Fake-Kimberly Benson",
+        "Active": true, "Classification": "Liability", "AccountType": "Other Current
+        Liability", "AccountSubType": "OtherCurrentLiabilities", "CurrentBalance":
+        -4000.0, "CurrentBalanceWithSubAccounts": -4000.0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "43", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:03:25-08:00",
+        "LastUpdatedTime": "2021-02-15T10:03:25-08:00"}}, {"Name": "Fake-Jennifer
+        Nielsen", "SubAccount": false, "FullyQualifiedName": "Fake-Jennifer Nielsen",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "RepairMaintenance", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "72", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:26:55-08:00", "LastUpdatedTime": "2021-02-15T10:29:17-08:00"}},
+        {"Name": "Fake-Cindy Maxwell", "SubAccount": true, "ParentRef": {"value":
+        "72"}, "FullyQualifiedName": "-Fallback-scrubbed-dGxvHXGSzfKDElvjIEqDoqXZEoDDOOZNICUjRtj",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "RepairMaintenance", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "73", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:27:37-08:00", "LastUpdatedTime": "2021-02-15T10:27:37-08:00"}},
+        {"Name": "Fake-Tyler Pierce", "SubAccount": true, "ParentRef": {"value": "72"},
+        "FullyQualifiedName": "-Fallback-scrubbed-DjrCpbDHcheUEFwnIBKJjleCiZiJRsnLIQcVOVy",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "RepairMaintenance", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "74", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:28:49-08:00", "LastUpdatedTime": "2021-02-15T10:28:49-08:00"}},
+        {"Name": "Fake-Patricia Dudley", "SubAccount": true, "ParentRef": {"value":
+        "72"}, "FullyQualifiedName": "-Fallback-scrubbed-lywCMCRMJceAvGAMdCzKwvtedFUiOKbvGzJsJjoy",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "RepairMaintenance", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "75", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:29:17-08:00", "LastUpdatedTime": "2021-02-15T10:29:17-08:00"}},
+        {"Name": "Fake-Melissa Byrd", "SubAccount": false, "Description": "-Fallback-scrubbed-DHzKlTjCVSaUiqkYOnqRlrQLCKwBlOCaXFzunWMJmplnf",
+        "FullyQualifiedName": "Fake-Melissa Byrd", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6070", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040068", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Vincent Rodriguez",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Vincent Rodriguez", "Active":
+        true, "Classification": "Liability", "AccountType": "Credit Card", "AccountSubType":
+        "CreditCard", "CurrentBalance": -349.22, "CurrentBalanceWithSubAccounts":
+        -349.22, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "41", "SyncToken": "1", "MetaData":
+        {"CreateTime": "2021-02-15T09:59:08-08:00", "LastUpdatedTime": "2026-10-12T09:33:22-07:00"}},
+        {"Name": "Fake-Perry Brown", "SubAccount": false, "FullyQualifiedName": "Fake-Perry
+        Brown", "Active": true, "Classification": "Expense", "AccountType": "Expense",
+        "AccountSubType": "EntertainmentMeals", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "13", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Alicia Anderson", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Alicia Anderson", "Active": true, "Classification": "Expense", "AccountType":
+        "Other Expense", "AccountSubType": "OtherMiscellaneousExpense", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "14", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00", "LastUpdatedTime":
+        "2021-02-10T14:42:07-08:00"}}, {"Name": "Fake-Kendra Murphy", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Kendra Murphy", "Active": true, "Classification":
+        "Liability", "AccountType": "Long Term Liability", "AccountSubType": "OtherLongTermLiabilities",
+        "CurrentBalance": -25000.0, "CurrentBalanceWithSubAccounts": -25000.0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "44", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:04:24-08:00",
+        "LastUpdatedTime": "2021-02-15T10:04:24-08:00"}}, {"Name": "Fake-Jennifer
+        Wiley", "SubAccount": false, "FullyQualifiedName": "Fake-Jennifer Wiley",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "OfficeGeneralAdministrativeExpenses", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "15", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Shelley Brown", "SubAccount": false, "Description": "-Fallback-scrubbed-YtIeTrtXkLqGCihwzATvEmqZDusfgo",
+        "FullyQualifiedName": "Fake-Shelley Brown", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6140", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040076", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Sandra Garza",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Sandra Garza", "Active":
+        true, "Classification": "Equity", "AccountType": "Equity", "AccountSubType":
+        "OpeningBalanceEquity", "CurrentBalance": -244085.89, "CurrentBalanceWithSubAccounts":
+        -244085.89, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "34", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-14T12:08:20-08:00", "LastUpdatedTime": "2026-10-09T09:03:26-07:00"}},
+        {"Name": "Fake-Paige Torres", "SubAccount": false, "Description": "-Fallback-scrubbed-rZieRXyAALtgNLAkfMpEjPZskhvMNN",
+        "FullyQualifiedName": "Fake-Paige Torres", "Active": true, "Classification":
+        "Asset", "AccountType": "Bank", "AccountSubType": "CashOnHand", "AcctNum":
+        "1000", "CurrentBalance": 81004.18, "CurrentBalanceWithSubAccounts": 81004.18,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040083", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T12:10:41-07:00", "LastUpdatedTime": "2026-09-25T13:54:08-07:00"}},
+        {"Name": "Fake-John Raymond", "SubAccount": false, "FullyQualifiedName": "Fake-John
+        Raymond", "Active": true, "Classification": "Revenue", "AccountType": "Income",
+        "AccountSubType": "OtherPrimaryIncome", "AcctNum": "111", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "83", "SyncToken":
+        "1", "MetaData": {"CreateTime": "2021-02-15T10:48:53-08:00", "LastUpdatedTime":
+        "2024-02-05T05:42:53-08:00"}}, {"Name": "Fake-William Meyer", "SubAccount":
+        false, "FullyQualifiedName": "Fake-William Meyer", "Active": true, "Classification":
+        "Revenue", "AccountType": "Other Income", "AccountSubType": "OtherMiscellaneousIncome",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "26", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00",
+        "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}}, {"Name": "Fake-Christopher
+        Callahan", "SubAccount": false, "FullyQualifiedName": "Fake-Christopher Callahan",
+        "Active": true, "Classification": "Liability", "AccountType": "Other Current
+        Liability", "AccountSubType": "GlobalTaxPayable", "CurrentBalance": -28.73,
+        "CurrentBalanceWithSubAccounts": -28.73, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "96", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2023-08-24T15:32:19-07:00", "LastUpdatedTime":
+        "2026-04-29T08:24:50-07:00"}}, {"Name": "Fake-Edward Tran", "SubAccount":
+        false, "Description": "-Fallback-scrubbed-xGZxUZBThXKxBPDOxVEyKViodDBioXGQiQSWAd",
+        "FullyQualifiedName": "Fake-Edward Tran", "Active": true, "Classification":
+        "Expense", "AccountType": "Cost of Goods Sold", "AccountSubType": "CostOfLaborCos",
+        "AcctNum": "5020", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040060", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:00:56-07:00", "LastUpdatedTime": "2026-09-25T11:00:56-07:00"}},
+        {"Name": "Fake-Brian Adams", "SubAccount": false, "Description": "-Fallback-scrubbed-PZMhOaXNOpkWpaIPEAHmXbykxQUqGXpMrzvIPtYYjA",
+        "FullyQualifiedName": "Fake-Brian Adams", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6010", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040064", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:56-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:56-07:00"}}, {"Name": "Fake-Daniel Harris",
+        "SubAccount": false, "Description": "-Fallback-scrubbed-lHZrsDSpDVhuBDFONmiBgimGmnlO",
+        "FullyQualifiedName": "Fake-Daniel Harris", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6020", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040063", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:56-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:56-07:00"}}, {"Name": "Fake-John Young",
+        "SubAccount": false, "FullyQualifiedName": "Fake-John Young", "Active": true,
+        "Classification": "Expense", "AccountType": "Other Expense", "AccountSubType":
+        "PenaltiesSettlements", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "27", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Colin Nash", "SubAccount": false, "Description": "-Fallback-scrubbed-BjWSRdNqDCiVNMDTwHBhqvmmlUgw",
+        "FullyQualifiedName": "Fake-Colin Nash", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6120", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040072", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Sheila Nelson",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Sheila Nelson", "Active":
+        true, "Classification": "Revenue", "AccountType": "Income", "AccountSubType":
+        "OtherPrimaryIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "54", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:14:56-08:00", "LastUpdatedTime": "2021-02-15T10:14:56-08:00"}},
+        {"Name": "Fake-Michael Meyers", "SubAccount": false, "Description": "-Fallback-scrubbed-ZIQmNiYCEqOWvYPFpTZWCgVfnAoaweCCRAGrVPvZg",
+        "FullyQualifiedName": "Fake-Michael Meyers", "Active": true, "Classification":
+        "Asset", "AccountType": "Other Current Asset", "AccountSubType": "PrepaidExpenses",
+        "AcctNum": "1210", "CurrentBalance": -11321.35, "CurrentBalanceWithSubAccounts":
+        -11321.35, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "3", "SyncToken": "1", "MetaData":
+        {"CreateTime": "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2026-10-07T07:52:23-07:00"}},
+        {"Name": "Fake-Lisa Williams", "SubAccount": false, "Description": "-Fallback-scrubbed-eUsulozqXNCxFWSjZWkObIGvJRKIoHqoPVjJFU",
+        "FullyQualifiedName": "Fake-Lisa Williams", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6160", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040077", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Daniel Kelly",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Daniel Kelly", "Active":
+        true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "AdvertisingPromotional", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "16", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Troy Schultz Jr.", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Troy Schultz Jr.", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "SuppliesMaterials", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "78", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:36:03-08:00", "LastUpdatedTime": "2021-02-15T10:36:03-08:00"}},
+        {"Name": "Fake-Jennifer Shelton", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Jennifer Shelton", "Active": true, "Classification": "Revenue", "AccountType":
+        "Income", "AccountSubType": "SalesOfProductIncome", "AcctNum": "4100", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "92", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2022-06-26T20:56:32-07:00", "LastUpdatedTime":
+        "2022-06-26T20:56:32-07:00"}}, {"Name": "Fake-Larry Chase", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Larry Chase", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "DiscountsRefundsGiven",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "6", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00",
+        "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}}, {"Name": "Fake-Courtney
+        Schmidt", "SubAccount": false, "Description": "-Fallback-scrubbed-NDpKWdaXqCCDROmzrIUiAvoclcjeRsFQZKyR",
+        "FullyQualifiedName": "Fake-Courtney Schmidt", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6000", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040061", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:56-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:56-07:00"}}, {"Name": "Fake-Michael Mata",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Michael Mata", "Active":
+        true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "RentOrLeaseOfBuildings", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "17", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Jennifer Davidson", "SubAccount": false, "Description": "-Fallback-scrubbed-pVCiDtngGtbKyOAAwmoqKEFPtzOeLBjlmZamjRhJ",
+        "FullyQualifiedName": "Fake-Jennifer Davidson", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6050", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040066", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:56-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:56-07:00"}}, {"Name": "Fake-Cynthia Simpson",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Cynthia Simpson", "Active":
+        true, "Classification": "Equity", "AccountType": "Equity", "AccountSubType":
+        "RetainedEarnings", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "2", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:05-08:00", "LastUpdatedTime": "2021-02-10T14:42:05-08:00"}},
+        {"Name": "Fake-Duane Horn", "SubAccount": false, "FullyQualifiedName": "Fake-Duane
+        Horn", "Active": true, "Classification": "Expense", "AccountType": "Other
+        Expense", "AccountSubType": "Depreciation", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040084", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-10-09T13:43:55-07:00", "LastUpdatedTime": "2026-10-09T13:43:55-07:00"}},
+        {"Name": "Fake-Shane Fisher", "SubAccount": false, "FullyQualifiedName": "Fake-Shane
+        Fisher", "Active": true, "Classification": "Revenue", "AccountType": "Income",
+        "AccountSubType": "SalesOfProductIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "79", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:36:03-08:00", "LastUpdatedTime": "2021-02-15T10:36:03-08:00"}},
+        {"Name": "Fake-Kimberly Small", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Kimberly Small", "Active": true, "Classification": "Asset", "AccountType":
+        "Bank", "AccountSubType": "Savings", "CurrentBalance": 330.39, "CurrentBalanceWithSubAccounts":
+        330.39, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "36", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-14T12:09:00-08:00", "LastUpdatedTime": "2026-10-07T07:53:36-07:00"}},
+        {"Name": "Fake-Jeremy Gardner", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Jeremy Gardner", "Active": true, "Classification": "Revenue", "AccountType":
+        "Income", "AccountSubType": "ServiceFeeIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:05-08:00", "LastUpdatedTime": "2021-02-10T14:42:05-08:00"}},
+        {"Name": "Fake-Kristy Mills", "SubAccount": false, "FullyQualifiedName": "Fake-Kristy
+        Mills", "Active": true, "Classification": "Revenue", "AccountType": "Income",
+        "AccountSubType": "ServiceFeeIncome", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "94", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2023-02-28T23:52:35-08:00", "LastUpdatedTime": "2023-02-28T23:52:35-08:00"}},
+        {"Name": "Fake-Kathy Williams", "SubAccount": false, "Description": "-Fallback-scrubbed-CFjSmMNoLkVgaAZnmVzQCWMoAjJjSeIHUXBZQRBnQjjOTXpJr",
+        "FullyQualifiedName": "Fake-Kathy Williams", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6150", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040075", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}, {"Name": "Fake-Amanda Brown",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Amanda Brown", "Active":
+        true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "OfficeGeneralAdministrativeExpenses", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "19", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Cody Weber", "SubAccount": false, "FullyQualifiedName": "Fake-Cody
+        Weber", "Active": true, "Classification": "Expense", "AccountType": "Expense",
+        "AccountSubType": "SuppliesMaterials", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "20", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Erin Flores", "SubAccount": false, "Description": "-Fallback-scrubbed-YROltwaFTgFnejpIhLoCxCCSjBv",
+        "FullyQualifiedName": "Fake-Erin Flores", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "OtherPrimaryIncome",
+        "AcctNum": "4010", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040056", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:00:55-07:00", "LastUpdatedTime": "2026-09-25T11:00:55-07:00"}},
+        {"Name": "Fake-Christopher Coleman", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Christopher Coleman", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "TaxesPaid", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "21", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}},
+        {"Name": "Fake-Brenda Edwards", "SubAccount": false, "Description": "-Fallback-scrubbed-vmnSAyIXcZsWwjjTYjSYdHfc",
+        "FullyQualifiedName": "Fake-Brenda Edwards", "Active": true, "Classification":
+        "Revenue", "AccountType": "Other Income", "AccountSubType": "OtherMiscellaneousIncome",
+        "AcctNum": "-Fallback-scrubbed-YAQHaYMo", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040003", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2025-06-20T13:39:10-07:00", "LastUpdatedTime": "2025-06-20T13:39:10-07:00"}},
+        {"Name": "Fake-William Haynes II", "SubAccount": false, "FullyQualifiedName":
+        "Fake-William Haynes II", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "Travel", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040052", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T09:18:53-07:00", "LastUpdatedTime": "2026-09-25T09:18:53-07:00"}},
+        {"Name": "Fake-Omar Hogan", "SubAccount": false, "FullyQualifiedName": "Fake-Omar
+        Hogan", "Active": true, "Classification": "Asset", "AccountType": "Bank",
+        "AccountSubType": "Checking", "AcctNum": "1432", "CurrentBalance": 55.0, "CurrentBalanceWithSubAccounts":
+        55.0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040014", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2025-12-24T10:37:54-08:00", "LastUpdatedTime": "2025-12-24T10:37:54-08:00"}},
+        {"Name": "Fake-Benjamin Taylor", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Benjamin Taylor", "Active": true, "Classification": "Asset", "AccountType":
+        "Bank", "AccountSubType": "CashOnHand", "AcctNum": "1234432", "CurrentBalance":
+        31398.22, "CurrentBalanceWithSubAccounts": 31398.22, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "1150040015", "SyncToken": "0", "MetaData": {"CreateTime": "2025-12-24T10:56:21-08:00",
+        "LastUpdatedTime": "2025-12-24T11:00:43-08:00"}}, {"Name": "Fake-Aaron Beck",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Aaron Beck", "Active": true,
+        "Classification": "Expense", "AccountType": "Expense", "AccountSubType": "Travel",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "22", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00",
+        "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}}, {"Name": "Fake-Frank Johnson",
+        "SubAccount": false, "FullyQualifiedName": "Fake-Frank Johnson", "Active":
+        true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "TravelMeals", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "23", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-10T14:42:07-08:00",
+        "LastUpdatedTime": "2021-02-10T14:42:07-08:00"}}, {"Name": "Fake-Brittany
+        Garcia", "SubAccount": false, "FullyQualifiedName": "Fake-Brittany Garcia",
+        "Active": true, "Classification": "Asset", "AccountType": "Fixed Asset", "AccountSubType":
+        "Vehicles", "AcctNum": "1825", "CurrentBalance": -440.0, "CurrentBalanceWithSubAccounts":
+        12455.0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"},
+        "domain": "QBO", "sparse": false, "Id": "37", "SyncToken": "1", "MetaData":
+        {"CreateTime": "2021-02-14T12:11:06-08:00", "LastUpdatedTime": "2025-06-16T08:57:18-07:00"}},
+        {"Name": "Fake-Sherry Garcia", "SubAccount": true, "ParentRef": {"value":
+        "37"}, "FullyQualifiedName": "-Fallback-scrubbed-gogdeQYbKBwAQZBYfX", "Active":
+        true, "Classification": "Asset", "AccountType": "Fixed Asset", "AccountSubType":
+        "AccumulatedDepreciation", "AcctNum": "2938", "CurrentBalance": -600.0, "CurrentBalanceWithSubAccounts":
+        -600.0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "39", "SyncToken": "1", "MetaData": {"CreateTime":
+        "2021-02-14T12:11:07-08:00", "LastUpdatedTime": "2023-03-15T09:55:48-07:00"}},
+        {"Name": "Fake-James Sanders", "SubAccount": true, "ParentRef": {"value":
+        "37"}, "FullyQualifiedName": "-Fallback-scrubbed-ZdfLglrSCeQxWixoHEf", "Active":
+        true, "Classification": "Asset", "AccountType": "Fixed Asset", "AccountSubType":
+        "Vehicles", "CurrentBalance": 13495.0, "CurrentBalanceWithSubAccounts": 13495.0,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "38", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-14T12:11:06-08:00", "LastUpdatedTime": "2023-03-15T09:55:48-07:00"}},
+        {"Name": "Fake-Michael Rosario", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Michael Rosario", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "UnappliedCashBillPaymentExpense", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "88", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2021-02-15T15:28:48-08:00", "LastUpdatedTime":
+        "2021-02-15T15:28:48-08:00"}}, {"Name": "Fake-Timothy Kelley", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Timothy Kelley", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "UnappliedCashPaymentIncome",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "87", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T15:08:16-08:00",
+        "LastUpdatedTime": "2021-02-15T15:08:16-08:00"}}, {"Name": "Fake-Patricia
+        Maldonado", "SubAccount": false, "FullyQualifiedName": "Fake-Patricia Maldonado",
+        "Active": true, "Classification": "Asset", "AccountType": "Other Current Asset",
+        "AccountSubType": "OtherCurrentAssets", "CurrentBalance": 1.5, "CurrentBalanceWithSubAccounts":
+        1.5, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "32", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:46:30-08:00", "LastUpdatedTime": "2025-05-30T08:36:41-07:00"}},
+        {"Name": "Fake-Christopher Rhodes", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Christopher Rhodes", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "OtherMiscellaneousServiceCost", "CurrentBalance":
+        0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value": "USD", "name":
+        "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false, "Id": "31", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2021-02-10T14:46:30-08:00", "LastUpdatedTime":
+        "2021-02-10T14:46:30-08:00"}}, {"Name": "Fake-Richard White", "SubAccount":
+        false, "FullyQualifiedName": "Fake-Richard White", "Active": true, "Classification":
+        "Revenue", "AccountType": "Income", "AccountSubType": "ServiceFeeIncome",
+        "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef": {"value":
+        "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse": false,
+        "Id": "30", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-10T14:46:30-08:00",
+        "LastUpdatedTime": "2021-02-10T14:46:30-08:00"}}, {"Name": "Fake-Danielle
+        Simpson", "SubAccount": false, "Description": "-Fallback-scrubbed-oMULFiCaJW",
+        "FullyQualifiedName": "Fake-Danielle Simpson", "Active": true, "Classification":
+        "Asset", "AccountType": "Other Current Asset", "AccountSubType": "UndepositedFunds",
+        "CurrentBalance": 44325752.49, "CurrentBalanceWithSubAccounts": 44325752.49,
+        "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "4", "SyncToken": "1", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2026-10-07T07:53:43-07:00"}},
+        {"Name": "Fake-Heather Sanchez", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Heather Sanchez", "Active": true, "Classification": "Expense", "AccountType":
+        "Expense", "AccountSubType": "Utilities", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts":
+        0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "24", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-10T14:42:07-08:00", "LastUpdatedTime": "2021-02-15T10:30:53-08:00"}},
+        {"Name": "Fake-Martin Nichols", "SubAccount": true, "ParentRef": {"value":
+        "24"}, "FullyQualifiedName": "-Fallback-scrubbed-MOtSCNUJrIrauKplMtBuhVNmJI",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Utilities", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "76", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:30:29-08:00",
+        "LastUpdatedTime": "2021-02-15T10:30:29-08:00"}}, {"Name": "Fake-Melissa Kemp",
+        "SubAccount": true, "ParentRef": {"value": "24"}, "FullyQualifiedName": "-Fallback-scrubbed-ZMLKISLYyvhsmNpLILd",
+        "Active": true, "Classification": "Expense", "AccountType": "Expense", "AccountSubType":
+        "Utilities", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "77", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-15T10:30:53-08:00",
+        "LastUpdatedTime": "2021-02-15T10:30:53-08:00"}}, {"Name": "Fake-Michelle
+        Vasquez MD", "SubAccount": false, "Description": "-Fallback-scrubbed-tlxRdAfocdxJSjWUeJpwfsHeZzk",
+        "FullyQualifiedName": "Fake-Michelle Vasquez MD", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6040", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040065", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:56-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:56-07:00"}}, {"Name": "Fake-James Cummings",
+        "SubAccount": false, "FullyQualifiedName": "Fake-James Cummings", "Active":
+        true, "Classification": "Asset", "AccountType": "Bank", "AccountSubType":
+        "Checking", "CurrentBalance": 9800.0, "CurrentBalanceWithSubAccounts": 9800.0,
+        "CurrencyRef": {"value": "CAD", "name": "Fake-Elizabeth Pitts DVM"}, "domain":
+        "QBO", "sparse": false, "Id": "1150040001", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2025-05-30T09:07:41-07:00", "LastUpdatedTime": "2025-09-30T07:37:11-07:00"}},
+        {"Name": "Fake-Michael Powell", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Michael Powell", "Active": true, "Classification": "Asset", "AccountType":
+        "Bank", "AccountSubType": "Checking", "CurrentBalance": 100003.0, "CurrentBalanceWithSubAccounts":
+        100003.0, "CurrencyRef": {"value": "EUR", "name": "Fake-Sharon Williams"},
+        "domain": "QBO", "sparse": false, "Id": "1150040002", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2025-05-30T09:12:37-07:00", "LastUpdatedTime": "2025-05-30T09:17:05-07:00"}},
+        {"Name": "Fake-Joseph Sawyer", "SubAccount": false, "FullyQualifiedName":
+        "Fake-Joseph Sawyer", "Active": true, "Classification": "Liability", "AccountType":
+        "Credit Card", "AccountSubType": "CreditCard", "CurrentBalance": -5.0, "CurrentBalanceWithSubAccounts":
+        -5.0, "CurrencyRef": {"value": "USD", "name": "Fake-James Rodriguez"}, "domain":
+        "QBO", "sparse": false, "Id": "42", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2021-02-15T10:00:09-08:00", "LastUpdatedTime": "2025-04-18T06:30:13-07:00"}},
+        {"Name": "Fake-Jeremy Howard", "SubAccount": false, "Description": "-Fallback-scrubbed-HHemIuVsqQirQAjpGgjYfWAiBPfHl",
+        "FullyQualifiedName": "Fake-Jeremy Howard", "Active": true, "Classification":
+        "Expense", "AccountType": "Expense", "AccountSubType": "Travel", "AcctNum":
+        "6130", "CurrentBalance": 0, "CurrentBalanceWithSubAccounts": 0, "CurrencyRef":
+        {"value": "USD", "name": "Fake-James Rodriguez"}, "domain": "QBO", "sparse":
+        false, "Id": "1150040074", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:00:57-07:00",
+        "LastUpdatedTime": "2026-09-25T11:00:57-07:00"}}], "startPosition": 100, "maxResults":
+        82}, "bId": "bid1"}], "time": "2026-10-12T09:46:52.071-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:46:52 GMT
+      content-length:
+      - '40849'
+      intuit_tid:
+      - 1-6acd0efb-29c82a3f3b3bf2837b105815
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0efb-29c82a3f3b3bf2837b105815
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '218'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0efb-29c82a3f3b3bf2837b105815
+      x-spanid:
+      - c2252ea5-c0cd-0402-144c-35254ff8bf23
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Department STARTPOSITION
+      0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '107'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"Department": [{"Name": "Fake-Sarah
+        Benson", "SubDepartment": false, "FullyQualifiedName": "Fake-Sarah Benson",
+        "Active": true, "domain": "QBO", "sparse": false, "Id": "4", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2023-03-14T17:48:59-07:00", "LastUpdatedTime":
+        "2025-06-18T10:24:33-07:00"}}, {"Name": "Fake-Catherine Miller", "SubDepartment":
+        true, "ParentRef": {"value": "4"}, "FullyQualifiedName": "-Fallback-scrubbed-QFHJZTzIMDwCTKGfqEUoxfSvnPtmjqmIMBuSCFGcLEpM",
+        "Active": true, "domain": "QBO", "sparse": false, "Id": "6", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2025-06-18T10:24:33-07:00", "LastUpdatedTime":
+        "2025-06-18T10:24:33-07:00"}}, {"Name": "Fake-James Alexander", "SubDepartment":
+        false, "FullyQualifiedName": "Fake-James Alexander", "Active": true, "domain":
+        "QBO", "sparse": false, "Id": "3", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2023-03-14T17:29:35-07:00", "LastUpdatedTime": "2023-03-14T17:29:35-07:00"}},
+        {"Name": "Fake-Marisa Adams", "SubDepartment": false, "FullyQualifiedName":
+        "Fake-Marisa Adams", "Active": true, "domain": "QBO", "sparse": false, "Id":
+        "7", "SyncToken": "1", "MetaData": {"CreateTime": "2025-06-24T07:08:41-07:00",
+        "LastUpdatedTime": "2025-08-11T14:28:18-07:00"}}, {"Name": "Fake-Gary Lindsey",
+        "SubDepartment": false, "FullyQualifiedName": "Fake-Gary Lindsey", "Active":
+        true, "domain": "QBO", "sparse": false, "Id": "1", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2022-10-27T11:41:20-07:00", "LastUpdatedTime": "2022-10-27T11:41:20-07:00"}},
+        {"Name": "Fake-Jennifer Hill", "SubDepartment": false, "FullyQualifiedName":
+        "Fake-Jennifer Hill", "Active": true, "domain": "QBO", "sparse": false, "Id":
+        "2", "SyncToken": "0", "MetaData": {"CreateTime": "2023-03-09T07:16:17-08:00",
+        "LastUpdatedTime": "2023-03-09T07:16:17-08:00"}}, {"Name": "Fake-Wayne Adams",
+        "SubDepartment": false, "FullyQualifiedName": "Fake-Wayne Adams", "Active":
+        true, "domain": "QBO", "sparse": false, "Id": "5", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-04-11T09:29:37-07:00", "LastUpdatedTime": "2023-04-11T09:29:37-07:00"}}],
+        "startPosition": 1, "maxResults": 7}, "bId": "bid1"}], "time": "2026-10-12T09:46:53.550-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:46:53 GMT
+      content-length:
+      - '1996'
+      intuit_tid:
+      - 1-6acd0efd-34875bf66409c7043f73542b
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0efd-34875bf66409c7043f73542b
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '201'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0efd-34875bf66409c7043f73542b
+      x-spanid:
+      - 98ff882c-1339-7b39-0d39-7b66639fe25a
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from PaymentMethod STARTPOSITION
+      0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '110'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"PaymentMethod": [{"Name":
+        "Fake-Timothy Johnson", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "6", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-10T14:42:05-08:00", "LastUpdatedTime": "2021-02-10T14:42:05-08:00"}},
+        {"Name": "Fake-Mark White", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "14", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-03-14T17:48:07-07:00", "LastUpdatedTime": "2023-03-14T17:48:07-07:00"}},
+        {"Name": "Fake-Mrs. Taylor Williams DVM", "Active": true, "Type": "-Fallback-scrubbed-FHgKWOXcgruWape",
+        "domain": "QBO", "sparse": false, "Id": "1", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-10T14:42:05-08:00", "LastUpdatedTime": "2021-02-10T14:42:05-08:00"}},
+        {"Name": "Fake-Leslie Hampton", "Active": true, "Type": "-Fallback-scrubbed-FHgKWOXcgruWape",
+        "domain": "QBO", "sparse": false, "Id": "8", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-03-08T14:30:45-08:00", "LastUpdatedTime": "2023-03-08T14:30:45-08:00"}},
+        {"Name": "Check", "Active": true, "Type": "-Fallback-scrubbed-FHgKWOXcgruWape",
+        "domain": "QBO", "sparse": false, "Id": "2", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-10T14:42:05-08:00", "LastUpdatedTime": "2021-02-10T14:42:05-08:00"}},
+        {"Name": "Fake-Judy Sanchez", "Active": true, "Type": "-Fallback-scrubbed-FHgKWOXcgruWape",
+        "domain": "QBO", "sparse": false, "Id": "9", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-03-08T14:30:45-08:00", "LastUpdatedTime": "2023-03-08T14:30:45-08:00"}},
+        {"Name": "Fake-Stephen Mclean", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "7", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-10T14:42:05-08:00", "LastUpdatedTime": "2021-02-10T14:42:05-08:00"}},
+        {"Name": "Fake-Martha Proctor", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "10", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-03-08T14:30:45-08:00", "LastUpdatedTime": "2023-03-08T14:30:45-08:00"}},
+        {"Name": "Fake-Michael Serrano", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "5", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-10T14:42:05-08:00", "LastUpdatedTime": "2021-02-10T14:42:05-08:00"}},
+        {"Name": "Fake-Justin Reid", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "11", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-03-08T14:30:45-08:00", "LastUpdatedTime": "2023-03-08T14:30:45-08:00"}},
+        {"Name": "Fake-Katherine Humphrey", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "4", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-10T14:42:05-08:00", "LastUpdatedTime": "2021-02-10T14:42:05-08:00"}},
+        {"Name": "Fake-Shannon Archer", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "12", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-03-08T14:30:45-08:00", "LastUpdatedTime": "2023-03-08T14:30:45-08:00"}},
+        {"Name": "Fake-Joseph Sawyer", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "3", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-10T14:42:05-08:00", "LastUpdatedTime": "2021-02-10T14:42:05-08:00"}},
+        {"Name": "Fake-Kyle Williams", "Active": true, "Type": "-Fallback-scrubbed-aAQQjoGAvRP",
+        "domain": "QBO", "sparse": false, "Id": "13", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-03-08T14:30:45-08:00", "LastUpdatedTime": "2023-03-08T14:30:45-08:00"}}],
+        "startPosition": 1, "maxResults": 14}, "bId": "bid1"}], "time": "2026-10-12T09:46:55.032-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:46:55 GMT
+      content-length:
+      - '3136'
+      intuit_tid:
+      - 1-6acd0efe-3e9c3b5526ecc1e27a1f6e41
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0efe-3e9c3b5526ecc1e27a1f6e41
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '270'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0efe-3e9c3b5526ecc1e27a1f6e41
+      x-spanid:
+      - ed52cfd8-9f0f-4484-40b9-b99beed58a83
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from CustomerType STARTPOSITION
+      0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '109'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"CustomerType": [{"Name":
+        "Fake-Seth Bentley", "Active": true, "domain": "QBO", "sparse": false, "Id":
+        "5000000000000054673", "SyncToken": "0", "MetaData": {"CreateTime": "2023-02-28T23:33:10-08:00",
+        "LastUpdatedTime": "2023-02-28T23:33:10-08:00"}}, {"Name": "Fake-Jennifer
+        Shelton", "Active": true, "domain": "QBO", "sparse": false, "Id": "5000000000000054672",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2023-02-28T23:01:49-08:00",
+        "LastUpdatedTime": "2023-02-28T23:01:49-08:00"}}], "startPosition": 1, "maxResults":
+        2}, "bId": "bid1"}], "time": "2026-10-12T09:46:56.407-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:46:56 GMT
+      content-length:
+      - '562'
+      intuit_tid:
+      - 1-6acd0f00-3be3cc9c66040be56de6ad00
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0f00-3be3cc9c66040be56de6ad00
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '120'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0f00-3be3cc9c66040be56de6ad00
+      x-spanid:
+      - 6b2ed65b-00bc-2e94-6639-bc86fb716f06
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from TaxCode STARTPOSITION 0
+      MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '104'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"TaxCode": [{"Name": "TAX",
+        "Description": "TAX", "Taxable": true, "TaxGroup": false, "Id": "TAX", "MetaData":
+        {"CreateTime": "2021-03-16T08:04:06-07:00", "LastUpdatedTime": "2021-03-16T08:04:06-07:00"}},
+        {"Name": "NON", "Description": "NON", "Taxable": false, "TaxGroup": false,
+        "Id": "NON", "MetaData": {"CreateTime": "2021-03-16T08:04:06-07:00", "LastUpdatedTime":
+        "2021-03-16T08:04:06-07:00"}}, {"Name": "Fake-Michelle Brown", "Description":
+        "Fake-Michelle Brown", "Taxable": true, "TaxGroup": true, "Id": "CustomSalesTax",
+        "MetaData": {"CreateTime": "2021-03-16T08:04:06-07:00", "LastUpdatedTime":
+        "2021-03-16T08:04:06-07:00"}}, {"Name": "Fake-Laurie Baker", "Description":
+        "Fake-Laurie Baker", "Active": true, "Hidden": false, "Taxable": true, "TaxGroup":
+        true, "SalesTaxRateList": {"TaxRateDetail": [{"TaxRateRef": {"value": "5",
+        "name": "Fake-Ashley Roberts DDS"}, "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed",
+        "TaxOrder": 0}]}, "PurchaseTaxRateList": {"TaxRateDetail": []}, "TaxCodeConfigType":
+        "-Fallback-scrubbed-tWdGhDPbYeVr", "domain": "QBO", "sparse": false, "Id":
+        "5", "SyncToken": "0", "MetaData": {"CreateTime": "2023-04-11T09:22:33-07:00",
+        "LastUpdatedTime": "2023-04-11T09:22:33-07:00"}}, {"Name": "Fake-Amber Villegas",
+        "Description": "Fake-Amber Villegas", "Active": true, "Hidden": false, "Taxable":
+        true, "TaxGroup": true, "SalesTaxRateList": {"TaxRateDetail": [{"TaxRateRef":
+        {"value": "7", "name": "Fake-Vanessa Jacobs"}, "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed",
+        "TaxOrder": 0}]}, "PurchaseTaxRateList": {"TaxRateDetail": []}, "TaxCodeConfigType":
+        "-Fallback-scrubbed-tWdGhDPbYeVr", "domain": "QBO", "sparse": false, "Id":
+        "8", "SyncToken": "0", "MetaData": {"CreateTime": "2023-04-11T09:27:37-07:00",
+        "LastUpdatedTime": "2023-04-11T09:27:37-07:00"}}, {"Name": "Fake-Daniel Vazquez",
+        "Description": "Fake-Daniel Vazquez", "Active": true, "Hidden": false, "Taxable":
+        true, "TaxGroup": true, "SalesTaxRateList": {"TaxRateDetail": [{"TaxRateRef":
+        {"value": "8", "name": "Fake-Christopher Davis"}, "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed",
+        "TaxOrder": 0}]}, "PurchaseTaxRateList": {"TaxRateDetail": []}, "TaxCodeConfigType":
+        "-Fallback-scrubbed-tWdGhDPbYeVr", "domain": "QBO", "sparse": false, "Id":
+        "9", "SyncToken": "0", "MetaData": {"CreateTime": "2023-04-11T09:28:50-07:00",
+        "LastUpdatedTime": "2023-04-11T09:28:50-07:00"}}, {"Name": "Fake-Rebecca Landry",
+        "Description": "Fake-Rebecca Landry", "Active": true, "Hidden": false, "Taxable":
+        true, "TaxGroup": true, "SalesTaxRateList": {"TaxRateDetail": [{"TaxRateRef":
+        {"value": "4", "name": "Fake-Kathy Mccall"}, "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed",
+        "TaxOrder": 0}]}, "PurchaseTaxRateList": {"TaxRateDetail": []}, "TaxCodeConfigType":
+        "-Fallback-scrubbed-tWdGhDPbYeVr", "domain": "QBO", "sparse": false, "Id":
+        "4", "SyncToken": "0", "MetaData": {"CreateTime": "2023-04-11T09:13:08-07:00",
+        "LastUpdatedTime": "2023-04-11T09:13:08-07:00"}}, {"Name": "Fake-Levi Christian
+        PhD", "Description": "Fake-Levi Christian PhD", "Active": true, "Hidden":
+        false, "Taxable": true, "TaxGroup": true, "SalesTaxRateList": {"TaxRateDetail":
+        [{"TaxRateRef": {"value": "6", "name": "Fake-Erik Sullivan"}, "TaxTypeApplicable":
+        "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}]}, "PurchaseTaxRateList":
+        {"TaxRateDetail": []}, "TaxCodeConfigType": "-Fallback-scrubbed-tWdGhDPbYeVr",
+        "domain": "QBO", "sparse": false, "Id": "7", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-04-11T09:26:51-07:00", "LastUpdatedTime": "2023-04-11T09:26:51-07:00"}},
+        {"Name": "Fake-Rebecca Sparks", "Description": "Fake-Rebecca Sparks", "Active":
+        true, "Hidden": false, "Taxable": true, "TaxGroup": true, "SalesTaxRateList":
+        {"TaxRateDetail": [{"TaxRateRef": {"value": "9", "name": "Fake-Ronald Rogers"},
+        "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}]}, "PurchaseTaxRateList":
+        {"TaxRateDetail": []}, "TaxCodeConfigType": "-Fallback-scrubbed-tWdGhDPbYeVr",
+        "domain": "QBO", "sparse": false, "Id": "10", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-04-11T09:28:59-07:00", "LastUpdatedTime": "2023-04-11T09:28:59-07:00"}},
+        {"Name": "Fake-Elizabeth Martin", "Description": "Fake-Elizabeth Martin",
+        "Active": true, "Hidden": false, "Taxable": true, "TaxGroup": true, "SalesTaxRateList":
+        {"TaxRateDetail": [{"TaxRateRef": {"value": "11", "name": "Fake-Desiree Thompson"},
+        "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}]}, "PurchaseTaxRateList":
+        {"TaxRateDetail": []}, "TaxCodeConfigType": "-Fallback-scrubbed-tWdGhDPbYeVr",
+        "domain": "QBO", "sparse": false, "Id": "12", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-04-11T09:30:40-07:00", "LastUpdatedTime": "2023-04-11T09:30:40-07:00"}},
+        {"Name": "Fake-Katherine Peterson", "Description": "Fake-Katherine Peterson",
+        "Active": true, "Hidden": false, "Taxable": true, "TaxGroup": true, "SalesTaxRateList":
+        {"TaxRateDetail": [{"TaxRateRef": {"value": "3", "name": "Fake-Katherine Peterson"},
+        "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}]}, "PurchaseTaxRateList":
+        {"TaxRateDetail": []}, "TaxCodeConfigType": "-Fallback-scrubbed-tWdGhDPbYeVr",
+        "domain": "QBO", "sparse": false, "Id": "2", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-17T12:17:04-08:00", "LastUpdatedTime": "2021-02-17T12:17:04-08:00"}},
+        {"Name": "Fake-Christopher Johnson", "Description": "Fake-Christopher Johnson",
+        "Active": true, "Hidden": false, "Taxable": true, "TaxGroup": true, "SalesTaxRateList":
+        {"TaxRateDetail": [{"TaxRateRef": {"value": "15", "name": "Fake-William Spence"},
+        "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}, {"TaxRateRef":
+        {"value": "16", "name": "Fake-Steven Maldonado"}, "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed",
+        "TaxOrder": 0}, {"TaxRateRef": {"value": "17", "name": "Fake-Jacob Cohen"},
+        "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}, {"TaxRateRef":
+        {"value": "18", "name": "Fake-Ralph Soto"}, "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed",
+        "TaxOrder": 0}]}, "PurchaseTaxRateList": {"TaxRateDetail": []}, "TaxCodeConfigType":
+        "-Fallback-scrubbed-dgNptUIHiZZaiXVY", "domain": "QBO", "sparse": false, "Id":
+        "15", "SyncToken": "0", "MetaData": {"CreateTime": "2023-08-24T15:32:19-07:00",
+        "LastUpdatedTime": "2023-08-24T15:32:19-07:00"}}, {"Name": "Fake-John Moore",
+        "Description": "Fake-John Moore", "Active": true, "Hidden": false, "Taxable":
+        true, "TaxGroup": true, "SalesTaxRateList": {"TaxRateDetail": [{"TaxRateRef":
+        {"value": "12", "name": "Fake-Dr. Timothy Moss MD"}, "TaxTypeApplicable":
+        "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}]}, "PurchaseTaxRateList":
+        {"TaxRateDetail": []}, "TaxCodeConfigType": "-Fallback-scrubbed-tWdGhDPbYeVr",
+        "domain": "QBO", "sparse": false, "Id": "13", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-04-16T22:17:43-07:00", "LastUpdatedTime": "2023-04-16T22:17:43-07:00"}},
+        {"Name": "Fake-Sean Smith", "Description": "Fake-Sean Smith", "Active": true,
+        "Hidden": false, "Taxable": true, "TaxGroup": true, "SalesTaxRateList": {"TaxRateDetail":
+        [{"TaxRateRef": {"value": "10", "name": "Fake-Sean Smith"}, "TaxTypeApplicable":
+        "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}]}, "PurchaseTaxRateList":
+        {"TaxRateDetail": []}, "TaxCodeConfigType": "-Fallback-scrubbed-tWdGhDPbYeVr",
+        "domain": "QBO", "sparse": false, "Id": "11", "SyncToken": "1", "MetaData":
+        {"CreateTime": "2023-04-11T09:30:36-07:00", "LastUpdatedTime": "2023-08-24T15:51:47-07:00"}},
+        {"Name": "Fake-Patrick Davis", "Description": "Fake-Patrick Davis", "Active":
+        true, "Hidden": false, "Taxable": true, "TaxGroup": true, "SalesTaxRateList":
+        {"TaxRateDetail": [{"TaxRateRef": {"value": "13", "name": "Fake-Joshua Guzman"},
+        "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}]}, "PurchaseTaxRateList":
+        {"TaxRateDetail": [{"TaxRateRef": {"value": "14", "name": "Fake-Daniel Hunter"},
+        "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}]}, "TaxCodeConfigType":
+        "-Fallback-scrubbed-dgNptUIHiZZaiXVY", "domain": "QBO", "sparse": false, "Id":
+        "14", "SyncToken": "0", "MetaData": {"CreateTime": "2023-08-24T15:32:19-07:00",
+        "LastUpdatedTime": "2023-08-24T15:32:19-07:00"}}, {"Name": "Fake-Erica Shepherd",
+        "Description": "Fake-Erica Shepherd", "Active": true, "Hidden": false, "Taxable":
+        true, "TaxGroup": true, "SalesTaxRateList": {"TaxRateDetail": [{"TaxRateRef":
+        {"value": "1", "name": "Fake-Mark Brock"}, "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed",
+        "TaxOrder": 0}, {"TaxRateRef": {"value": "2", "name": "Fake-Douglas Long Jr."},
+        "TaxTypeApplicable": "-Fallback-scrubbed-SsGcvSfsjed", "TaxOrder": 0}]}, "PurchaseTaxRateList":
+        {"TaxRateDetail": []}, "TaxCodeConfigType": "-Fallback-scrubbed-tWdGhDPbYeVr",
+        "domain": "QBO", "sparse": false, "Id": "3", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2021-02-17T12:17:04-08:00", "LastUpdatedTime": "2021-02-17T12:17:04-08:00"}}],
+        "startPosition": 1, "maxResults": 16, "totalCount": 16}, "bId": "bid1"}],
+        "time": "2026-10-12T09:46:57.988-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:46:57 GMT
+      content-length:
+      - '7760'
+      intuit_tid:
+      - 1-6acd0f01-66efa78937ea9f1f5f02fe9d
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0f01-66efa78937ea9f1f5f02fe9d
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '268'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0f01-66efa78937ea9f1f5f02fe9d
+      x-spanid:
+      - fa79f6e7-70c9-98dc-f112-660bd32bb0d6
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Currency STARTPOSITION 0
+      MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '105'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"CompanyCurrency": [{"Code":
+        "GBP", "Name": "Fake-Gary Chavez", "Active": true, "domain": "QBO", "sparse":
+        false, "Id": "3", "SyncToken": "0", "MetaData": {"CreateTime": "2025-05-29T05:39:53-07:00",
+        "LastUpdatedTime": "2025-05-29T05:39:53-07:00"}}, {"Code": "EUR", "Name":
+        "Fake-Sharon Williams", "Active": true, "domain": "QBO", "sparse": false,
+        "Id": "2", "SyncToken": "0", "MetaData": {"CreateTime": "2025-05-22T19:25:15-07:00",
+        "LastUpdatedTime": "2025-05-22T19:25:15-07:00"}}, {"Code": "CAD", "Name":
+        "Fake-Elizabeth Pitts DVM", "Active": true, "domain": "QBO", "sparse": false,
+        "Id": "1", "SyncToken": "0", "MetaData": {"CreateTime": "2025-05-22T19:25:14-07:00",
+        "LastUpdatedTime": "2025-05-22T19:25:14-07:00"}}], "startPosition": 1, "maxResults":
+        3, "totalCount": 3}, "bId": "bid1"}], "time": "2026-10-12T09:46:59.442-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:46:59 GMT
+      content-length:
+      - '786'
+      intuit_tid:
+      - 1-6acd0f03-7e050044774797fc32a1441c
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0f03-7e050044774797fc32a1441c
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '191'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0f03-7e050044774797fc32a1441c
+      x-spanid:
+      - 3d7be4ed-3bae-5ab0-865f-cfb0c0d2eaa2
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Class STARTPOSITION 0 MAXRESULTS
+      100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '102'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"Class": [{"Name": "Fake-Stacy
+        Davis", "SubClass": false, "FullyQualifiedName": "Fake-Stacy Davis", "Active":
+        true, "domain": "QBO", "sparse": false, "Id": "5000000000000275721", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2023-03-15T09:56:46-07:00", "LastUpdatedTime":
+        "2023-03-15T09:56:46-07:00"}}, {"Name": "Fake-Thomas Johnson", "SubClass":
+        false, "FullyQualifiedName": "Fake-Thomas Johnson", "Active": true, "domain":
+        "QBO", "sparse": false, "Id": "727184", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2026-09-25T11:23:33-07:00", "LastUpdatedTime": "2026-09-25T11:23:33-07:00"}},
+        {"Name": "Fake-Michael Browning", "SubClass": false, "FullyQualifiedName":
+        "Fake-Michael Browning", "Active": true, "domain": "QBO", "sparse": false,
+        "Id": "572500", "SyncToken": "0", "MetaData": {"CreateTime": "2025-06-24T06:25:47-07:00",
+        "LastUpdatedTime": "2025-06-24T06:26:09-07:00"}}, {"Name": "Fake-Derek Mckinney",
+        "SubClass": true, "ParentRef": {"value": "572500"}, "FullyQualifiedName":
+        "-Fallback-scrubbed-IUGChPJyJlERvrGgvNszy", "Active": true, "domain": "QBO",
+        "sparse": false, "Id": "572501", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2025-06-24T06:26:09-07:00", "LastUpdatedTime": "2025-06-24T06:26:09-07:00"}},
+        {"Name": "Fake-Jessica Bautista", "SubClass": false, "FullyQualifiedName":
+        "Fake-Jessica Bautista", "Active": true, "domain": "QBO", "sparse": false,
+        "Id": "727183", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:23:33-07:00",
+        "LastUpdatedTime": "2026-09-25T11:23:34-07:00"}}, {"Name": "Fake-Joshua Jones",
+        "SubClass": false, "FullyQualifiedName": "Fake-Joshua Jones", "Active": true,
+        "domain": "QBO", "sparse": false, "Id": "1000000004", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-06-18T11:35:04-07:00", "LastUpdatedTime": "2026-06-18T11:35:04-07:00"}},
+        {"Name": "Fake-Kellie Randall", "SubClass": true, "ParentRef": {"value": "727182"},
+        "FullyQualifiedName": "-Fallback-scrubbed-iirrKnuFFArAjoRG", "Active": true,
+        "domain": "QBO", "sparse": false, "Id": "727186", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-25T11:23:33-07:00", "LastUpdatedTime": "2026-09-25T11:23:33-07:00"}},
+        {"Name": "Fake-Kimberly Martinez", "SubClass": false, "FullyQualifiedName":
+        "Fake-Kimberly Martinez", "Active": true, "domain": "QBO", "sparse": false,
+        "Id": "727181", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:23:32-07:00",
+        "LastUpdatedTime": "2026-09-25T11:23:32-07:00"}}, {"Name": "Fake-Edwin Shaw",
+        "SubClass": false, "FullyQualifiedName": "Fake-Edwin Shaw", "Active": true,
+        "domain": "QBO", "sparse": false, "Id": "690866", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-07-21T09:37:00-07:00", "LastUpdatedTime": "2026-07-21T09:38:39-07:00"}},
+        {"Name": "Fake-Christopher Shaw", "SubClass": false, "FullyQualifiedName":
+        "Fake-Christopher Shaw", "Active": true, "domain": "QBO", "sparse": false,
+        "Id": "727185", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T11:23:33-07:00",
+        "LastUpdatedTime": "2026-09-25T11:23:33-07:00"}}, {"Name": "Fake-Marissa Gonzalez",
+        "SubClass": false, "FullyQualifiedName": "Fake-Marissa Gonzalez", "Active":
+        true, "domain": "QBO", "sparse": false, "Id": "710267", "SyncToken": "0",
+        "MetaData": {"CreateTime": "2026-08-18T15:03:41-07:00", "LastUpdatedTime":
+        "2026-08-18T15:03:42-07:00"}}, {"Name": "Fake-Erin Thomas", "SubClass": true,
+        "ParentRef": {"value": "710267"}, "FullyQualifiedName": "-Fallback-scrubbed-BYvjXDSErODdOwdixwtQxtWfVAYpkBIuTziqqOy",
+        "Active": true, "domain": "QBO", "sparse": false, "Id": "710268", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-08-18T15:03:42-07:00", "LastUpdatedTime":
+        "2026-08-18T15:03:44-07:00"}}, {"Name": "Fake-Joseph Navarro", "SubClass":
+        true, "ParentRef": {"value": "710268"}, "FullyQualifiedName": "-Fallback-scrubbed-LcjyyvKKmvqYvscAIoxIliQmrDFKRjdsyKruRrmSyqTyvzsAWkyhwrhXITz",
+        "Active": true, "domain": "QBO", "sparse": false, "Id": "710269", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-08-18T15:03:44-07:00", "LastUpdatedTime":
+        "2026-08-18T15:03:45-07:00"}}, {"Name": "Fake-Tony Boyd", "SubClass": true,
+        "ParentRef": {"value": "710269"}, "FullyQualifiedName": "-Fallback-scrubbed-hwUUwcFHNhREUPMlAqdXBJrpnTrarYprjOfuHCImLvtvbPcBNnBNeefbGqOXpCrDlYMZzQmcMqFTTqM",
+        "Active": true, "domain": "QBO", "sparse": false, "Id": "710270", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-08-18T15:03:45-07:00", "LastUpdatedTime":
+        "2026-08-18T15:03:46-07:00"}}, {"Name": "Fake-Ricky Orozco", "SubClass": true,
+        "ParentRef": {"value": "710270"}, "FullyQualifiedName": "-Fallback-scrubbed-VbnqUlLMEYsxTwRixIBUErOQguClVWglOGGNRxpfWMFwynLNhvdWvzUOKAyvWamFMTTQTdpoiUqcxwxxWfxyoLUGeZGZjiMcsBn",
+        "Active": true, "domain": "QBO", "sparse": false, "Id": "710271", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-08-18T15:03:46-07:00", "LastUpdatedTime":
+        "2026-08-18T15:03:46-07:00"}}, {"Name": "Fake-Yvonne Harrison", "SubClass":
+        true, "ParentRef": {"value": "727183"}, "FullyQualifiedName": "-Fallback-scrubbed-WTkBWzzQBgwQeIZCgUpzltC",
+        "Active": true, "domain": "QBO", "sparse": false, "Id": "727187", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-09-25T11:23:34-07:00", "LastUpdatedTime":
+        "2026-09-25T11:23:34-07:00"}}, {"Name": "Fake-William Wright", "SubClass":
+        true, "ParentRef": {"value": "690867"}, "FullyQualifiedName": "-Fallback-scrubbed-kIDgyftwAm",
+        "Active": true, "domain": "QBO", "sparse": false, "Id": "690869", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-07-21T09:38:39-07:00", "LastUpdatedTime":
+        "2026-07-21T09:38:39-07:00"}}, {"Name": "Fake-William Wright", "SubClass":
+        true, "ParentRef": {"value": "690866"}, "FullyQualifiedName": "-Fallback-scrubbed-JAIGhJmlti",
+        "Active": true, "domain": "QBO", "sparse": false, "Id": "690868", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-07-21T09:38:39-07:00", "LastUpdatedTime":
+        "2026-07-21T09:38:39-07:00"}}, {"Name": "Fake-James Park", "SubClass": false,
+        "FullyQualifiedName": "Fake-James Park", "Active": true, "domain": "QBO",
+        "sparse": false, "Id": "727182", "SyncToken": "0", "MetaData": {"CreateTime":
+        "2026-09-25T11:23:33-07:00", "LastUpdatedTime": "2026-09-25T11:23:33-07:00"}},
+        {"Name": "Fake-Jonathan Stevenson", "SubClass": false, "FullyQualifiedName":
+        "Fake-Jonathan Stevenson", "Active": true, "domain": "QBO", "sparse": false,
+        "Id": "727170", "SyncToken": "0", "MetaData": {"CreateTime": "2026-09-25T09:19:53-07:00",
+        "LastUpdatedTime": "2026-09-25T09:19:53-07:00"}}, {"Name": "Fake-Kenneth Larsen",
+        "SubClass": false, "FullyQualifiedName": "Fake-Kenneth Larsen", "Active":
+        true, "domain": "QBO", "sparse": false, "Id": "690867", "SyncToken": "0",
+        "MetaData": {"CreateTime": "2026-07-21T09:37:00-07:00", "LastUpdatedTime":
+        "2026-07-21T09:38:39-07:00"}}], "startPosition": 1, "maxResults": 21, "totalCount":
+        21}, "bId": "bid1"}], "time": "2026-10-12T09:47:00.878-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:47:00 GMT
+      content-length:
+      - '5935'
+      intuit_tid:
+      - 1-6acd0f04-4b7f20076747739b1f51cef6
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0f04-4b7f20076747739b1f51cef6
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '196'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0f04-4b7f20076747739b1f51cef6
+      x-spanid:
+      - 526a0f68-2f7c-301f-15c5-516f906a3832
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Term STARTPOSITION 0 MAXRESULTS
+      100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '101'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"Term": [{"Name": "Fake-Jared
+        Mcintyre", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz", "DueDays":
+        10, "domain": "QBO", "sparse": false, "Id": "1000000001", "SyncToken": "2",
+        "MetaData": {"CreateTime": "2026-06-17T11:45:22-07:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2026-08-28T11:59:32-07:00"}},
+        {"Name": "Fake-Timothy Villa", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DueDays": 0, "DiscountDays": 0, "domain": "QBO", "sparse": false, "Id": "1",
+        "SyncToken": "3", "MetaData": {"CreateTime": "2021-02-10T14:41:49-08:00",
+        "LastModifiedByRef": {"value": "9130350302168886"}, "LastUpdatedTime": "2026-08-28T09:53:19-07:00"}},
+        {"Name": "Fake-Tyler Bolton", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DueDays": 0, "DiscountDays": 0, "domain": "QBO", "sparse": false, "Id": "7",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2023-03-08T14:43:46-08:00",
+        "LastModifiedByRef": {"value": "9130350302168886"}, "LastUpdatedTime": "2023-03-08T14:43:46-08:00"}},
+        {"Name": "Fake-Tyler Middleton", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DueDays": 0, "domain": "QBO", "sparse": false, "Id": "1000000041", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-09-01T08:20:01-07:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2026-09-01T08:20:01-07:00"}},
+        {"Name": "Fake-Dean Ray", "Active": true, "Type": "-Fallback-scrubbed-xySqdXOzjOM",
+        "DiscountPercent": 1.0, "DayOfMonthDue": 15, "DueNextMonthDays": 5, "DiscountDayOfMonth":
+        10, "domain": "QBO", "sparse": false, "Id": "1000000011", "SyncToken": "1",
+        "MetaData": {"CreateTime": "2026-08-28T08:53:57-07:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2026-09-01T08:20:00-07:00"}},
+        {"Name": "Fake-Kevin Jenkins", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DueDays": 45, "domain": "QBO", "sparse": false, "Id": "1000000021", "SyncToken":
+        "1", "MetaData": {"CreateTime": "2026-08-28T08:53:57-07:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2026-09-01T08:20:00-07:00"}},
+        {"Name": "Fake-Charles Sandoval", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DiscountPercent": 2.0, "DueDays": 30, "DiscountDays": 10, "domain": "QBO",
+        "sparse": false, "Id": "1000000031", "SyncToken": "2", "MetaData": {"CreateTime":
+        "2026-08-28T08:53:57-07:00", "LastModifiedByRef": {"value": "9130350302168886"},
+        "LastUpdatedTime": "2026-09-01T13:17:47-07:00"}}, {"Name": "Fake-Anthony Richardson",
+        "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz", "DueDays": 20, "domain":
+        "QBO", "sparse": false, "Id": "1000000061", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2026-09-01T13:17:47-07:00", "LastModifiedByRef": {"value":
+        "9130350302168886"}, "LastUpdatedTime": "2026-09-01T13:17:47-07:00"}}, {"Name":
+        "Fake-Deborah Evans", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DueDays": 10, "domain": "QBO", "sparse": false, "Id": "5", "SyncToken": "0",
+        "MetaData": {"CreateTime": "2021-02-15T15:24:26-08:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2021-02-15T15:24:26-08:00"}},
+        {"Name": "Fake-Jonathan Nunez MD", "Active": true, "Type": "-Fallback-scrubbed-xySqdXOzjOM",
+        "DayOfMonthDue": 24, "domain": "QBO", "sparse": false, "Id": "8", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2023-03-08T14:43:46-08:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2023-03-08T14:43:46-08:00"}},
+        {"Name": "Fake-Dr. Patricia King", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DueDays": 15, "DiscountDays": 0, "domain": "QBO", "sparse": false, "Id":
+        "2", "SyncToken": "1", "MetaData": {"CreateTime": "2021-02-10T14:41:49-08:00",
+        "LastModifiedByRef": {"value": "9130350302168886"}, "LastUpdatedTime": "2026-08-28T09:53:19-07:00"}},
+        {"Name": "Fake-Mark Sanchez", "Active": true, "Type": "-Fallback-scrubbed-xySqdXOzjOM",
+        "DayOfMonthDue": 30, "domain": "QBO", "sparse": false, "Id": "9", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2023-03-08T14:43:46-08:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2023-03-08T14:43:46-08:00"}},
+        {"Name": "Fake-Kevin Thompson", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DueDays": 15, "domain": "QBO", "sparse": false, "Id": "1000000051", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2026-09-01T08:20:01-07:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2026-09-01T08:20:01-07:00"}},
+        {"Name": "Fake-Jonathan Rice", "Active": true, "Type": "-Fallback-scrubbed-xySqdXOzjOM",
+        "DayOfMonthDue": 10, "domain": "QBO", "sparse": false, "Id": "10", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2023-03-08T14:43:46-08:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2023-03-08T14:43:46-08:00"}},
+        {"Name": "Fake-Danielle Scott", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DiscountPercent": 2.0, "DueDays": 30, "DiscountDays": 10, "domain": "QBO",
+        "sparse": false, "Id": "3", "SyncToken": "4", "MetaData": {"CreateTime": "2021-02-10T14:41:49-08:00",
+        "LastModifiedByRef": {"value": "9130350302168886"}, "LastUpdatedTime": "2026-09-01T08:20:00-07:00"}},
+        {"Name": "Fake-Victoria Bush", "Active": true, "Type": "-Fallback-scrubbed-xySqdXOzjOM",
+        "DayOfMonthDue": 2, "domain": "QBO", "sparse": false, "Id": "12", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2023-03-14T17:47:34-07:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2023-03-14T17:47:34-07:00"}},
+        {"Name": "Fake-Amber Cherry", "Active": true, "Type": "-Fallback-scrubbed-QEdnUrvz",
+        "DueDays": 60, "DiscountDays": 0, "domain": "QBO", "sparse": false, "Id":
+        "4", "SyncToken": "0", "MetaData": {"CreateTime": "2021-02-10T14:41:49-08:00",
+        "LastModifiedByRef": {"value": "0"}, "LastUpdatedTime": "2021-02-10T14:41:49-08:00"}},
+        {"Name": "Fake-Richard Murillo", "Active": true, "Type": "-Fallback-scrubbed-xySqdXOzjOM",
+        "DayOfMonthDue": 2, "domain": "QBO", "sparse": false, "Id": "11", "SyncToken":
+        "0", "MetaData": {"CreateTime": "2023-03-08T14:43:46-08:00", "LastModifiedByRef":
+        {"value": "9130350302168886"}, "LastUpdatedTime": "2023-03-08T14:43:46-08:00"}}],
+        "startPosition": 1, "maxResults": 18}, "bId": "bid1"}], "time": "2026-10-12T09:47:02.346-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:47:02 GMT
+      content-length:
+      - '5387'
+      intuit_tid:
+      - 1-6acd0f06-505169db797875fd406c3ba7
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0f06-505169db797875fd406c3ba7
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '86'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0f06-505169db797875fd406c3ba7
+      x-spanid:
+      - b24c2158-d374-1838-4f06-e1f7a915ca11
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select * from Item where Type=''Category''
+      STARTPOSITION 0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '123'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {"Item": [{"Name": "Fake-Melinda
+        Davis", "Active": true, "FullyQualifiedName": "Fake-Melinda Davis", "Type":
+        "-Fallback-scrubbed-czKxiVDH", "domain": "QBO", "sparse": false, "Id": "55",
+        "SyncToken": "0", "MetaData": {"CreateTime": "2025-08-13T08:17:02-07:00",
+        "LastUpdatedTime": "2025-08-13T08:18:50-07:00"}}, {"Name": "Fake-Greg Myers",
+        "Active": true, "FullyQualifiedName": "Fake-Greg Myers", "Type": "-Fallback-scrubbed-czKxiVDH",
+        "domain": "QBO", "sparse": false, "Id": "31", "SyncToken": "0", "MetaData":
+        {"CreateTime": "2023-05-16T05:20:04-07:00", "LastUpdatedTime": "2024-03-14T10:21:45-07:00"}}],
+        "startPosition": 1, "maxResults": 2}, "bId": "bid1"}], "time": "2026-10-12T09:47:03.845-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:47:03 GMT
+      content-length:
+      - '609'
+      intuit_tid:
+      - 1-6acd0f07-3283cad01a7340444643e105
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0f07-3283cad01a7340444643e105
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '205'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0f07-3283cad01a7340444643e105
+      x-spanid:
+      - 3594fd50-34af-7151-6c01-b2ea430521cf
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"Query": "select Id, DisplayName, FullyQualifiedName,
+      SyncToken from Customer where DisplayName in (''Fake-Mary Rivera'') STARTPOSITION
+      0 MAXRESULTS 100", "bId": "bid1"}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '192'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"QueryResponse": {}, "bId": "bid1"}], "time":
+        "2026-10-12T09:47:05.406-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:47:05 GMT
+      content-length:
+      - '96'
+      intuit_tid:
+      - 1-6acd0f09-47d3792952e9e69c2e5243dc
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0f09-47d3792952e9e69c2e5243dc
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '206'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0f09-47d3792952e9e69c2e5243dc
+      x-spanid:
+      - 87b117b4-ff3e-8146-0d63-3d700b645ebe
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"BatchItemRequest": [{"bId": "0", "operation": "create", "Customer": {"PrimaryEmailAddr":
+      {"Address": "Fake-5545 Shawn Bypass Suite 099"}, "WebAddr": {"URI": "https://www.example.com"},
+      "CurrencyRef": {"value": "EUR", "name": "Fake-Sharon Williams"}, "PrimaryPhone":
+      {"FreeFormNumber": "+14444660000"}, "AlternatePhone": {"FreeFormNumber": "+14444660001"},
+      "Fax": {"FreeFormNumber": "+14444660002"}, "Mobile": {"FreeFormNumber": "+14444660003"},
+      "BillAddr": {"Line1": "-Fallback-scrubbed-QFKbVeUYTiuwsDihx", "Line2": "-Fallback-scrubbed-ylexX",
+      "Line3": "-Fallback-scrubbed-iqWd", "City": "Fake-Tracyburgh", "CountrySubDivisionCode":
+      "-Fallback-scrubbed-LC", "PostalCode": "19123", "Country": "-Fallback-scrubbed-vG"},
+      "ShipAddr": {"Line1": "-Fallback-scrubbed-DoMQRrUFFYkGoxnakO", "Line2": "-Fallback-scrubbed-ylexX",
+      "Line3": "-Fallback-scrubbed-iqWd", "City": "Fake-Tracyburgh", "CountrySubDivisionCode":
+      "-Fallback-scrubbed-LC", "PostalCode": "19123", "Country": "-Fallback-scrubbed-vG"},
+      "PaymentMethodRef": {"value": "6", "name": "Fake-Timothy Johnson"}, "Taxable":
+      true, "CustomerTypeRef": {"value": "5000000000000054673"}, "Active": true, "CompanyName":
+      "Fake-Cunningham PLC", "DisplayName": "Fake-Mary Rivera", "GivenName": "Fake-Stephanie",
+      "MiddleName": "-Fallback-scrubbed-nsdpUg", "FamilyName": "Fake-Jordan", "Suffix":
+      "-Fallback-scrubbed-Tqc", "Title": "-Fallback-scrubbed-ssfYo", "PrintOnCheckName":
+      "-Fallback-scrubbed-QQdoOcieas", "Notes": "-Fallback-scrubbed-mWzUBFGMIxrxL"}}]}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1497'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.34.2
+    method: POST
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365164029070/batch
+  response:
+    body:
+      string: '{"BatchItemResponse": [{"Customer": {"Taxable": true, "BillAddr": {"Id":
+        "4667", "Line1": "-Fallback-scrubbed-QFKbVeUYTiuwsDihx", "Line2": "-Fallback-scrubbed-ylexX",
+        "Line3": "-Fallback-scrubbed-iqWd", "City": "Fake-Tracyburgh", "Country":
+        "-Fallback-scrubbed-vG", "CountrySubDivisionCode": "-Fallback-scrubbed-LC",
+        "PostalCode": "19123"}, "ShipAddr": {"Id": "4668", "Line1": "-Fallback-scrubbed-DoMQRrUFFYkGoxnakO",
+        "Line2": "-Fallback-scrubbed-ylexX", "Line3": "-Fallback-scrubbed-iqWd", "City":
+        "Fake-Tracyburgh", "Country": "-Fallback-scrubbed-vG", "CountrySubDivisionCode":
+        "-Fallback-scrubbed-LC", "PostalCode": "19123"}, "Notes": "-Fallback-scrubbed-mWzUBFGMIxrxL",
+        "Job": false, "BillWithParent": false, "CustomerTypeRef": {"value": "5000000000000054673"},
+        "PaymentMethodRef": {"value": "6"}, "Balance": 0, "BalanceWithJobs": 0, "CurrencyRef":
+        {"value": "EUR", "name": "Fake-Sharon Williams"}, "PreferredDeliveryMethod":
+        "-Fallback-scrubbed-DzVID", "IsProject": false, "domain": "QBO", "sparse":
+        false, "Id": "3296", "SyncToken": "0", "MetaData": {"CreateTime": "2026-10-12T09:47:07-07:00",
+        "LastUpdatedTime": "2026-10-12T09:47:07-07:00"}, "Title": "-Fallback-scrubbed-ssfYo",
+        "GivenName": "Fake-Stephanie", "MiddleName": "-Fallback-scrubbed-nsdpUg",
+        "FamilyName": "Fake-Jordan", "Suffix": "-Fallback-scrubbed-Tqc", "FullyQualifiedName":
+        "Fake-Mary Rivera", "CompanyName": "Fake-Cunningham PLC", "DisplayName": "Fake-Mary
+        Rivera", "PrintOnCheckName": "-Fallback-scrubbed-QQdoOcieas", "Active": true,
+        "PrimaryPhone": {"FreeFormNumber": "+14444660000"}, "AlternatePhone": {"FreeFormNumber":
+        "+14444660001"}, "Mobile": {"FreeFormNumber": "+14444660003"}, "Fax": {"FreeFormNumber":
+        "+14444660002"}, "PrimaryEmailAddr": {"Address": "Fake-5545 Shawn Bypass Suite
+        099"}, "WebAddr": {"URI": "https://www.example.com"}, "DefaultTaxCodeRef":
+        {"value": "15"}}, "bId": "0"}], "time": "2026-10-12T09:47:07.489-07:00"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 12 Oct 2026 16:47:07 GMT
+      content-length:
+      - '1425'
+      intuit_tid:
+      - 1-6acd0f0a-4806412a02e54a475c354fde
+      server:
+      - istio-envoy
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-trace-id:
+      - Root=1-6acd0f0a-4806412a02e54a475c354fde
+      x-content-type-options:
+      - nosniff
+      x-envoy-decorator-operation:
+      - v3-facade-service-desired-service.dev-devx-v3facadeservice-usw2-stg-ids.svc.cluster.local:8090/*
+      x-envoy-upstream-service-time:
+      - '679'
+      x-intuit-upstream-locality-region:
+      - us-west-2
+      x-request-id:
+      - 1-6acd0f0a-4806412a02e54a475c354fde
+      x-spanid:
+      - 8a0d3b59-b54a-21b2-9fb5-7f2e6c9f5015
+    status:
+      code: 200
+      message: OK
+version: 1

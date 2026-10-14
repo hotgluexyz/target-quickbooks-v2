@@ -1,0 +1,19 @@
+{
+  "bookmarks": {
+    "BillPayments": [
+      {
+        "id": "30240",
+        "externalId": "-Fallback-scrubbed-EBeTrQrtpqVIsiruCXDvdvQSjcO",
+        "success": true
+      }
+    ]
+  },
+  "summary": {
+    "BillPayments": {
+      "success": 1,
+      "fail": 0,
+      "existing": 0,
+      "updated": 0
+    }
+  }
+}
