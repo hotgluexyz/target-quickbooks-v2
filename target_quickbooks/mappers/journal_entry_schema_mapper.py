@@ -40,7 +40,8 @@ class JournalEntrySchemaMapper(BaseMapper):
                 mapped_lines.append(mapped_line)
                 lines_amount_sum += mapped_line["Amount"] * (-1 if mapped_line["JournalEntryLineDetail"]["PostingType"] == "Credit" else 1)
 
-        if lines_amount_sum != 0:
-            raise InvalidInputError(f"The Journal is out of balance by {lines_amount_sum}. Please check that the Amount is correct for each line")
+        imbalance = round(lines_amount_sum, 2)
+        if imbalance != 0:
+            raise InvalidInputError(f"The Journal is out of balance by {imbalance}. Please check that the Amount is correct for each line")
 
         return { "Line": mapped_lines }
