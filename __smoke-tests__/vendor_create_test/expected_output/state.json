@@ -1,0 +1,19 @@
+{
+  "bookmarks": {
+    "Vendors": [
+      {
+        "id": "200000281",
+        "externalId": "-Fallback-scrubbed-JcBUuMYpuOzvGbRZaHFdo",
+        "success": true
+      }
+    ]
+  },
+  "summary": {
+    "Vendors": {
+      "success": 1,
+      "fail": 0,
+      "existing": 0,
+      "updated": 0
+    }
+  }
+}

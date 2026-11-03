@@ -1,0 +1,19 @@
+{
+  "bookmarks": {
+    "Invoices": [
+      {
+        "id": "30228",
+        "externalId": "-Fallback-scrubbed-ZvjSoCbNUBwZwmHRau",
+        "success": true
+      }
+    ]
+  },
+  "summary": {
+    "Invoices": {
+      "success": 0,
+      "fail": 0,
+      "existing": 0,
+      "updated": 1
+    }
+  }
+}
