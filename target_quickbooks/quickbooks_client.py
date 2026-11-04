@@ -4,6 +4,9 @@ from datetime import datetime
 from typing import Union
 from intuitlib.client import AuthClient
 from target_quickbooks.util import save_api_usage
+import backoff
+from target_quickbooks.exceptions import ClientRateLimitError, Server5xxError
+
 
 class QuickbooksClient:
     MINOR_VERSION = "75"
@@ -155,6 +158,12 @@ class QuickbooksClient:
 
         return response.get("BatchItemResponse")
 
+    @backoff.on_exception(
+        backoff.expo,
+        (ClientRateLimitError, Server5xxError),
+        max_tries=10,
+        factor=3
+    )
     def make_request(self, method, endpoint, request_data=None, params={}, headers={}, stream=None):
         if not self.is_token_valid():
             self.update_access_token()
@@ -196,6 +205,10 @@ class QuickbooksClient:
         return response_json
     
     def _validate_response(self, response: requests.Response) -> tuple[bool, Union[str, None]]:
+        if response.status_code == 429:
+            raise ClientRateLimitError(f"Rate limit exceeded: {response.status_code}")
+        if response.status_code >= 500:
+            raise Server5xxError(f"Server error: {response.status_code}")
         if response.status_code >= 400:
             msg = json.dumps(response.json())
             return False, msg

@@ -69,7 +69,7 @@ class JournalEntrySink(QuickbooksBatchSink):
         operation_type = "update" if "Id" in mapped_record else "create"
 
         if operation_type == "update":
-            raise Exception("Update is not supported for JournalEntries. Skipping it.")
+            return {"bId": f"{index}", "operation": operation_type, self.record_type: mapped_record}
 
         return {"bId": f"{index}", "operation": operation_type, self.record_type: mapped_record}
     
